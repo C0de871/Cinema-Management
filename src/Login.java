@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
+
 public class Login implements Serializable {
     /*تم اختيار الماب  لتخزين بيانات المستخدمين في  البرنامج لأنه يوفر طريقة لتخزين الأزواج المفتاح-القيمة. في هذه الحالة، يتم استخدام الماب لتخزين عناوين البريد الإلكتروني للمستخدمين كمفتاح وكلمات المرور كقيمة. هذا يسمح بسهولة الوصول إلى بيانات المستخدم والتحقق من صحة بيانات  .*/
     private Map<String, String> userCredentials;//تعريف ماب لتخزين البيانات اعتمادا للمستخدم
@@ -36,6 +37,7 @@ public class Login implements Serializable {
             System.out.println("An error occurred during login: " + e.getMessage());
         }
     }
+
     public void register() {
         try {
             Scanner scanner = new Scanner(System.in);
@@ -64,8 +66,8 @@ public class Login implements Serializable {
 
     private boolean isExistingEmail(String email) {
         Map<String, String> existingCredentials = readFromFile("first.txt");
-        return existingCredentials.containsKey(email); }
-
+        return existingCredentials.containsKey(email);
+    }
 
 
     // التحقق من صحة بيانات الاعتماد
@@ -104,34 +106,36 @@ public class Login implements Serializable {
     }
 
 
-
 // ...
 
 
-    private void saveToFile(String fileName, Map<String, String> map)
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true)))
-        {
+    private void saveToFile(String fileName, Map<String, String> map) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 writer.write(entry.getKey() + "," + entry.getValue());
-                writer.newLine(); }
-            System.out.println("Data saved to file: " + fileName); }
-        catch (IOException e) {
-            System.out.println("An error occurred while saving data to file: " + e.getMessage()); }
+                writer.newLine();
+            }
+            System.out.println("Data saved to file: " + fileName);
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving data to file: " + e.getMessage());
+        }
     }
 
-    private Map<String, String> readFromFile(String fileName)
-    {
+    private Map<String, String> readFromFile(String fileName) {
         Map<String, String> credentials = new HashMap<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName)))
-        {
-            String line; while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(",");
-            if (parts.length == 2)
-            { credentials.put(parts[0], parts[1]); } }
-            System.out.println("Data read from file: " + fileName); }
-        catch (IOException e) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length == 2) {
+                    credentials.put(parts[0], parts[1]);
+                }
+            }
+            System.out.println("Data read from file: " + fileName);
+        } catch (IOException e) {
             System.out.println("An error occurred while reading data from file: " + e.getMessage());
         }
-        return credentials;}}
+        return credentials;
+    }
+}

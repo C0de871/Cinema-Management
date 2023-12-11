@@ -1,5 +1,4 @@
 /**
- *
  * @author 1
  */
 public class Main {
@@ -8,7 +7,7 @@ public class Main {
         Login user1 = new Login();
         Login user2 = new Login();
 
-           user1.register();
+        user1.register();
         user1.register();
         user1.login();
         user1.login();
@@ -18,3 +17,4 @@ public class Main {
 //Code 871
 //The Only
 //Adnan.add
+//THE apricot
