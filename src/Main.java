@@ -6,12 +6,11 @@ public class Main {
     public static void main(String[] args) {
         Login user1 = new Login();
         Login user2 = new Login();
-        System.out.println("hello i am here");
+
         user1.register();
         user1.register();
         user1.login();
         user1.login();
-        System.out.println("hello i am here");
     }
 }
 //L was here
