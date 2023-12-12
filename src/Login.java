@@ -8,6 +8,7 @@ public class Login implements Serializable {
     //third comment
     //fourth comment
     //fifth comment
+    //"sixth comment
     /*تم اختيار الماب  لتخزين بيانات المستخدمين في  البرنامج لأنه يوفر طريقة لتخزين الأزواج المفتاح-القيمة. في هذه الحالة، يتم استخدام الماب لتخزين عناوين البريد الإلكتروني للمستخدمين كمفتاح وكلمات المرور كقيمة. هذا يسمح بسهولة الوصول إلى بيانات المستخدم والتحقق من صحة بيانات  .*/
     private Map<String, String> userCredentials;//تعريف ماب لتخزين البيانات اعتمادا للمستخدم
     private Pattern passwordPattern;// تعريف نمط لفحص صحة كلمة المرور
