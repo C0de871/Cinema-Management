@@ -5,7 +5,7 @@ import java.util.*;
 class Cinema {
     private final int hallNum;
     private static int nexthallnum = 1;
-    private final List<Movie> movies;
+    private  List<Movie> movies;
 
     public Cinema() {
         this.hallNum = nexthallnum++;
@@ -68,8 +68,7 @@ class Cinema {
 
     public boolean deleteMovie(String title) {
         try {
-            List<Movie> movies = this.getMovies();
-            Iterator<Movie> iterator = movies.iterator();
+            Iterator<Movie> iterator = this.movies.iterator();
             while (iterator.hasNext()) {
                 Movie movie = iterator.next();
                 if (Objects.equals(movie.getTitle(), title)) {
