@@ -5,19 +5,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
-  static    File file = new File("a.txt");
+    static File file = new File("a.txt");
 
     static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
         oos.writeObject(s);
     }
-   
+
     static ArrayList<Cinema> arrayOfObjectReader() throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         ArrayList<Cinema> cinemas = (ArrayList<Cinema>) ois.readObject();
         return cinemas;
     }
-    
+
     public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
@@ -38,13 +38,25 @@ public class Main {
                         while (true) {
                             System.out.println("1-search on movies by showtime");
                             System.out.println("2-search on movies by title");
+                            System.out.println("3-search on movies by genre");
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
-                                    getMoviesAroundTime();
+                                    for (Cinema hall : halls) {
+                                        hall.getMoviesAroundTime();
+                                    }
                                 }
                                 case 2 -> {
-                                    searchMovieByTitle();
+                                    for (Cinema hall : halls) {
+                                        hall.searchMovieByTitle();
+                                    }
+                                }
+                                case 3 -> {
+                                    System.out.println("Enter the genre of the movie");
+                                    String genre = scanner.next();
+                                    for (Cinema hall : halls) {
+                                        hall.searchMovieByGenre(genre);
+                                    }
                                 }
                                 default -> {
                                 }
@@ -67,7 +79,7 @@ public class Main {
                                     System.out.println("Enter The title you want to delete");
                                     String title = scanner.next();
                                     boolean found = false;
-                                    halls=arrayOfObjectReader();
+                                    halls = arrayOfObjectReader();
                                     for (Cinema hall : halls) {
                                         if (hall.deleteMovie(title)) {
                                             found = true;
@@ -121,31 +133,6 @@ public class Main {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
     }
-    public static void getMoviesAroundTime() {
-        System.out.println("Enter the duration of the movie you want ");
-        System.out.println("From Date:");
-        Date startDate = getUserDateTime(); // Get the start date from the user
-        System.out.println("To Date:");
-        Date endDate = getUserDateTime(); // Get the end date from the user
-        List<Movie> moviesBetweenDates = new ArrayList<>(); // Create a list to store movies between the given dates
-        try {
-            for (Cinema hall : halls) { // Iterate through each cinema hall
-                List<Movie> movies = hall.getMovies(); // Get the list of movies in the current hall
-                moviesBetweenDates.addAll(movies.stream()
-                        .filter(movie -> movie.getShowtimes().stream()
-                                .anyMatch(showtime -> showtime.getMovieStartTime().after(startDate) && showtime.getMovieStartTime().before(endDate)))
-                        .toList()); // Filter the movies based on the showtimes between the given dates and add them to the list
-            }
-        } catch (Exception e) {
-            System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
-        }
-        if (moviesBetweenDates.isEmpty())
-            System.out.println("No results found");
-
-        for (Movie m : moviesBetweenDates) {
-            System.out.println(m); // Print the movies that match the criteria
-        }
-    }
 
     /**
      * This function is used to get the date and time from the user.
@@ -175,26 +162,5 @@ public class Main {
         }
     }
 
-    private static void searchMovieByTitle() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the title of the movie");
-        String title = scanner.next();
-        try {
-            List<Movie> foundMovies = halls.stream()
-                    .flatMap(hall -> hall.getMovies().stream())
-                    .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
-                    .toList();
-            if (foundMovies.isEmpty()) {
-                System.out.println("No movies found with the title: " + title);
-            } else {
-                System.out.println("Movies found with the title: " + title);
-                foundMovies.forEach(System.out::println);
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }
 
-
-    
 }

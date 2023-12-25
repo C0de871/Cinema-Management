@@ -5,7 +5,7 @@ import java.util.*;
 class Cinema {
     private final int hallNum;
     private static int nexthallnum = 1;
-    private  List<Movie> movies;
+    private List<Movie> movies;
 
     public Cinema() {
         this.hallNum = nexthallnum++;
@@ -17,12 +17,11 @@ class Cinema {
     }
 
 
-
     public List<Movie> getMovies() {
         return movies;
     }
 
-    public void add() {
+      void add() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the number of showing times for the movie");
@@ -66,7 +65,7 @@ class Cinema {
         }
     }
 
-    public boolean deleteMovie(String title) {
+      boolean deleteMovie(String title) {
         try {
             Iterator<Movie> iterator = this.movies.iterator();
             while (iterator.hasNext()) {
@@ -82,6 +81,66 @@ class Cinema {
 
         }
         return false;
+    }
+
+      void getMoviesAroundTime() {
+        System.out.println("Enter the duration of the movie you want ");
+        System.out.println("From Date:");
+        Date startDate = Main.getUserDateTime(); // Get the start date from the user
+        System.out.println("To Date:");
+        Date endDate = Main.getUserDateTime(); // Get the end date from the user
+        List<Movie> moviesBetweenDates = new ArrayList<>(); // Create a list to store movies between the given dates
+        try {
+            // Iterate through each cinema hall
+            List<Movie> movies = this.getMovies(); // Get the list of movies in the current hall
+            moviesBetweenDates.addAll(movies.stream()
+                    .filter(movie -> movie.getShowtimes().stream()
+                            .anyMatch(showtime -> showtime.getMovieStartTime().after(startDate) && showtime.getMovieStartTime().before(endDate)))
+                    .toList()); // Filter the movies based on the showtimes between the given dates and add them to the list
+
+        } catch (Exception e) {
+            System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
+        }
+        if (moviesBetweenDates.isEmpty())
+            System.out.println("No results found");
+
+        for (Movie m : moviesBetweenDates) {
+            System.out.println(m); // Print the movies that match the criteria
+        }
+    }
+
+      void searchMovieByGenre(String genre) {
+        List<Movie> foundMovies = new ArrayList<>();
+
+        for (Movie movie : getMovies()) {
+            if (movie.getGenre().equalsIgnoreCase(genre)) {
+                foundMovies.add(movie);
+            }
+        }
+        System.out.println("Movies found in the genre: " + genre);
+        for (Movie movie : foundMovies) {
+            System.out.println(movie.getTitle());
+        }
+
+    }
+
+    void searchMovieByTitle() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the title of the movie");
+        String title = scanner.next();
+        try {
+            List<Movie> foundMovies = getMovies().stream()
+                    .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                    .toList();
+            if (foundMovies.isEmpty()) {
+                System.out.println("No movies found with the title: " + title);
+            } else {
+                System.out.println("Movies found with the title: " + title);
+                foundMovies.forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
     }
 
 }
