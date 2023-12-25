@@ -50,7 +50,7 @@ public class Account implements Serializable {
             System.out.println("An error occurred during login: " + e.getMessage());
         }
     }
-
+// I am the only one here
     public void register(String c) {
         try {
             Scanner scanner = new Scanner(System.in);
