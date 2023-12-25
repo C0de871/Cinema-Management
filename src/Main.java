@@ -115,6 +115,7 @@ public class Main {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
     }
+    //hello
     private static void addMovies() {
         try {
             Scanner scanner = new Scanner(System.in);
