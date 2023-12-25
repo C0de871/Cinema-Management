@@ -7,7 +7,6 @@ public class Showtimes {
         setMovieStartTime(movieStartTime);
         setMovieEndTime(movieEndTime);
     }
-
     public Date getMovieStartTime() {
         return movieStartTime;
     }
@@ -25,7 +24,6 @@ public class Showtimes {
         long endMillis = movieEndTime.getTime();
         return (int) ((endMillis - startMillis) / (1000 * 60));
     }
-
     public boolean overlapsWith(Showtimes otherShowtimes) {
         long thisStartMillis = movieStartTime.getTime();
         long thisEndMillis = movieEndTime.getTime();

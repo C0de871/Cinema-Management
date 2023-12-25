@@ -34,4 +34,12 @@ public class User {
     public Set<Movie> getFavoriteMovies() {
         return favoriteMovies;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", favoriteMovies=" + favoriteMovies +
+                '}';
+    }
 }
