@@ -142,7 +142,11 @@ class Cinema {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
-
+    public void printAllMovies() {
+        for (Movie movie : movies) {
+            System.out.println(movie);
+        }
+    }
 }
 
 

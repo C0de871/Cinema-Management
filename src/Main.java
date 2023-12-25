@@ -39,6 +39,7 @@ public class Main {
                             System.out.println("1-search on movies by showtime");
                             System.out.println("2-search on movies by title");
                             System.out.println("3-search on movies by genre");
+                            System.out.println("4-show all the movies");
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
@@ -56,6 +57,11 @@ public class Main {
                                     String genre = scanner.next();
                                     for (Cinema hall : halls) {
                                         hall.searchMovieByGenre(genre);
+                                    }
+                                }
+                                case 4 -> {
+                                    for (Cinema hall : halls) {
+                                        hall.printAllMovies();
                                     }
                                 }
                                 default -> {
