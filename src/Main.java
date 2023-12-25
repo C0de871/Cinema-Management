@@ -67,9 +67,11 @@ public class Main {
                                     System.out.println("Enter The title you want to delete");
                                     String title = scanner.next();
                                     boolean found = false;
+                                    halls=arrayOfObjectReader();
                                     for (Cinema hall : halls) {
                                         if (hall.deleteMovie(title)) {
                                             found = true;
+                                            arrayOfObjectWriter(halls);
                                             break;
                                         }
                                     }
