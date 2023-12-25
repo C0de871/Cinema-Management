@@ -1,25 +1,152 @@
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 class Cinema {
     private final int hallNum;
-    private static int nexthallnum=1;
-    private final List<Movie> movies;
+    private static int nexthallnum = 1;
+    private List<Movie> movies;
 
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
     }
+
     public int getHallNum() {
         return hallNum;
     }
 
-    public void addMovie(Movie movie) {
-        movies.add(movie);
-    }
 
     public List<Movie> getMovies() {
         return movies;
     }
+
+      void add() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the number of showing times for the movie");
+            int x = scanner.nextInt();
+            ArrayList<Showtimes> show = new ArrayList<>();
+
+            // Loop to get the start and end showtimes for the movie
+            for (int i = 1; i <= x; i++) {
+                System.out.println("Enter the " + i + " Start showtime of the movie");
+                Date tS = Main.getUserDateTime();
+
+                System.out.println("Enter the " + i + " End showtime of the movie");
+                Date tE = Main.getUserDateTime();
+
+                Showtimes s = new Showtimes(tS, tE);
+                show.add(s);
+            }
+            System.out.println("Enter the title of the movie");
+            String name = scanner.next();
+            System.out.println("Enter the genre of the movie");
+            String g = scanner.next();
+
+            // Create a new Movie object with the provided details
+            Movie m = new Movie(name, g, show);
+            // Add the movie to the specified hall in the halls ArrayList
+
+
+            if (Main.file.exists()) {
+                Main.halls = Main.arrayOfObjectReader();
+                this.movies.add(m);
+                Main.arrayOfObjectWriter(Main.halls);
+
+            } else {
+                this.movies.add(m);
+                Main.arrayOfObjectWriter(Main.halls);
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid choice.");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+
+      boolean deleteMovie(String title) {
+        try {
+            Iterator<Movie> iterator = this.movies.iterator();
+            while (iterator.hasNext()) {
+                Movie movie = iterator.next();
+                if (Objects.equals(movie.getTitle(), title)) {
+                    iterator.remove();
+                    System.out.println("Deleted");
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+
+        }
+        return false;
+    }
+
+      void getMoviesAroundTime() {
+        System.out.println("Enter the duration of the movie you want ");
+        System.out.println("From Date:");
+        Date startDate = Main.getUserDateTime(); // Get the start date from the user
+        System.out.println("To Date:");
+        Date endDate = Main.getUserDateTime(); // Get the end date from the user
+        List<Movie> moviesBetweenDates = new ArrayList<>(); // Create a list to store movies between the given dates
+        try {
+            // Iterate through each cinema hall
+            List<Movie> movies = this.getMovies(); // Get the list of movies in the current hall
+            moviesBetweenDates.addAll(movies.stream()
+                    .filter(movie -> movie.getShowtimes().stream()
+                            .anyMatch(showtime -> showtime.getMovieStartTime().after(startDate) && showtime.getMovieStartTime().before(endDate)))
+                    .toList()); // Filter the movies based on the showtimes between the given dates and add them to the list
+
+        } catch (Exception e) {
+            System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
+        }
+        if (moviesBetweenDates.isEmpty())
+            System.out.println("No results found");
+
+        for (Movie m : moviesBetweenDates) {
+            System.out.println(m); // Print the movies that match the criteria
+        }
+    }
+
+      void searchMovieByGenre(String genre) {
+        List<Movie> foundMovies = new ArrayList<>();
+
+        for (Movie movie : getMovies()) {
+            if (movie.getGenre().equalsIgnoreCase(genre)) {
+                foundMovies.add(movie);
+            }
+        }
+        System.out.println("Movies found in the genre: " + genre);
+        for (Movie movie : foundMovies) {
+            System.out.println(movie.getTitle());
+        }
+
+    }
+
+    void searchMovieByTitle() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the title of the movie");
+        String title = scanner.next();
+        try {
+            List<Movie> foundMovies = getMovies().stream()
+                    .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                    .toList();
+            if (foundMovies.isEmpty()) {
+                System.out.println("No movies found with the title: " + title);
+            } else {
+                System.out.println("Movies found with the title: " + title);
+                foundMovies.forEach(System.out::println);
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
+    public void printAllMovies() {
+        for (Movie movie : movies) {
+            System.out.println(movie);
+        }
+    }
 }
+
+

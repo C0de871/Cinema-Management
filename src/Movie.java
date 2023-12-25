@@ -13,7 +13,6 @@ public class Movie {
         this.genre = genre;
         this.showtimes = showtimes;
     }
-
     public int getMovieId() {
         return movieId;
     }
