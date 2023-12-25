@@ -5,7 +5,6 @@ public class User {
         login=new Account();
     }
     public void createAccount(String s){
-
         login.register(s);
     }
     public void setName(String name){

@@ -59,12 +59,21 @@ public class Main {
 
                             switch (choice) {
                                 case 1:
-                                    addMovies();
+                                    System.out.println("Enter the number of the hall");
+                                    int hallnum = scanner.nextInt();
+                                    halls.get(hallnum).add();
                                     break;
                                 case 2:
                                     System.out.println("Enter The title you want to delete");
-                                    String t = scanner.next();
-                                    deleteMovie(t);
+                                    String title = scanner.next();
+                                    boolean found = false;
+                                    for (Cinema hall : halls) {
+                                        if (hall.deleteMovie(title)) {
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found) System.out.println("there is no movie with this title");
                                     break;
                                 default:
                                     System.out.println("Invalid choice. Please try again.");
@@ -92,25 +101,6 @@ public class Main {
         }
     }
 
-    private static void deleteMovie(String title) {
-        try {
-            for (Cinema hall : halls) {
-                List<Movie> movies = hall.getMovies();
-                Iterator<Movie> iterator = movies.iterator();
-                while (iterator.hasNext()) {
-                    Movie movie = iterator.next();
-                    if (Objects.equals(movie.getTitle(), title)) {
-                        iterator.remove();
-                        System.out.println("Deleted");
-                        return;
-                    }
-                }
-            }
-            System.out.println("There is no movie with this title");
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }
 
     private static void performLogin(String c) {
         try {
@@ -129,64 +119,6 @@ public class Main {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
     }
-
-    private static void addMovies() {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            int h;
-            do {
-                System.out.println("Enter the hall of the movie");
-                h = scanner.nextInt();
-            } while (h<1||h > 5);
-
-            System.out.println("Enter the number of showing times for the movie");
-            int x = scanner.nextInt();
-            ArrayList<Showtimes> show = new ArrayList<>();
-
-            // Loop to get the start and end showtimes for the movie
-            for (int i = 1; i <= x; i++) {
-                System.out.println("Enter the " + i + " Start showtime of the movie");
-                Date tS = getUserDateTime();
-
-                System.out.println("Enter the " + i + " End showtime of the movie");
-                Date tE = getUserDateTime();
-
-                Showtimes s = new Showtimes(tS, tE);
-                show.add(s);
-            }
-
-            System.out.println("Enter the title of the movie");
-            String name = scanner.next();
-            System.out.println("Enter the genre of the movie");
-            String g = scanner.next();
-
-            // Create a new Movie object with the provided details
-            Movie m = new Movie(name, g, show);
-            // Add the movie to the specified hall in the halls ArrayList
-            if (file.exists()) {
-                    halls = arrayOfObjectReader();
-                    halls.get(h - 1).addMovie(m);
-                    arrayOfObjectWriter(halls);
-
-            } else {
-                 halls.get(h - 1).addMovie(m);
-                 arrayOfObjectWriter(halls);
-            }
-//           halls= arrayOfObjectReader();
-//       
-            
-        } 
-        
-        catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid choice.");
-        }catch (IOException e){
-            System.out.println("file is empty"  +e);
-        }
-        catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }
-
     public static void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
         System.out.println("From Date:");
@@ -194,7 +126,6 @@ public class Main {
         System.out.println("To Date:");
         Date endDate = getUserDateTime(); // Get the end date from the user
         List<Movie> moviesBetweenDates = new ArrayList<>(); // Create a list to store movies between the given dates
-
         try {
             for (Cinema hall : halls) { // Iterate through each cinema hall
                 List<Movie> movies = hall.getMovies(); // Get the list of movies in the current hall
