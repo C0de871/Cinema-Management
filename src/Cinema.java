@@ -49,7 +49,16 @@ class Cinema {
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
 
-            this.movies.add(m);
+
+            if (Main.file.exists()) {
+                Main.halls = Main.arrayOfObjectReader();
+                this.movies.add(m);
+                Main.arrayOfObjectWriter(Main.halls);
+
+            } else {
+                this.movies.add(m);
+                Main.arrayOfObjectWriter(Main.halls);
+            }
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid choice.");
         } catch (Exception e) {
