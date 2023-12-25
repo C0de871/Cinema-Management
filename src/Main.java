@@ -1,9 +1,23 @@
 
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
+  static    File file = new File("a.txt");
+
+    static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+        oos.writeObject(s);
+    }
+   
+    static ArrayList<Cinema> arrayOfObjectReader() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        ArrayList<Cinema> cinemas = (ArrayList<Cinema>) ois.readObject();
+        return cinemas;
+    }
+    
     public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
@@ -105,7 +119,6 @@ public class Main {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
     }
-
     public static void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
         System.out.println("From Date:");
@@ -180,14 +193,6 @@ public class Main {
         }
     }
 
-  /*  static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
-        File file = new File("a.txt");
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, false));
-        oos.writeObject(s);
-    }
-    static ArrayList<Cinema> arrayOfObjectReader() throws IOException, ClassNotFoundException {
-        File file = new File("a.txt");
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        return (ArrayList<Cinema>) ois.readObject();
-    }*/
+
+    
 }
