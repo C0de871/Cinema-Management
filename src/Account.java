@@ -13,7 +13,8 @@ public class Account implements Serializable {
     public Account() {
         userCredentials = new HashMap<>();
         adminCredentials = new HashMap<>();
-        passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%.^&+=])(?=\\S+$).{8,}$");    }
+        passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%.^&+=])(?=\\S+$).{8,}$");
+    }
 
     public void login(String c) {
         try {
@@ -141,10 +142,8 @@ public class Account implements Serializable {
     }
 
     private boolean isValidPassword(String password) {
-
         return passwordPattern.matcher(password).matches();// التحقق من صحة كلمة المرور باستخدام النمط
     }
-
 // ...
 
     private void saveToFile(String fileName, Map<String, String> map) {
