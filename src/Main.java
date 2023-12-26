@@ -148,7 +148,6 @@ public class Main {
      *
      * @return The date and time entered by the user as a Date object.
      */
-
     public static Date getUserDateTime() {
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -167,6 +166,4 @@ public class Main {
             }
         }
     }
-
-
 }

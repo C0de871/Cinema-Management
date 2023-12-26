@@ -3,9 +3,9 @@ import java.util.List;
 public class Movie {
     private static int nextMovieId = 1;
     private final int movieId;
-    private final String title;
-    private final String genre;
-    private final List<Showtimes> showtimes;
+    private String title;
+    private String genre;
+    private List<Showtimes> showtimes;
 
     public Movie(String title, String genre, List<Showtimes> showtimes) {
         this.movieId = nextMovieId++; // Assign the next movieId and increment it
@@ -13,6 +13,7 @@ public class Movie {
         this.genre = genre;
         this.showtimes = showtimes;
     }
+
     public int getMovieId() {
         return movieId;
     }
@@ -28,6 +29,29 @@ public class Movie {
     public List<Showtimes> getShowtimes() {
         return showtimes;
     }
+
+    public static void setNextMovieId(int nextMovieId) {
+        Movie.nextMovieId = nextMovieId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setShowtimes(List<Showtimes> showtimes) {
+        this.showtimes = showtimes;
+    }
+
+    void printShowtimes() {
+        for (int i = 0; i < this.showtimes.size(); i++) {
+            System.out.println((i + 1) + ". " + this.showtimes.get(i));
+        }
+    }
+
 
     @Override
     public String toString() {
