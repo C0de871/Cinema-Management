@@ -3,12 +3,21 @@ import java.util.Date;
 public class Ticket {
     private int seatNumber;
     private Date showtime;
+    private boolean active=false;
     private double ticketPrice;
 
     public Ticket(int seatNumber, Date showtime, double ticketPrice) {
         this.seatNumber = seatNumber;
         this.showtime = showtime;
         this.ticketPrice = ticketPrice;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public int getSeatNumber() {

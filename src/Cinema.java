@@ -1,15 +1,20 @@
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 class Cinema {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
+   // private Map<String, Movie> movieMap;
+
 
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
+       // this.movieMap = new HashMap<>();
     }
 
     public int getHallNum() {
@@ -21,7 +26,7 @@ class Cinema {
         return movies;
     }
 
-      void add() {
+    void add() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the number of showing times for the movie");
@@ -47,7 +52,7 @@ class Cinema {
             // Create a new Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
-
+          //  this.movieMap.put(name, m);
 
             if (Main.file.exists()) {
                 Main.halls = Main.arrayOfObjectReader();
@@ -65,7 +70,7 @@ class Cinema {
         }
     }
 
-      boolean deleteMovie(String title) {
+    boolean deleteMovie(String title) {
         try {
             Iterator<Movie> iterator = this.movies.iterator();
             while (iterator.hasNext()) {
@@ -83,7 +88,7 @@ class Cinema {
         return false;
     }
 
-      void getMoviesAroundTime() {
+    void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
         System.out.println("From Date:");
         Date startDate = Main.getUserDateTime(); // Get the start date from the user
@@ -109,7 +114,7 @@ class Cinema {
         }
     }
 
-      void searchMovieByGenre(String genre) {
+    void searchMovieByGenre(String genre) {
         List<Movie> foundMovies = new ArrayList<>();
 
         for (Movie movie : getMovies()) {
@@ -121,7 +126,6 @@ class Cinema {
         for (Movie movie : foundMovies) {
             System.out.println(movie.getTitle());
         }
-
     }
 
     void searchMovieByTitle() {
@@ -142,6 +146,45 @@ class Cinema {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
+ /*    public void updateMovieDetails(String title) {
+        try {
+            for (Movie movie : movies) {
+                if (movie.getTitle().equals(title)) {
+                    Scanner scanner = new Scanner(System.in);
+
+                    System.out.println("Enter the new title: ");
+                    String newTitle = scanner.nextLine();
+                    movie.setTitle(newTitle);
+
+                    System.out.println("Enter the new genre: ");
+                    String newGenre = scanner.nextLine();
+                    movie.setGenre(newGenre);
+
+                    movie.printShowtimes();
+
+                    System.out.println("Enter Which one you want to update it ");
+                    int numberOfShowtimeToUpdate = scanner.nextInt();
+                    System.out.println("Enter the new start time of the movie");
+                    Date newStartTime = Main.getUserDateTime();
+                    movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieStartTime(newStartTime);
+                    System.out.println("Enter the new end time of the movie");
+                    Date newEndTime = Main.getUserDateTime();
+                    movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieEndTime(newEndTime);
+
+                    System.out.println("Movie details updated successfully!");
+                    return;
+                }
+            }
+
+            System.out.println("Movie not found!");
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid choice.");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }*/
+
     public void printAllMovies() {
         for (Movie movie : movies) {
             System.out.println(movie);
