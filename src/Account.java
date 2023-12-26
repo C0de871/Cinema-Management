@@ -19,10 +19,8 @@ public class Account implements Serializable {
     public void login(String c) {
         try {
             Scanner scanner = new Scanner(System.in);
-            if (Objects.equals(c, "A"))
-                System.out.println("Admin Login");
-            else
-                System.out.println("User Login");
+            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " Login");
+            String fileName = (Objects.equals(c, "U")) ? "user_credentials.txt" : "admin_credentials.txt";
 
             boolean loggedIn = false;
             while (!loggedIn) {
@@ -30,64 +28,48 @@ public class Account implements Serializable {
                 String email = scanner.next();
                 System.out.print("Enter password: ");
                 String password = scanner.next();
-                if (Objects.equals(c, "U")) {
-                    if (isValidCredentialsU(email, password)) {
-                        System.out.println("User login successful!");
-                        loggedIn = true;
-                    } else {
-                        System.out.println("Invalid credentials. Please try again.");
-                    }
+                if (isValidCredentials(email, password, fileName)) {
+                    System.out.println("User login successful!");
+                    loggedIn = true;
                 } else {
-                    if (isValidCredentialsA(email, password)) {
-                        System.out.println("Admin login successful!");
-                        loggedIn = true;
-                    } else {
-                        System.out.println("Invalid credentials. Please try again.");
-                    }
+                    System.out.println("Invalid credentials. Please try again.");
                 }
-            }
 
-        } catch (Exception e) {
+            }
+        }
+        catch(Exception e)
+        {
             System.out.println("An error occurred during login: " + e.getMessage());
         }
+
     }
- 
     public void register(String c) {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("User Registration");
-            while (true) { // a while loop is break just when the register is succeeded
+            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " Registration");
+
+            // Decide the filename based on the user's role
+            String fileName = (Objects.equals(c, "U")) ? "user_credentials.txt" : "admin_credentials.txt";
+
+            while (true) {
                 System.out.print("Enter Gmail address: ");
                 String email = scanner.next();
                 System.out.print("Enter password: ");
                 String password = scanner.next();
-                if (Objects.equals(c, "U")) {
-                    if (isValidRegistration(email, password, c)) {
-                        if (!isExistingEmail(email)) {
-                            userCredentials.put(email, password);
-                            saveToFile("first.txt", userCredentials);
-                            System.out.println("User registered successfully!");
-                            System.out.println("Registered email: " + email);
-                            break;
-                        } else {
-                            System.out.println("User with the same email already exists. Please try a different email.");
-                        }
+
+                if (isValidRegistration(email, password, c)) {
+                    if (!isExistingEmail(email, fileName)) {
+                        Map<String, String> credentials = (Objects.equals(c, "U")) ? userCredentials : adminCredentials;
+                        credentials.put(email, password);
+                        saveToFile(fileName, credentials);
+                        System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " registered successfully!");
+                        System.out.println("Registered email: " + email);
+                        break;
                     } else {
-                        System.out.println("Invalid registration details. Please try again.");
+                        System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " with the same email already exists. Please try a different email.");
                     }
                 } else {
-                    if (isValidRegistration(email, password, c)) {
-                        if (!isExistingEmail(email)) {
-                            adminCredentials.put(email, password);
-                            System.out.println("Admin registered successfully!");
-                            System.out.println("Registered Gmail: " + email);
-                            break;
-                        } else {
-                            System.out.println("Admin with the same email already exists. Please try a different email.");
-                        }
-                    } else {
-                        System.out.println("Invalid registration details. Please try again.");
-                    }
+                    System.out.println("Invalid registration details. Please try again.");
                 }
             }
         } catch (Exception e) {
@@ -95,46 +77,42 @@ public class Account implements Serializable {
         }
     }
 
-    private boolean isExistingEmail(String email) {
-        Map<String, String> existingCredentials = readFromFile("first.txt");
+
+    private boolean isExistingEmail(String email, String fileName) {
+     File fil = new File(fileName);
+        if(fil.length()==0)
+            return false;
+        Map<String, String> existingCredentials = readFromFile(fileName);
         return existingCredentials.containsKey(email);
     }
+
 
     private boolean isValidRegistration(String email, String password, String c) {
         if (!isValidGmailAddress(email)) {
             System.out.println("Invalid Gmail address format.");
             return false;
         }
+
         if (!isValidPassword(password)) {
             System.out.println("Invalid password format. Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%^&+=).");
             return false;
         }
-        if (Objects.equals(c, "U")) {
-            if (userCredentials.containsKey(email)) {
-                System.out.println("Gmail address already exists.");
-                return false;
-            }
-        } else {
-            if (adminCredentials.containsKey(email)) {
-                System.out.println("Gmail address already exists.");
-                return false;
-            }
+
+        Map<String, String> credentials = (Objects.equals(c, "U")) ? userCredentials : adminCredentials;
+
+        if (credentials.containsKey(email)) {
+            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " with the same email already exists.");
+            return false;
         }
+
         return true;
     }
 
-    private boolean isValidCredentialsU(String email, String password) {
-        Map<String, String> existingCredentials = readFromFile("first.txt");
 
+    private boolean isValidCredentials(String email, String password , String fileName) {
+        Map<String, String> existingCredentials = readFromFile(fileName);
         return existingCredentials.containsKey(email) && existingCredentials.get(email).equals(password);
     }
-
-    private boolean isValidCredentialsA(String email, String password) {
-        Map<String, String> existingCredentials = readFromFile("first.txt");
-
-        return existingCredentials.containsKey(email) && existingCredentials.get(email).equals(password);
-    }
-
     private boolean isValidGmailAddress(String email) {
         String regex = "^[a-zA-Z0-9+_.-]+@gmail.com$";// تعريف نمط لفحص صحة عنوان Gmail
         return email.matches(regex);// التحقق من صحة عنوان Gmail باستخدام النمط
