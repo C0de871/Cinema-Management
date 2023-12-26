@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Main {
+public class Main  implements  Serializable{
     static File file = new File("a.txt");
 
     static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
@@ -16,6 +16,24 @@ public class Main {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         ArrayList<Cinema> cinemas = (ArrayList<Cinema>) ois.readObject();
         return cinemas;
+    }
+    static File fileMovie = new File("genres.txt");
+
+    static void addMovieGenre(String genre) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileMovie, true))) {
+            writer.write(genre);
+            writer.newLine();
+        }
+    }
+    static  String [] readMovieGenere () throws IOException {
+        try (BufferedReader Reader = new BufferedReader(new FileReader(fileMovie))) {
+            String line;
+            String [] read= new String[Cinema.countOfMovieGenere];
+            while ((line = Reader.readLine()) != null){
+            read = line.split(" ");
+            }
+            return read;
+        }
     }
 
     public static ArrayList<Cinema> halls = new ArrayList<>(5);

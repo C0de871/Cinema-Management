@@ -1,16 +1,18 @@
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.channels.ScatteringByteChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-class Cinema {
+class Cinema  implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
    // private Map<String, Movie> movieMap;
+   static  int countOfMovieGenere=0;
 
 
     public Cinema() {
@@ -56,6 +58,8 @@ class Cinema {
             // Add the movie to the specified hall in the halls ArrayList
           //  this.movieMap.put(name, m);
 
+            Main.addMovieGenre(g);
+            countOfMovieGenere++;
             if (Main.file.exists()) {
                 Main.halls = Main.arrayOfObjectReader();
                 this.movies.add(m);
@@ -189,9 +193,9 @@ class Cinema {
 
     public void printAllMovies() {
         try {
-            ArrayList<Cinema> arra = Main.arrayOfObjectReader();
-            for (Cinema movie : arra) {
-                System.out.println(movie);
+            String [] readFromeFileMovieGenere = Main.readMovieGenere();
+            for ( String re: readFromeFileMovieGenere) {
+                System.out.println(re);
             }
         }catch(Exception gg ){
             System.out.println(gg);
