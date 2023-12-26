@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.nio.channels.ScatteringByteChannel;
 import java.text.ParseException;
@@ -52,12 +53,10 @@ class Cinema  implements Serializable {
             String name = scanner.next();
             System.out.println("Enter the genre of the movie");
             String g = scanner.next();
-
             // Create a new Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
           //  this.movieMap.put(name, m);
-
             Main.addMovieGenre(g);
             countOfMovieGenere++;
             if (Main.file.exists()) {
@@ -70,9 +69,13 @@ class Cinema  implements Serializable {
                 Main.arrayOfObjectWriter(Main.halls);
             }
         } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid choice.");
-        } catch (Exception e) {
+            System.out.println("Invalid input. Please enter a valid choice." + e);
+        } catch (NotSerializableException e) {
             System.out.println("An error occurred: " + e.getMessage());
+        } catch (IOException el) {
+            System.out.println("An error occurred: " +el);;
+        } catch (ClassNotFoundException en) {
+            System.out.println("An error occurred: " +en);
         }
     }
 
