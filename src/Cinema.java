@@ -1,5 +1,7 @@
 
 
+import java.io.IOException;
+import java.nio.channels.ScatteringByteChannel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -186,9 +188,16 @@ class Cinema {
     }*/
 
     public void printAllMovies() {
-        for (Movie movie : movies) {
-            System.out.println(movie);
+        try {
+            ArrayList<Cinema> arra = Main.arrayOfObjectReader();
+            for (Cinema movie : arra) {
+                System.out.println(movie);
+            }
+        }catch(Exception gg ){
+            System.out.println(gg);
         }
+
+
     }
 }
 
