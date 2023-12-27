@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Serializable {
     private static int nextMovieId = 1;
     private final int movieId;
     private String title;

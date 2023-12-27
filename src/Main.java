@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main implements Serializable {
-    public static ArrayList<Cinema> halls;
+    public static ArrayList<Cinema> halls=new ArrayList<>(5);
 
     public static void main(String[] args) {
         for (int i = 0; i < 5; i++) {

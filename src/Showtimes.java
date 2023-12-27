@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Showtimes {
+public class Showtimes implements Serializable {
     private Date movieStartTime;
     private Date movieEndTime;
     private ArrayList<Ticket> tickets;

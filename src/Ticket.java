@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Ticket {
+public class Ticket implements Serializable {
     private int seatNumber;
     private Date showtime;
     private boolean active=false;
