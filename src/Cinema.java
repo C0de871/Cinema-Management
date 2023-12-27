@@ -1,8 +1,6 @@
 
 
-import java.io.IOException;
-import java.io.NotSerializableException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.*;
 
 class Cinema implements Serializable {
@@ -16,7 +14,7 @@ class Cinema implements Serializable {
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
-        // this.movieMap = new HashMap<>();
+         this.movieMap = new HashMap<>();
     }
 
     public int getHallNum() {
@@ -54,6 +52,7 @@ class Cinema implements Serializable {
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
+            saveFileMovie(this.movieMap) ;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -178,6 +177,17 @@ class Cinema implements Serializable {
       //we should read form file to take map
 
 
+    }
+    File file = new File("movie.ser");
+    private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(file, true));
+        oos.writeObject(movieMap);
+    }
+    private Map<String, Movie> loadFileMovie() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+        Map<String, Movie> mapRead;
+        mapRead = (Map<String, Movie>) ois.readObject();
+        return mapRead;
     }
 }
 
