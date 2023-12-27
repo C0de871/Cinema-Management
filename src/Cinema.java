@@ -14,7 +14,7 @@ class Cinema implements Serializable {
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
-         this.movieMap = new HashMap<>();
+        this.movieMap = new HashMap<>();
     }
 
     public int getHallNum() {
@@ -52,7 +52,7 @@ class Cinema implements Serializable {
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
-            saveFileMovie(this.movieMap) ;
+            saveFileMovie(this.movieMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -119,19 +119,19 @@ class Cinema implements Serializable {
     void searchMovieByTitle() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the title of the movie");
-        String title = scanner.next();
+        String title = scanner.nextLine();
+
         try {
-            List<Movie> foundMovies = getMovies().stream()
-                    .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
-                    .toList();
-            if (foundMovies.isEmpty()) {
-                System.out.println("No movies found with the title: " + title);
+            Map<String, Movie> movies = loadFileMovie();
+            Movie movie = movies.get(title);
+            if (movie != null) {
+                System.out.println("Movie found:");
+                System.out.println(movie);
             } else {
-                System.out.println("Movies found with the title: " + title);
-                foundMovies.forEach(System.out::println);
+                System.out.println("Movie not found");
             }
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -174,15 +174,23 @@ class Cinema implements Serializable {
     }*/
 
     public void printAllMovies() {
-      //we should read form file to take map
-
-
+        try {
+            Map<String, Movie> movies = loadFileMovie();
+            for (Map.Entry<String, Movie> entry : movies.entrySet()) {
+                System.out.println(entry.getValue());
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
+
     File file = new File("movie.ser");
+
     private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream(file, true));
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true));
         oos.writeObject(movieMap);
     }
+
     private Map<String, Movie> loadFileMovie() throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         Map<String, Movie> mapRead;
