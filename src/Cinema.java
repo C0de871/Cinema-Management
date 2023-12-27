@@ -52,7 +52,7 @@ class Cinema implements Serializable {
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
-            saveFileMovie(this.movieMap);
+            appendToFile(this.movieMap);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -185,18 +185,29 @@ class Cinema implements Serializable {
     }
 
     File file = new File("movie.ser");
+    public void appendToFile(Map<String, Movie> movieMap) throws IOException, ClassNotFoundException {
+        Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
+        existingMap.putAll(movieMap); // Append new data to existing data
+        saveFileMovie(existingMap); // Save the combined data back to the file
+    }
+
 
     private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file, true));
-        oos.writeObject(movieMap);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(movieMap);
+        }
     }
 
     private Map<String, Movie> loadFileMovie() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
         Map<String, Movie> mapRead;
-        mapRead = (Map<String, Movie>) ois.readObject();
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                mapRead = (Map<String, Movie>) ois.readObject();
+            }
+        } else {
+            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
+        }
         return mapRead;
     }
 }
-
 
