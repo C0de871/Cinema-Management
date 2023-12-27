@@ -4,41 +4,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Main  implements  Serializable{
-    static File file = new File("a.txt");
-
-    static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-        oos.writeObject(s);
-    }
-
-    static ArrayList<Cinema> arrayOfObjectReader() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        ArrayList<Cinema> cinemas = (ArrayList<Cinema>) ois.readObject();
-        return cinemas;
-    }
-    static File fileMovie = new File("genres.txt");
-
-    static void addMovieGenre(String genre) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileMovie, true))) {
-            writer.write(genre);
-            writer.newLine();
-        }
-    }
-    static  String [] readMovieGenere () throws IOException {
-        try (BufferedReader Reader = new BufferedReader(new FileReader(fileMovie))) {
-            String line;
-            String [] read= new String[Cinema.countOfMovieGenere];
-            while ((line = Reader.readLine()) != null){
-            read = line.split(" ");
-            }
-            return read;
-        }
-    }
-
-    public static ArrayList<Cinema> halls = new ArrayList<>(5);
+public class Main implements Serializable {
+    public static ArrayList<Cinema> halls;
 
     public static void main(String[] args) {
+        for (int i = 0; i < 5; i++) {
+            halls.add(new Cinema());
+        }
         try {
             System.out.println("Welcome to System!");
             System.out.println("************************************");
@@ -103,11 +75,9 @@ public class Main  implements  Serializable{
                                     System.out.println("Enter The title you want to delete");
                                     String title = scanner.next();
                                     boolean found = false;
-                                    halls = arrayOfObjectReader();
                                     for (Cinema hall : halls) {
                                         if (hall.deleteMovie(title)) {
                                             found = true;
-                                            arrayOfObjectWriter(halls);
                                             break;
                                         }
                                     }

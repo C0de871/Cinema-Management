@@ -3,23 +3,20 @@
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
-import java.nio.channels.ScatteringByteChannel;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-class Cinema  implements Serializable {
+class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
-   // private Map<String, Movie> movieMap;
-   static  int countOfMovieGenere=0;
+    private Map<String, Movie> movieMap;
+    static int countOfMovieGenere = 0;
 
 
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
-       // this.movieMap = new HashMap<>();
+        // this.movieMap = new HashMap<>();
     }
 
     public int getHallNum() {
@@ -56,26 +53,9 @@ class Cinema  implements Serializable {
             // Create a new Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
-          //  this.movieMap.put(name, m);
-            Main.addMovieGenre(g);
-            countOfMovieGenere++;
-            if (Main.file.exists()) {
-                Main.halls = Main.arrayOfObjectReader();
-                this.movies.add(m);
-                Main.arrayOfObjectWriter(Main.halls);
-
-            } else {
-                this.movies.add(m);
-                Main.arrayOfObjectWriter(Main.halls);
-            }
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid choice." + e);
-        } catch (NotSerializableException e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        } catch (IOException el) {
-            System.out.println("An error occurred: " +el);;
-        } catch (ClassNotFoundException en) {
-            System.out.println("An error occurred: " +en);
+            this.movieMap.put(name, m);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -195,14 +175,7 @@ class Cinema  implements Serializable {
     }*/
 
     public void printAllMovies() {
-        try {
-            String [] readFromeFileMovieGenere = Main.readMovieGenere();
-            for ( String re: readFromeFileMovieGenere) {
-                System.out.println(re);
-            }
-        }catch(Exception gg ){
-            System.out.println(gg);
-        }
+      //we should read form file to take map
 
 
     }
