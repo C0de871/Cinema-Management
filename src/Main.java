@@ -30,6 +30,7 @@ public class Main implements Serializable {
                             System.out.println("2-search on movies by title");
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
+                            System.out.println("5-show all the movies with the halls");
 
                             choice = scanner.nextInt();
                             switch (choice) {
@@ -51,8 +52,12 @@ public class Main implements Serializable {
                                     }
                                 }
                                 case 4 -> {
-                                   Cinema h=new Cinema();
-                                        h.printAllMovies();
+                                    Cinema h = new Cinema();
+                                    h.printAllMovies();
+                                }
+                                case 5->{
+                                    Cinema c=new Cinema();
+                                    c.printAllMoviesInHalls();
                                 }
                                 default -> {
                                 }
@@ -67,22 +72,14 @@ public class Main implements Serializable {
 
                             switch (choice) {
                                 case 1:
-                                    System.out.println("Enter the number of the hall");
+                                    System.out.println("Enter the Hall number");
                                     int hallnum = scanner.nextInt();
                                     Cinema cinema = new Cinema();
-                                    halls.get(hallnum).getMovies().add(cinema.add());
+                                    cinema.add();
                                     break;
                                 case 2:
-                                    System.out.println("Enter The title you want to delete");
-                                    String title = scanner.next();
-                                    boolean found = false;
-                                    for (Cinema hall : halls) {
-                                        if (hall.deleteMovie(title)) {
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!found) System.out.println("there is no movie with this title");
+                                    Cinema cinema1 = new Cinema();
+                                    cinema1.deleteMovie();
                                     break;
                                 default:
                                     System.out.println("Invalid choice. Please try again.");

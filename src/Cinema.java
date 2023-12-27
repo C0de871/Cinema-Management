@@ -26,7 +26,7 @@ class Cinema implements Serializable {
         return movies;
     }
 
-      Movie add() {
+    void add() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the number of showing times for the movie");
@@ -53,29 +53,32 @@ class Cinema implements Serializable {
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
             appendToFile(this.movieMap);
-            appendToFileHalls(Main.halls);
-            return m;
+            appendToFileHalls(hallNum - 1, m);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    boolean deleteMovie(String title) {
-        try {
-            Iterator<Movie> iterator = this.movies.iterator();
-            while (iterator.hasNext()) {
-                Movie movie = iterator.next();
-                if (Objects.equals(movie.getTitle(), title)) {
-                    iterator.remove();
-                    System.out.println("Deleted");
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+    void deleteMovie() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the title of the movie you want to delete");
+        String title = scanner.next();
 
+        try {
+            ArrayList<Cinema> hall = arrayOfObjectHallsLoad();
+            hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
+            arrayOfObjectHallsSave(hall);
+            Map<String, Movie> movies = loadFileMovie();
+            String removedValue = String.valueOf(movies.remove(title));
+            if (removedValue != null) {
+                System.out.println(title + "Movie was removed");
+            } else {
+                System.out.println("there is no movie in this title");
+            }
+            saveFileMovie(movies);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        return false;
     }
 
     void getMoviesAroundTime() {
@@ -186,7 +189,31 @@ class Cinema implements Serializable {
         }
     }
 
+    void printAllMoviesInHalls() {
+        try {
+            ArrayList<Cinema> halls = arrayOfObjectHallsLoad();
+            if (!halls.isEmpty()) {
+                for (int i = 0; i < halls.size(); i++) {
+                    List<Movie> movies = halls.get(i).getMovies();
+                    if (!movies.isEmpty()) {
+                        System.out.println("Movies in the " + (i + 1) + " hall:");
+                        for (Movie movie : movies) {
+                            System.out.println(movie);
+                        }
+                    } else {
+                        System.out.println("No movies found in the " + (i + 1) + " Hall");
+                    }
+                }
+            } else {
+                System.out.println("No halls found.");
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     File file = new File("movie.txt");
+
     public void appendToFile(Map<String, Movie> movieMap) {
         try {
             Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
@@ -219,11 +246,13 @@ class Cinema implements Serializable {
         }
         return mapRead;
     }
+
     File fileHalls = new File("Halls.ser");
-    public void appendToFileHalls(ArrayList<Cinema> hall1) {
+
+    public void appendToFileHalls(int index, Movie movie) {
         try {
             ArrayList<Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
-            hall.addAll(hall1); // Append new data to hall data
+            hall.get(index).getMovies().add(movie);
             arrayOfObjectHallsSave(hall); // Save the combined data back to the file
         } catch (IOException e) {
             // Handle IOException
@@ -233,8 +262,9 @@ class Cinema implements Serializable {
             System.out.println("An error occurred while loading the data: " + e.getMessage());
         }
     }
-    private  void arrayOfObjectHallsSave(ArrayList<Cinema> hall)  {
-        try(ObjectOutputStream oos =new ObjectOutputStream(new FileOutputStream(fileHalls))) {
+
+    private void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -242,16 +272,16 @@ class Cinema implements Serializable {
             System.out.println(e);
         }
     }
-    private  ArrayList<Cinema> arrayOfObjectHallsLoad() throws IOException, ClassNotFoundException {
-        ArrayList<Cinema>  Reder ;
+
+    private ArrayList<Cinema> arrayOfObjectHallsLoad() throws IOException, ClassNotFoundException {
+        ArrayList<Cinema> Reder;
         if (fileHalls.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((fileHalls)))) {
-                Reder = (ArrayList<Cinema) ois.readObject();
+                Reder = (ArrayList<Cinema>) ois.readObject();
             }
-        }  else
+        } else
             Reder = new ArrayList<>();
         return Reder;
     }
-
 }
 
