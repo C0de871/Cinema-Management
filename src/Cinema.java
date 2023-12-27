@@ -53,6 +53,7 @@ class Cinema implements Serializable {
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
             appendToFile(this.movieMap);
+            appendToFileHalls(Main.halls);
             return m;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -200,6 +201,7 @@ class Cinema implements Serializable {
         }
     }
 
+
     private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(movieMap);
@@ -217,5 +219,39 @@ class Cinema implements Serializable {
         }
         return mapRead;
     }
+    File fileHalls = new File("Halls.ser");
+    public void appendToFileHalls(ArrayList<Cinema> hall1) {
+        try {
+            ArrayList<Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
+            hall.addAll(hall1); // Append new data to hall data
+            arrayOfObjectHallsSave(hall); // Save the combined data back to the file
+        } catch (IOException e) {
+            // Handle IOException
+            System.out.println("An error occurred while accessing the file: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            // Handle ClassNotFoundException
+            System.out.println("An error occurred while loading the data: " + e.getMessage());
+        }
+    }
+    private  void arrayOfObjectHallsSave(ArrayList<Cinema> hall)  {
+        try(ObjectOutputStream oos =new ObjectOutputStream(new FileOutputStream(fileHalls))) {
+            oos.writeObject(hall);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
+    private  ArrayList<Cinema> arrayOfObjectHallsLoad() throws IOException, ClassNotFoundException {
+        ArrayList<Cinema>  Reder ;
+        if (fileHalls.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((fileHalls)))) {
+                Reder = (ArrayList<Cinema) ois.readObject();
+            }
+        }  else
+            Reder = new ArrayList<>();
+        return Reder;
+    }
+
 }
 
