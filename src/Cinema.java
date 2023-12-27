@@ -26,7 +26,7 @@ class Cinema implements Serializable {
         return movies;
     }
 
-    void add() {
+      Movie add() {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the number of showing times for the movie");
@@ -53,6 +53,7 @@ class Cinema implements Serializable {
             // Add the movie to the specified hall in the halls ArrayList
             this.movieMap.put(name, m);
             appendToFile(this.movieMap);
+            return m;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -184,7 +185,7 @@ class Cinema implements Serializable {
         }
     }
 
-    File file = new File("movie.ser");
+    File file = new File("movie.txt");
     public void appendToFile(Map<String, Movie> movieMap) {
         try {
             Map<String, Movie> existingMap = loadFileMovie(); // Load existing data

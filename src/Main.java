@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main implements Serializable {
-    public static ArrayList<Cinema> halls=new ArrayList<>(5);
+    public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
         for (int i = 0; i < 5; i++) {
@@ -51,9 +51,8 @@ public class Main implements Serializable {
                                     }
                                 }
                                 case 4 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.printAllMovies();
-                                    }
+                                   Cinema h=new Cinema();
+                                        h.printAllMovies();
                                 }
                                 default -> {
                                 }
@@ -70,7 +69,8 @@ public class Main implements Serializable {
                                 case 1:
                                     System.out.println("Enter the number of the hall");
                                     int hallnum = scanner.nextInt();
-                                    halls.get(hallnum).add();
+                                    Cinema cinema = new Cinema();
+                                    halls.get(hallnum).getMovies().add(cinema.add());
                                     break;
                                 case 2:
                                     System.out.println("Enter The title you want to delete");

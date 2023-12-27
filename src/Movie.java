@@ -7,7 +7,6 @@ public class Movie implements Serializable {
     private String title;
     private String genre;
     private List<Showtimes> showtimes;
-
     public Movie(String title, String genre, List<Showtimes> showtimes) {
         this.movieId = nextMovieId++; // Assign the next movieId and increment it
         this.title = title;
