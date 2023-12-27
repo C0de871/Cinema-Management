@@ -30,6 +30,7 @@ public class Main implements Serializable {
                             System.out.println("2-search on movies by title");
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
+
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {

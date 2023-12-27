@@ -185,12 +185,19 @@ class Cinema implements Serializable {
     }
 
     File file = new File("movie.ser");
-    public void appendToFile(Map<String, Movie> movieMap) throws IOException, ClassNotFoundException {
-        Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
-        existingMap.putAll(movieMap); // Append new data to existing data
-        saveFileMovie(existingMap); // Save the combined data back to the file
+    public void appendToFile(Map<String, Movie> movieMap) {
+        try {
+            Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
+            existingMap.putAll(movieMap); // Append new data to existing data
+            saveFileMovie(existingMap); // Save the combined data back to the file
+        } catch (IOException e) {
+            // Handle IOException
+            System.out.println("An error occurred while accessing the file: " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            // Handle ClassNotFoundException
+            System.out.println("An error occurred while loading the data: " + e.getMessage());
+        }
     }
-
 
     private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
