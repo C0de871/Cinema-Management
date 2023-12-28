@@ -31,6 +31,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         MyTextField txtUser= new MyTextField();
         txtUser.setPrefixIcon(new ImageIcon("assest/user.png"));
         txtUser.setHint("Name");
+        txtUser.getText();
         register.add(txtUser,"w 60%");
         MyTextField txtEmail= new MyTextField();
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
