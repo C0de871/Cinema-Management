@@ -1,4 +1,4 @@
-package Pages;
+package CustomComponent;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

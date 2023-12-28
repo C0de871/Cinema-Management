@@ -1,4 +1,4 @@
-package Pages;
+package CustomComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,8 +9,12 @@ import java.util.Objects;
  * @author Raven
  */
 public class ScrollPaneWin11 extends JScrollPane {
-
-    public ScrollPaneWin11() {
+    public ScrollPaneWin11(JPanel panel) {
+        this.setViewportView(panel);
+        this.setBackground(Color.decode("#222631"));
+        this.setForeground(Color.decode("#222631"));
+        this.setMinimumSize(new Dimension(0, 320));
+        this.setBorder(BorderFactory.createLineBorder(Color.decode("#222631"), 2));
         getVerticalScrollBar().setUI(new ScrollBarWin11UI());
         getHorizontalScrollBar().setUI(new ScrollBarWin11UI());
         setLayout(new ScrollLayout());

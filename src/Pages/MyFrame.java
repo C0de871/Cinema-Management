@@ -17,10 +17,8 @@ public class MyFrame extends JFrame {
         //Discover Page Body
         DiscoverBody bodyPanel = new DiscoverBody();
         parentPanel.add(bodyPanel,"push,grow");
-        //Display the Frame
 
-//        this.setUndecorated(false);
-//        this.setSize(1000, 500);
+        //Display the Frame
         this.setUndecorated(true);
         this.setSize(1920, 900);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
