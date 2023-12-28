@@ -4,41 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Main  implements  Serializable{
-    static File file = new File("a.txt");
-
-    static void arrayOfObjectWriter(ArrayList<Cinema> s) throws IOException, ClassNotFoundException {
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
-        oos.writeObject(s);
-    }
-
-    static ArrayList<Cinema> arrayOfObjectReader() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-        ArrayList<Cinema> cinemas = (ArrayList<Cinema>) ois.readObject();
-        return cinemas;
-    }
-    static File fileMovie = new File("genres.txt");
-
-    static void addMovieGenre(String genre) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileMovie, true))) {
-            writer.write(genre);
-            writer.newLine();
-        }
-    }
-    static  String [] readMovieGenere () throws IOException {
-        try (BufferedReader Reader = new BufferedReader(new FileReader(fileMovie))) {
-            String line;
-            String [] read= new String[Cinema.countOfMovieGenere];
-            while ((line = Reader.readLine()) != null){
-            read = line.split(" ");
-            }
-            return read;
-        }
-    }
-
+public class Main implements Serializable {
     public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
+        if (Cinema.fileHalls.length() == 0) {
+            for (int i = 0; i < 5; i++) {
+                halls.add(new Cinema());
+            }
+        }
+
         try {
             System.out.println("Welcome to System!");
             System.out.println("************************************");
@@ -46,6 +21,8 @@ public class Main  implements  Serializable{
             System.out.println("2-Register");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
+            Cinema c;
+            c = new Cinema();
             switch (choice) {
                 case 1 -> {
                     System.out.println("1-User Login");
@@ -58,6 +35,7 @@ public class Main  implements  Serializable{
                             System.out.println("2-search on movies by title");
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
+                            System.out.println("5-show all the movies with the halls");
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
@@ -66,21 +44,16 @@ public class Main  implements  Serializable{
                                     }
                                 }
                                 case 2 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.searchMovieByTitle();
-                                    }
+                                    c.searchMovieByTitle();
                                 }
                                 case 3 -> {
-                                    System.out.println("Enter the genre of the movie");
-                                    String genre = scanner.next();
-                                    for (Cinema hall : halls) {
-                                        hall.searchMovieByGenre(genre);
-                                    }
+                                c.printAllMoviesGenre();
                                 }
                                 case 4 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.printAllMovies();
-                                    }
+                                    c.printAllMovies();
+                                }
+                                case 5 -> {
+                                    c.printAllMoviesInHalls();
                                 }
                                 default -> {
                                 }
@@ -91,31 +64,39 @@ public class Main  implements  Serializable{
                         while (true) {
                             System.out.println("1-Add Movie");
                             System.out.println("2-Delete Movie");
+                            System.out.println("3-search on movies by showtime");
+                            System.out.println("4-search on movies by title");
+                            System.out.println("5-search on movies by genre");
+                            System.out.println("6-show all the movies");
+                            System.out.println("7-show all the movies with the halls");
                             choice = scanner.nextInt();
-
                             switch (choice) {
-                                case 1:
-                                    System.out.println("Enter the number of the hall");
+                                case 1 -> {
+                                    System.out.println("Enter the Hall number");
                                     int hallnum = scanner.nextInt();
-                                    halls.get(hallnum).add();
-                                    break;
-                                case 2:
-                                    System.out.println("Enter The title you want to delete");
-                                    String title = scanner.next();
-                                    boolean found = false;
-                                    halls = arrayOfObjectReader();
-                                    for (Cinema hall : halls) {
-                                        if (hall.deleteMovie(title)) {
-                                            found = true;
-                                            arrayOfObjectWriter(halls);
-                                            break;
-                                        }
-                                    }
-                                    if (!found) System.out.println("there is no movie with this title");
-                                    break;
-                                default:
+                                    c.add(hallnum);
+                                }
+                                case 2 -> {
+                                    c.deleteMovie();
+                                }
+                                case 3 -> {
+                                  c.getMoviesAroundTime();
+                                }
+                                case 4 -> {
+                                    c.searchMovieByTitle();
+                                }
+                                case 5 -> {
+                                    c.printAllMoviesGenre();
+                                }
+                                case 6 -> {
+                                    c.printAllMovies();
+                                }
+                                case 7 -> {
+                                    c.printAllMoviesInHalls();
+                                }
+                                default -> {
                                     System.out.println("Invalid choice. Please try again.");
-                                    break;
+                                }
                             }
                         }
                     }
