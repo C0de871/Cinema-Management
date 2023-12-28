@@ -51,12 +51,28 @@ class Cinema implements Serializable {
             // Create a new Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
+
+            Map<String, ArrayList<Movie>> moviesGenre;
+            if (fileGenre.length() == 0) {
+                moviesGenre = new HashMap<>();
+                moviesGenre.put("action", new ArrayList<>());
+                moviesGenre.put("Drama", new ArrayList<>());
+                moviesGenre.put("comedy", new ArrayList<>());
+                moviesGenre.put("adventure", new ArrayList<>());
+                moviesGenre.put("documentary", new ArrayList<>());
+                saveFileMovieGenre(moviesGenre);
+            }
+            moviesGenre = loadFileMovieGenre();
+            if (moviesGenre.get(g) == null) {
+                moviesGenre.put(g, new ArrayList<>());
+            }
+            moviesGenre.get(g).add(m);
+            saveFileMovieGenre(moviesGenre);
             appendToFile(name, m);
             ArrayList<Cinema> hall = arrayOfObjectHallsLoad();
             if (hall.isEmpty()) {
                 for (int i = 0; i < 5; i++) {
                     hall.add(new Cinema());
-                    System.out.println("hi");
                 }
             }
 
@@ -120,17 +136,45 @@ class Cinema implements Serializable {
         }
     }
 
-    void searchMovieByGenre(String genre) {
-        List<Movie> foundMovies = new ArrayList<>();
+    public void printAllMoviesGenre() {
+        System.out.println("Enter the genre you want:");
+        Scanner scanner = new Scanner(System.in);
+        String genre = scanner.next();
+        try {
+            Map<String, ArrayList<Movie>> moviesGenre = loadFileMovieGenre();
+            ArrayList<Movie> moviesGenreArray = moviesGenre.get(genre);
 
-        for (Movie movie : getMovies()) {
-            if (movie.getGenre().equalsIgnoreCase(genre)) {
-                foundMovies.add(movie);
+            if (moviesGenreArray == null || moviesGenreArray.isEmpty()) {
+                System.out.println("No movies found for the genre \"" + genre + "\"");
+            } else {
+                System.out.println("Movies in the genre \"" + genre + "\":");
+                for (Movie movie : moviesGenreArray) {
+                    System.out.println(movie);
+                }
             }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println("Movies found in the genre: " + genre);
-        for (Movie movie : foundMovies) {
-            System.out.println(movie.getTitle());
+    }
+
+    File fileGenre = new File("GenerMovies.ser");
+
+    private Map<String, ArrayList<Movie>> loadFileMovieGenre() throws IOException, ClassNotFoundException {
+        Map<String, ArrayList<Movie>> mapRead;
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
+                mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
+            }
+        } else {
+            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
+        }
+        return mapRead;
+    }
+
+    private void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
+            oos.writeObject(movieMap);
+            oos.flush();
         }
     }
 
@@ -245,6 +289,7 @@ class Cinema implements Serializable {
     private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
             oos.writeObject(movieMap);
+            oos.flush();
         }
     }
 
@@ -279,6 +324,7 @@ class Cinema implements Serializable {
     private void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
+            oos.flush();
         } catch (FileNotFoundException e) {
             System.out.println(e);
         } catch (IOException e) {
