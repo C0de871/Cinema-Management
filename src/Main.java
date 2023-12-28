@@ -21,6 +21,8 @@ public class Main implements Serializable {
             System.out.println("2-Register");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
+            Cinema c;
+            c = new Cinema();
             switch (choice) {
                 case 1 -> {
                     System.out.println("1-User Login");
@@ -34,7 +36,7 @@ public class Main implements Serializable {
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
                             System.out.println("5-show all the movies with the halls");
-                            Cinema c = new Cinema();
+
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
@@ -67,22 +69,45 @@ public class Main implements Serializable {
                         while (true) {
                             System.out.println("1-Add Movie");
                             System.out.println("2-Delete Movie");
+                            System.out.println("3-search on movies by showtime");
+                            System.out.println("4-search on movies by title");
+                            System.out.println("5-search on movies by genre");
+                            System.out.println("6-show all the movies");
+                            System.out.println("7-show all the movies with the halls");
                             choice = scanner.nextInt();
-
                             switch (choice) {
-                                case 1:
+                                case 1 -> {
                                     System.out.println("Enter the Hall number");
                                     int hallnum = scanner.nextInt();
-                                    Cinema cinema = new Cinema();
-                                    cinema.add(hallnum);
-                                    break;
-                                case 2:
-                                    Cinema cinema1 = new Cinema();
-                                    cinema1.deleteMovie();
-                                    break;
-                                default:
+                                    c.add(hallnum);
+                                }
+                                case 2 -> {
+                                    c.deleteMovie();
+                                }
+                                case 3 -> {
+                                    for (Cinema hall : halls) {
+                                        hall.getMoviesAroundTime();
+                                    }
+                                }
+                                case 4 -> {
+                                    c.searchMovieByTitle();
+                                }
+                                case 5 -> {
+                                    System.out.println("Enter the genre of the movie");
+                                    String genre = scanner.next();
+                                    for (Cinema hall : halls) {
+                                        hall.searchMovieByGenre(genre);
+                                    }
+                                }
+                                case 6 -> {
+                                    c.printAllMovies();
+                                }
+                                case 7 -> {
+                                    c.printAllMoviesInHalls();
+                                }
+                                default -> {
                                     System.out.println("Invalid choice. Please try again.");
-                                    break;
+                                }
                             }
                         }
                     }

@@ -51,19 +51,17 @@ class Cinema implements Serializable {
             // Create a new Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
-            appendToFile(name,m);
+            appendToFile(name, m);
             ArrayList<Cinema> hall = arrayOfObjectHallsLoad();
-            if(hall.isEmpty())
-            {
+            if (hall.isEmpty()) {
                 for (int i = 0; i < 5; i++) {
                     hall.add(new Cinema());
                     System.out.println("hi");
                 }
             }
 
-            System.out.println("hi");
             // Load hall data
-            hall.get(hallNumToadd-1).getMovies().add(m);
+            hall.get(hallNumToadd - 1).getMovies().add(m);
             arrayOfObjectHallsSave(hall);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -98,23 +96,27 @@ class Cinema implements Serializable {
         Date startDate = Main.getUserDateTime(); // Get the start date from the user
         System.out.println("To Date:");
         Date endDate = Main.getUserDateTime(); // Get the end date from the user
-        List<Movie> moviesBetweenDates = new ArrayList<>(); // Create a list to store movies between the given dates
         try {
-            // Iterate through each cinema hall
-            List<Movie> movies = this.getMovies(); // Get the list of movies in the current hall
-            moviesBetweenDates.addAll(movies.stream()
-                    .filter(movie -> movie.getShowtimes().stream()
-                            .anyMatch(showtime -> showtime.getMovieStartTime().after(startDate) && showtime.getMovieStartTime().before(endDate)))
-                    .toList()); // Filter the movies based on the showtimes between the given dates and add them to the list
-
+            Map<String, Movie> movies = loadFileMovie();
+            ArrayList<Movie> moviesBetweenDates = new ArrayList<>();
+            for (Map.Entry<String, Movie> entry : movies.entrySet()) {
+                boolean isMovieBetweenDates = entry.getValue().getShowtimes().stream()
+                        .anyMatch(showtime -> showtime.getMovieStartTime().after(startDate) && showtime.getMovieStartTime().before(endDate));
+                if (isMovieBetweenDates) {
+                    moviesBetweenDates.add(entry.getValue());
+                }
+            }
+            if (moviesBetweenDates.isEmpty()) {
+                System.out.println("No results found");
+            } else {
+                for (Movie m : moviesBetweenDates) {
+                    System.out.println(m); // Print the movies that match the criteria
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         } catch (Exception e) {
             System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
-        }
-        if (moviesBetweenDates.isEmpty())
-            System.out.println("No results found");
-
-        for (Movie m : moviesBetweenDates) {
-            System.out.println(m); // Print the movies that match the criteria
         }
     }
 
@@ -225,10 +227,10 @@ class Cinema implements Serializable {
 
     File file = new File("movie.ser");
 
-    public void appendToFile(String name,Movie movie) {
+    public void appendToFile(String name, Movie movie) {
         try {
             Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
-            existingMap.put(name,movie); // Append new data to existing data
+            existingMap.put(name, movie); // Append new data to existing data
             saveFileMovie(existingMap); // Save the combined data back to the file
         } catch (IOException e) {
             // Handle IOException
@@ -260,20 +262,20 @@ class Cinema implements Serializable {
 
     static File fileHalls = new File("Halls.ser");
 
- /*   public void appendToFileHalls(int index, Movie movie) {
-        try {
-            ArrayList<Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
-            hall.get(index).getMovies().add(movie);
-            arrayOfObjectHallsSave(hall); // Save the combined data back to the file
-        } catch (IOException e) {
-            // Handle IOException
-            System.out.println("An error occurred while accessing the file: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            // Handle ClassNotFoundException
-            System.out.println("An error occurred while loading the data: " + e.getMessage());
-        }
-    }
-*/
+    /*   public void appendToFileHalls(int index, Movie movie) {
+           try {
+               ArrayList<Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
+               hall.get(index).getMovies().add(movie);
+               arrayOfObjectHallsSave(hall); // Save the combined data back to the file
+           } catch (IOException e) {
+               // Handle IOException
+               System.out.println("An error occurred while accessing the file: " + e.getMessage());
+           } catch (ClassNotFoundException e) {
+               // Handle ClassNotFoundException
+               System.out.println("An error occurred while loading the data: " + e.getMessage());
+           }
+       }
+   */
     private void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);

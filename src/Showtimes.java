@@ -80,7 +80,6 @@ public class Showtimes implements Serializable {
         long thisEndMillis = movieEndTime.getTime();
         long otherStartMillis = otherShowtimes.getMovieStartTime().getTime();
         long otherEndMillis = otherShowtimes.getMovieEndTime().getTime();
-
         return thisStartMillis < otherEndMillis && otherStartMillis < thisEndMillis;
     }
 

@@ -6,12 +6,14 @@ public class Movie implements Serializable {
     private final int movieId;
     private String title;
     private String genre;
+    private int MinutesOfMovie;
     private List<Showtimes> showtimes;
     public Movie(String title, String genre, List<Showtimes> showtimes) {
         this.movieId = nextMovieId++; // Assign the next movieId and increment it
         this.title = title;
         this.genre = genre;
         this.showtimes = showtimes;
+        this.MinutesOfMovie=showtimes.get(0).getMovieDuration();
     }
 
     public int getMovieId() {
@@ -52,13 +54,13 @@ public class Movie implements Serializable {
         }
     }
 
-
     @Override
     public String toString() {
         return "Movie{" +
                 "movieId=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
+                ", MinutesOfMovie=" + MinutesOfMovie +
                 ", showtimes=" + showtimes +
                 '}';
     }
