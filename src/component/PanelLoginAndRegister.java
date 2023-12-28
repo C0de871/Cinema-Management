@@ -21,6 +21,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         initRegister();
         login.setVisible(false);
         register.setVisible(true);
+        // hello
     }
     public void initRegister(){
         register.setLayout(new MigLayout("wrap","push[center]push","push[]25[]10[]10[]push"));
