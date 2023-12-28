@@ -9,7 +9,11 @@ public class Main {
                 new LogInUp().setVisible(true);
             }
         });
-        //uncomment this section to add the body to the scrollpanel
+    }
+}
+
+
+//uncomment this section to add the body to the scrollpanel
 
 //        JScrollPane scrollPane= new ScrollPaneWin11();
 //        scrollPane.setViewportView(bodyPanel);
@@ -17,8 +21,3 @@ public class Main {
 //        scrollPane.setBackground(Color.decode("#222631"));
 //        scrollPane.setForeground(Color.decode("#222631"));
 //        parentPanel.add(scrollPane, "push,grow");
-
-
-
-    }
-}

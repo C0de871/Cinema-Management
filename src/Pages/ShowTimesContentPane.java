@@ -5,9 +5,12 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
 
+import static CustomComponent.Properties.*;
+import static java.awt.Color.*;
+
 public class ShowTimesContentPane extends JPanel {
     ShowTimesContentPane() {
-        this.setBackground(Color.decode("#222631"));
+        this.setBackground(light_Gray);
         this.setLayout(new MigLayout("insets 0,gapx 1.5%","[][]",""));
         ShowTimesPosterPanel movie1= new ShowTimesPosterPanel();
         this.add(movie1);

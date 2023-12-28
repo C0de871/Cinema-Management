@@ -1,4 +1,4 @@
-package Pages;
+package CustomComponent;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -7,15 +7,18 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static CustomComponent.Properties.*;
+import static java.awt.Color.*;
+
 public class Oval extends JPanel {
 
     public Oval() {
         setLayout(new MigLayout("center","push[center]push","push[center]push"));
         setOpaque(false);
         setBorder(new EmptyBorder(0, 0, 0, 0));
-        setBackground(Color.decode("#2585f8"));
+        setBackground(blue_);
 //        setCursor(new Cursor(Cursor.HAND_CURSOR));
-        MyText rate = new MyText("7.5", 15, "#ffffff", 0);
+        MyText rate = new MyText("7.5", 15, white_, 0);
         this.add(rate,"dock center");
     }
 

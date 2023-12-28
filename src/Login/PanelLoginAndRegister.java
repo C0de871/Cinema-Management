@@ -29,12 +29,12 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         label.setFont(new Font("sansserif",1,30));
         label.setForeground(new Color(7,164,121));
         register.add(label);
-        MyTextField txtUser= new MyTextField();
+        MyTextField txtUser = new MyTextField(Color.decode("#B8BFF4"));
         txtUser.setPrefixIcon(new ImageIcon("assest/user.png"));
         txtUser.setHint("Name");
         txtUser.getText();
         register.add(txtUser,"w 60%");
-        MyTextField txtEmail= new MyTextField();
+        MyTextField txtEmail = new MyTextField(Color.decode("#B8BFF4"));
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
         txtEmail.setHint("Email");
         register.add(txtEmail,"w 60%");
@@ -82,7 +82,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         label.setFont(new Font("sansserif",1,30));
         label.setForeground(new Color(7,164,121));
         login.add(label);
-        MyTextField txtEmail= new MyTextField();
+        MyTextField txtEmail = new MyTextField(Color.decode("#B8BFF4"));
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
         txtEmail.setHint("Email");
         login.add(txtEmail,"w 60%");

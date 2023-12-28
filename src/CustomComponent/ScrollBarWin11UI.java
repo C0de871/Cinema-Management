@@ -1,4 +1,4 @@
-package Pages;
+package CustomComponent;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;

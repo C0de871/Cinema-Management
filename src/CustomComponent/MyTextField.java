@@ -35,7 +35,7 @@ public class MyTextField extends JTextField {
     private Icon suffixIcon;
     private String hint = "";
 
-    public MyTextField() {
+    public MyTextField(Color color) {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(0, 0, 0, 0));// background color is transperent
         setForeground(Color.decode("#7A8C8D"));// the color of the font
@@ -47,7 +47,7 @@ public class MyTextField extends JTextField {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(230, 245, 241)); // set the background color of the field
+        g2.setColor(Color.decode("#15151d")); // set the background color of the field
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         paintIcon(g);
         super.paintComponent(g);
