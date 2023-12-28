@@ -36,7 +36,6 @@ public class Main implements Serializable {
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
                             System.out.println("5-show all the movies with the halls");
-
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
@@ -48,11 +47,7 @@ public class Main implements Serializable {
                                     c.searchMovieByTitle();
                                 }
                                 case 3 -> {
-                                    System.out.println("Enter the genre of the movie");
-                                    String genre = scanner.next();
-                                    for (Cinema hall : halls) {
-                                        hall.searchMovieByGenre(genre);
-                                    }
+                                c.printAllMoviesGenre();
                                 }
                                 case 4 -> {
                                     c.printAllMovies();
@@ -85,19 +80,13 @@ public class Main implements Serializable {
                                     c.deleteMovie();
                                 }
                                 case 3 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.getMoviesAroundTime();
-                                    }
+                                  c.getMoviesAroundTime();
                                 }
                                 case 4 -> {
                                     c.searchMovieByTitle();
                                 }
                                 case 5 -> {
-                                    System.out.println("Enter the genre of the movie");
-                                    String genre = scanner.next();
-                                    for (Cinema hall : halls) {
-                                        hall.searchMovieByGenre(genre);
-                                    }
+                                    c.printAllMoviesGenre();
                                 }
                                 case 6 -> {
                                     c.printAllMovies();
