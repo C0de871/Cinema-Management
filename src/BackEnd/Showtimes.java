@@ -1,3 +1,5 @@
+package BackEnd;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +36,7 @@ public class Showtimes implements Serializable {
             tickets.get(seatNum-1).setActive(false);
             return true;
         } else {
-            System.out.println(" The Ticket is already not booked.");
+            System.out.println(" The BackEnd.Ticket is already not booked.");
             return false;
         }
     }
@@ -65,7 +67,7 @@ public class Showtimes implements Serializable {
         if (movieStartTime != null) {
             this.movieStartTime = movieStartTime;
         } else {
-            throw new IllegalArgumentException("Movie start time cannot be null.");
+            throw new IllegalArgumentException("BackEnd.Movie start time cannot be null.");
         }
     }
 
@@ -91,7 +93,7 @@ public class Showtimes implements Serializable {
         if (movieEndTime != null) {
             this.movieEndTime = movieEndTime;
         } else {
-            throw new IllegalArgumentException("Movie end time cannot be null.");
+            throw new IllegalArgumentException("BackEnd.Movie end time cannot be null.");
         }
     }
 
@@ -109,7 +111,7 @@ public class Showtimes implements Serializable {
 
     @Override
     public String toString() {
-        return "Showtimes{" +
+        return "BackEnd.Showtimes{" +
                 "movieStartTime=" + movieStartTime +
                 ", movieEndTime=" + movieEndTime +
                 '}';

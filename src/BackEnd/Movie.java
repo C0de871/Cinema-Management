@@ -1,3 +1,5 @@
+package BackEnd;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class Movie implements Serializable {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "BackEnd.Movie{" +
                 "movieId=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +

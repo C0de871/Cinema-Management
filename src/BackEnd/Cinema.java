@@ -1,4 +1,4 @@
-
+package BackEnd;
 
 import java.io.*;
 import java.util.*;
@@ -48,7 +48,7 @@ class Cinema implements Serializable {
             String name = scanner.next();
             System.out.println("Enter the genre of the movie");
             String g = scanner.next();
-            // Create a new Movie object with the provided details
+            // Create a new BackEnd.Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
 
@@ -96,7 +96,7 @@ class Cinema implements Serializable {
             Map<String, Movie> movies = loadFileMovie();
             String removedValue = String.valueOf(movies.remove(title));
             if (removedValue != null) {
-                System.out.println(title + "Movie was removed");
+                System.out.println(title + "BackEnd.Movie was removed");
             } else {
                 System.out.println("there is no movie in this title");
             }
@@ -187,10 +187,10 @@ class Cinema implements Serializable {
             Map<String, Movie> movies = loadFileMovie();
             Movie movie = movies.get(title);
             if (movie != null) {
-                System.out.println("Movie found:");
+                System.out.println("BackEnd.Movie found:");
                 System.out.println(movie);
             } else {
-                System.out.println("Movie not found");
+                System.out.println("BackEnd.Movie not found");
             }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -199,7 +199,7 @@ class Cinema implements Serializable {
 
  /*    public void updateMovieDetails(String title) {
         try {
-            for (Movie movie : movies) {
+            for (BackEnd.Movie movie : movies) {
                 if (movie.getTitle().equals(title)) {
                     Scanner scanner = new Scanner(System.in);
 
@@ -216,18 +216,18 @@ class Cinema implements Serializable {
                     System.out.println("Enter Which one you want to update it ");
                     int numberOfShowtimeToUpdate = scanner.nextInt();
                     System.out.println("Enter the new start time of the movie");
-                    Date newStartTime = Main.getUserDateTime();
+                    Date newStartTime = BackEnd.Main.getUserDateTime();
                     movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieStartTime(newStartTime);
                     System.out.println("Enter the new end time of the movie");
-                    Date newEndTime = Main.getUserDateTime();
+                    Date newEndTime = BackEnd.Main.getUserDateTime();
                     movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieEndTime(newEndTime);
 
-                    System.out.println("Movie details updated successfully!");
+                    System.out.println("BackEnd.Movie details updated successfully!");
                     return;
                 }
             }
 
-            System.out.println("Movie not found!");
+            System.out.println("BackEnd.Movie not found!");
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid choice.");
         } catch (Exception e) {
@@ -306,9 +306,9 @@ class Cinema implements Serializable {
     }
     static File fileHalls = new File("Halls.ser");
 
-    /*   public void appendToFileHalls(int index, Movie movie) {
+    /*   public void appendToFileHalls(int index, BackEnd.Movie movie) {
            try {
-               ArrayList<Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
+               ArrayList<BackEnd.Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
                hall.get(index).getMovies().add(movie);
                arrayOfObjectHallsSave(hall); // Save the combined data back to the file
            } catch (IOException e) {
@@ -346,9 +346,9 @@ class Cinema implements Serializable {
         File movieFile = new File("movie.ser");
         if (movieFile.exists()) {
             movieFile.delete();
-            System.out.println("Movie file cleared successfully.");
+            System.out.println("BackEnd.Movie file cleared successfully.");
         } else {
-            System.out.println("Movie file does not exist.");
+            System.out.println("BackEnd.Movie file does not exist.");
         }
     }
 

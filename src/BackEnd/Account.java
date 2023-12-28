@@ -1,3 +1,4 @@
+package BackEnd;
 
 import java.io.*;
 import java.util.*;
@@ -19,7 +20,7 @@ public class Account implements Serializable {
     public void login(String c) {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " Login");
+            System.out.println((Objects.equals(c, "U") ? "BackEnd.User" : "Admin") + " Login");
             String fileName = (Objects.equals(c, "U")) ? "user_credentials.txt" : "admin_credentials.txt";
 
             boolean loggedIn = false;
@@ -29,7 +30,7 @@ public class Account implements Serializable {
                 System.out.print("Enter password: ");
                 String password = scanner.next();
                 if (isValidCredentials(email, password, fileName)) {
-                    System.out.println("User login successful!");
+                    System.out.println("BackEnd.User login successful!");
                     loggedIn = true;
                 } else {
                     System.out.println("Invalid credentials. Please try again.");
@@ -46,7 +47,7 @@ public class Account implements Serializable {
     public void register(String c) {
         try {
             Scanner scanner = new Scanner(System.in);
-            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " Registration");
+            System.out.println((Objects.equals(c, "U") ? "BackEnd.User" : "Admin") + " Registration");
 
             // Decide the filename based on the user's role
             String fileName = (Objects.equals(c, "U")) ? "user_credentials.txt" : "admin_credentials.txt";
@@ -62,11 +63,11 @@ public class Account implements Serializable {
                         Map<String, String> credentials = (Objects.equals(c, "U")) ? userCredentials : adminCredentials;
                         credentials.put(email, password);
                         saveToFile(fileName, credentials);
-                        System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " registered successfully!");
+                        System.out.println((Objects.equals(c, "U") ? "BackEnd.User" : "Admin") + " registered successfully!");
                         System.out.println("Registered email: " + email);
                         break;
                     } else {
-                        System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " with the same email already exists. Please try a different email.");
+                        System.out.println((Objects.equals(c, "U") ? "BackEnd.User" : "Admin") + " with the same email already exists. Please try a different email.");
                     }
                 } else {
                     System.out.println("Invalid registration details. Please try again.");
@@ -101,7 +102,7 @@ public class Account implements Serializable {
         Map<String, String> credentials = (Objects.equals(c, "U")) ? userCredentials : adminCredentials;
 
         if (credentials.containsKey(email)) {
-            System.out.println((Objects.equals(c, "U") ? "User" : "Admin") + " with the same email already exists.");
+            System.out.println((Objects.equals(c, "U") ? "BackEnd.User" : "Admin") + " with the same email already exists.");
             return false;
         }
 

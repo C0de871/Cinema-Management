@@ -1,3 +1,5 @@
+package BackEnd;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +40,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "BackEnd.User{" +
                 "name='" + name + '\'' +
                 ", favoriteMovies=" + favoriteMovies +
                 '}';

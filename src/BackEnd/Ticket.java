@@ -1,3 +1,5 @@
+package BackEnd;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -47,7 +49,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return "BackEnd.Ticket{" +
                 "seatNumber=" + seatNumber +
                 ", showtime=" + showtime +
                 ", ticketPrice=" + ticketPrice +

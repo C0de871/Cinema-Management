@@ -1,3 +1,4 @@
+package BackEnd;
 
 import java.io.*;
 import java.text.ParseException;
@@ -19,7 +20,7 @@ public class Main implements Serializable {
             c = new Cinema();
             switch (choice) {
                 case 1 -> {
-                    System.out.println("1-User Login");
+                    System.out.println("1-BackEnd.User Login");
                     System.out.println("2-Admin Login");
                     choice = scanner.nextInt();
                     if (choice == 1) {
@@ -56,8 +57,8 @@ public class Main implements Serializable {
                     } else {
                         performLogin("A");
                         while (true) {
-                            System.out.println("1-Add Movie");
-                            System.out.println("2-Delete Movie");
+                            System.out.println("1-Add BackEnd.Movie");
+                            System.out.println("2-Delete BackEnd.Movie");
                             System.out.println("3-search on movies by showtime");
                             System.out.println("4-search on movies by title");
                             System.out.println("5-search on movies by genre");
@@ -96,7 +97,7 @@ public class Main implements Serializable {
                     }
                 }
                 case 2 -> {
-                    System.out.println("1-User Registration ");
+                    System.out.println("1-BackEnd.User Registration ");
                     System.out.println("2-Admin Registration ");
                     choice = scanner.nextInt();
                     if (choice == 1)
