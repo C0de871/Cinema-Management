@@ -8,12 +8,6 @@ public class Main implements Serializable {
     public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
-        if (Cinema.fileHalls.length() == 0) {
-            for (int i = 0; i < 5; i++) {
-                halls.add(new Cinema());
-            }
-        }
-
         try {
             System.out.println("Welcome to System!");
             System.out.println("************************************");

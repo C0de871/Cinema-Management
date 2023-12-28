@@ -304,7 +304,6 @@ class Cinema implements Serializable {
         }
         return mapRead;
     }
-
     static File fileHalls = new File("Halls.ser");
 
     /*   public void appendToFileHalls(int index, Movie movie) {
