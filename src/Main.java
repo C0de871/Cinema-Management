@@ -8,9 +8,12 @@ public class Main implements Serializable {
     public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
-        for (int i = 0; i < 5; i++) {
-            halls.add(new Cinema());
+        if (Cinema.fileHalls.length() == 0) {
+            for (int i = 0; i < 5; i++) {
+                halls.add(new Cinema());
+            }
         }
+
         try {
             System.out.println("Welcome to System!");
             System.out.println("************************************");
@@ -31,7 +34,7 @@ public class Main implements Serializable {
                             System.out.println("3-search on movies by genre");
                             System.out.println("4-show all the movies");
                             System.out.println("5-show all the movies with the halls");
-
+                            Cinema c = new Cinema();
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
@@ -40,9 +43,7 @@ public class Main implements Serializable {
                                     }
                                 }
                                 case 2 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.searchMovieByTitle();
-                                    }
+                                    c.searchMovieByTitle();
                                 }
                                 case 3 -> {
                                     System.out.println("Enter the genre of the movie");
@@ -52,11 +53,9 @@ public class Main implements Serializable {
                                     }
                                 }
                                 case 4 -> {
-                                    Cinema h = new Cinema();
-                                    h.printAllMovies();
+                                    c.printAllMovies();
                                 }
-                                case 5->{
-                                    Cinema c=new Cinema();
+                                case 5 -> {
                                     c.printAllMoviesInHalls();
                                 }
                                 default -> {
@@ -75,7 +74,7 @@ public class Main implements Serializable {
                                     System.out.println("Enter the Hall number");
                                     int hallnum = scanner.nextInt();
                                     Cinema cinema = new Cinema();
-                                    cinema.add();
+                                    cinema.add(hallnum);
                                     break;
                                 case 2:
                                     Cinema cinema1 = new Cinema();
