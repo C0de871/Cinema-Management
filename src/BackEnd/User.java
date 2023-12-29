@@ -5,13 +5,12 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class User implements Serializable {
-    String email;
-    String password;
-    String name;
-    char typeOfUser;
+    private String email;
+    private String password;
+    private String name;
+    private char typeOfUser;
     Pattern passwordPattern;
-    File fileUser = new File("fileUser.ser");
-    File fileAdmin = new File("fileAdmin.ser");
+    private ArrayList<Movie> favorite;
 
     public User() {
     }
@@ -22,6 +21,35 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%.^&+=])(?=\\S+$).{8,}$");
+        favorite = new ArrayList<>();
+    }
+
+    public void addFavoriteMovie(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User user : users) {
+            if (user == this) {
+                user.getFavoriteMovies().add(movie);
+                break;
+            }
+        }
+        f.saveToFileAccounts(users, f.fileUser);
+    }
+
+    public void removeFavoriteMovie(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User user : users) {
+            if (user == this) {
+                user.getFavoriteMovies().remove(movie);
+                break;
+            }
+        }
+        f.saveToFileAccounts(users, f.fileUser);
+    }
+
+    public ArrayList<Movie> getFavoriteMovies() {
+        return favorite;
     }
 
     public boolean login() {
@@ -33,9 +61,10 @@ public class User implements Serializable {
         System.out.println("Enter the type of Login");
         char type = scanner.next().charAt(0);
         System.out.println((type == 'U') ? "User" : "Admin" + " Login");
-        File fileName = (type == 'U') ? fileUser : fileAdmin;
+        InfoFiles f = new InfoFiles();
+        File fileName = (type == 'U') ? f.fileUser : f.fileAdmin;
 
-        if (isValidCredentials(emailInput, passwordInput, fileName)) {
+        if (isValidCredentials(emailInput, passwordInput, fileName, f)) {
             System.out.println("Login successful!");
             return true;
         } else {
@@ -44,20 +73,17 @@ public class User implements Serializable {
         }
     }
 
-
     public void register() {
         try {
-
-            System.out.println((typeOfUser== 'U') ? "User" : "Admin" + " Registration");
-
+            InfoFiles f = new InfoFiles();
+            System.out.println((typeOfUser == 'U') ? "User" : "Admin" + " Registration");
             // Decide the filename based on the user's role
-            File file = (typeOfUser=='U') ? fileUser : fileAdmin;
-
+            File file = (typeOfUser == 'U') ? f.fileUser : f.fileAdmin;
             if (isValidRegistration(this)) {
-                if (!isExistingEmail(email, file)) {
-                    ArrayList<User> users = readFromFile(file);
+                if (!isExistingEmail(this.email, file, f)) {
+                    ArrayList<User> users = f.readFromFileAccounts(file);
                     users.add(this);
-                    saveToFile(users, file);
+                    f.saveToFileAccounts(users, file);
                 } else {
                     System.out.println(" User with the same email already exists. Please try a different email.");
                 }
@@ -71,9 +97,9 @@ public class User implements Serializable {
     }
 
 
-    private boolean isExistingEmail(String email, File file) {
+    private boolean isExistingEmail(String email, File file, InfoFiles f) {
 
-        ArrayList<User> usersRead = readFromFile(file);
+        ArrayList<User> usersRead = f.readFromFileAccounts(file);
         for (User u : usersRead) {
             if (Objects.equals(u.email, email))
                 return true;
@@ -96,8 +122,9 @@ public class User implements Serializable {
     }
 
 
-    private boolean isValidCredentials(String email, String password, File file) {
-        ArrayList<User> users = readFromFile(file);
+    private boolean isValidCredentials(String email, String password, File file, InfoFiles f) {
+
+        ArrayList<User> users = f.readFromFileAccounts(file);
         for (User user : users) {
             if (Objects.equals(user.email, email) && Objects.equals(user.password, password)) {
                 System.out.println("Hello " + user.name);
@@ -114,33 +141,5 @@ public class User implements Serializable {
 
     private boolean isValidPassword(String password) {
         return passwordPattern.matcher(password).matches();
-    }
-// ...
-
-    private void saveToFile(ArrayList<User> users, File file) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(users);
-            oos.flush();
-            System.out.println("Data saved to file: " + file);
-        } catch (IOException e) {
-            System.out.println("An error occurred while saving data to file: " + e.getMessage());
-        }
-    }
-
-    private ArrayList<User> readFromFile(File file) {
-        ArrayList<User> users = new ArrayList<>();
-        try {
-            if (file.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                    users = (ArrayList<User>) ois.readObject();
-                }
-                System.out.println("Data read from file: " + file);
-            } else {
-                System.out.println("File does not exist: " + file);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("An error occurred while reading data from file: " + e.getMessage());
-        }
-        return users;
     }
 }
