@@ -9,7 +9,7 @@ class Cinema implements Serializable {
     private List<Movie> movies;
     private Map<String, Movie> movieMap;
     static int countOfMovieGenere = 0;
-
+// comment
 
     public Cinema() {
         this.hallNum = nexthallnum++;
