@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main implements Serializable {
-    public static ArrayList<Cinema> halls = new ArrayList<>(5);
 
     public static void main(String[] args) {
         try {
@@ -34,15 +33,13 @@ public class Main implements Serializable {
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
-                                    for (Cinema hall : halls) {
-                                        hall.getMoviesAroundTime();
-                                    }
+                                    c.getMoviesAroundTime();
                                 }
                                 case 2 -> {
                                     c.searchMovieByTitle();
                                 }
                                 case 3 -> {
-                                c.printAllMoviesGenre();
+                                    c.printAllMoviesGenre();
                                 }
                                 case 4 -> {
                                     c.printAllMovies();
@@ -75,7 +72,7 @@ public class Main implements Serializable {
                                     c.deleteMovie();
                                 }
                                 case 3 -> {
-                                  c.getMoviesAroundTime();
+                                    c.getMoviesAroundTime();
                                 }
                                 case 4 -> {
                                     c.searchMovieByTitle();
@@ -127,8 +124,20 @@ public class Main implements Serializable {
 
     private static void performRegistration(String c) {
         try {
-            User user = new User();
-            user.register();
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Enter your email: ");
+            String email = scanner.nextLine();
+
+            System.out.print("Enter your password: ");
+            String password = scanner.nextLine();
+
+            System.out.print("Enter your name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter the type of user (U for User, A for Admin): ");
+            char typeOfUser = scanner.nextLine().charAt(0);
+            User newUser = new User(email, password, name, typeOfUser);
+            newUser.register();
         } catch (Exception e) {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }

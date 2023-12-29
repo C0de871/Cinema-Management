@@ -9,6 +9,8 @@ public class InfoFiles {
     File file = new File("movie.ser");
     File fileHalls = new File("Halls.ser");
     File fileGenre = new File("GenerMovies.ser");
+    File fileUser = new File("fileUser.ser");
+    File fileAdmin = new File("fileAdmin.ser");
 
     InfoFiles() {
     }
@@ -46,8 +48,6 @@ public class InfoFiles {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
             oos.flush();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -70,34 +70,21 @@ public class InfoFiles {
         return reader;
     }
 
-    public void clearMovieFile() {
-        File movieFile = new File("movie.ser");
-        if (movieFile.exists()) {
-            movieFile.delete();
-            System.out.println("BackEnd.Movie file cleared successfully.");
+    public void clearFile(File file) {
+        if (file.exists()) {
+            file.delete();
+            System.out.println(file.getName() + " file cleared successfully.");
         } else {
-            System.out.println("BackEnd.Movie file does not exist.");
+            System.out.println(file.getName() + " file does not exist.");
         }
     }
 
-    public void clearHallsFile() {
-        File hallsFile = new File("Halls.ser");
-        if (hallsFile.exists()) {
-            hallsFile.delete();
-            System.out.println("Halls file cleared successfully.");
-        } else {
-            System.out.println("Halls file does not exist.");
-        }
-    }
-
-    public void clearGenreFile() {
-        File hallsFile = new File("GenerMovies.ser");
-        if (hallsFile.exists()) {
-            hallsFile.delete();
-            System.out.println("Halls file cleared successfully.");
-        } else {
-            System.out.println("Halls file does not exist.");
-        }
+    public void clearAllFiles() {
+        clearFile(file);
+        clearFile(fileHalls);
+        clearFile(fileGenre);
+        clearFile(fileUser);
+        clearFile(fileAdmin);
     }
 
     Map<String, ArrayList<Movie>> loadFileMovieGenre() {
@@ -127,5 +114,32 @@ public class InfoFiles {
             // Handle the exception, log the error, or display an appropriate message
             e.printStackTrace();
         }
+    }
+
+    void saveToFileAccounts(ArrayList<User> users, File file) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(users);
+            oos.flush();
+            System.out.println("Data saved to file: " + file);
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving data to file: " + e.getMessage());
+        }
+    }
+
+    ArrayList<User> readFromFileAccounts(File file) {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    users = (ArrayList<User>) ois.readObject();
+                }
+                System.out.println("Data read from file: " + file);
+            } else {
+                System.out.println("File does not exist: " + file);
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("An error occurred while reading data from file: " + e.getMessage());
+        }
+        return users;
     }
 }

@@ -7,7 +7,6 @@ class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
-    static int countOfMovieGenere = 0;
 // comment
 
     public Cinema() {
