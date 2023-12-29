@@ -1,6 +1,6 @@
 package CustomComponent;
 
-import Pages.LeftSidePanels;
+import Pages.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -39,4 +39,9 @@ public class MyPanels {
     public static AnimatedPanel comedyBar = new AnimatedPanel(new MigLayout("insets 0,aligny center", "15%[]10[]"), new JLabel(MyIcon.dot), comedyText);
     public static AnimatedPanel adventureBar = new AnimatedPanel(new MigLayout("insets 0,aligny center", "15%[]10[]"), new JLabel(MyIcon.dot), adventureText);
     public static AnimatedPanel documentaryBar = new AnimatedPanel(new MigLayout("insets 0,aligny center", "15%[]10[]"), new JLabel(MyIcon.dot), documentaryText);
+    public static LeftSideMenu leftSideMenu = new LeftSideMenu();
+    public static DiscoverBody bodyPanel = new DiscoverBody();
+    public static TrendingBody trendingBody = new TrendingBody();
+    public static Cardpanel cardPanel = new Cardpanel();
+    public static ParentPanel parentPanel = new ParentPanel(new MigLayout("insets 0, gap 0"));
 }
