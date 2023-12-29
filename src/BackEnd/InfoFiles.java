@@ -142,4 +142,12 @@ public class InfoFiles {
         }
         return users;
     }
+
+    public void appendToFile(String name, Movie movie) {
+        Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
+        existingMap.put(name, movie); // Append new data to existing data
+        saveFileMovie(existingMap); // Save the combined data back to the file
+    }
+
+
 }

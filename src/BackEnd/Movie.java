@@ -13,8 +13,14 @@ public class Movie implements Serializable {
     private String title;
     private String genre;
     private ArrayList<Integer> Rating;
+    private Map<User, ArrayList<String>> Comments;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
+
+    public Map<User, ArrayList<String>> getComments() {
+        return Comments;
+    }
+
 
     public static int getNextMovieId() {
         return nextMovieId;
@@ -147,15 +153,33 @@ public class Movie implements Serializable {
         }
     }
 
+    public void displayComments(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> movieMap = f.loadFileMovie();
+        Movie selectedMovie = movieMap.get(movie.getTitle());
+        if (selectedMovie != null) {
+            Map<User, ArrayList<String>> comments = selectedMovie.getComments();
+            for (Map.Entry<User, ArrayList<String>> entry : comments.entrySet()) {
+                System.out.println(entry.getKey().getName() + " :");
+                ArrayList<String> commentList = entry.getValue();
+                for (String comment : commentList) {
+                    System.out.println(comment);
+                }
+            }
+        }
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
                 "movieId=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
-                ", Rating=" + getAverageRating(this) +
+                ", Rating=" + Rating +
+                ", Comments=" + Comments +
                 ", MinutesOfMovie=" + MinutesOfMovie +
                 ", showtimes=" + showtimes +
                 '}';
     }
+
 }
