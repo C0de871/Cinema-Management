@@ -13,22 +13,32 @@ public class InfoFiles {
     InfoFiles() {
     }
 
-    Map<String, Movie> loadFileMovie() throws IOException, ClassNotFoundException {
-        Map<String, Movie> mapRead;
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                mapRead = (Map<String, Movie>) ois.readObject();
+    Map<String, Movie> loadFileMovie() {
+        Map<String, Movie> mapRead = new HashMap<>();
+
+        try {
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                    mapRead = (Map<String, Movie>) ois.readObject();
+                }
             }
-        } else {
-            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
+        } catch (IOException | ClassNotFoundException e) {
+            // Handle the exceptions, log the error, or display an appropriate message
+            e.printStackTrace();
         }
+
         return mapRead;
     }
 
-    void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(movieMap);
-            oos.flush();
+    void saveFileMovie(Map<String, Movie> movieMap) {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                oos.writeObject(movieMap);
+                oos.flush();
+            }
+        } catch (IOException e) {
+            // Handle the exception, log the error, or display an appropriate message
+            e.printStackTrace();
         }
     }
 
@@ -43,15 +53,21 @@ public class InfoFiles {
         }
     }
 
-    ArrayList<Cinema> arrayOfObjectHallsLoad() throws IOException, ClassNotFoundException {
-        ArrayList<Cinema> Reder;
-        if (fileHalls.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((fileHalls)))) {
-                Reder = (ArrayList<Cinema>) ois.readObject();
+    ArrayList<Cinema> arrayOfObjectHallsLoad() {
+        ArrayList<Cinema> reader = new ArrayList<>();
+
+        try {
+            if (fileHalls.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileHalls))) {
+                    reader = (ArrayList<Cinema>) ois.readObject();
+                }
             }
-        } else
-            Reder = new ArrayList<>();
-        return Reder;
+        } catch (IOException | ClassNotFoundException e) {
+            // Handle the exceptions, log the error, or display an appropriate message
+            e.printStackTrace();
+        }
+
+        return reader;
     }
 
     public void clearMovieFile() {
@@ -74,23 +90,42 @@ public class InfoFiles {
         }
     }
 
-    Map<String, ArrayList<Movie>> loadFileMovieGenre() throws IOException, ClassNotFoundException {
-        Map<String, ArrayList<Movie>> mapRead;
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
-                mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
-            }
+    public void clearGenreFile() {
+        File hallsFile = new File("GenerMovies.ser");
+        if (hallsFile.exists()) {
+            hallsFile.delete();
+            System.out.println("Halls file cleared successfully.");
         } else {
-            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
+            System.out.println("Halls file does not exist.");
         }
+    }
+
+    Map<String, ArrayList<Movie>> loadFileMovieGenre() {
+        Map<String, ArrayList<Movie>> mapRead = new HashMap<>();
+
+        try {
+            if (fileGenre.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
+                    mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            // Handle the exceptions, log the error, or display an appropriate message
+            e.printStackTrace();
+        }
+
         return mapRead;
     }
 
-    void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
-            oos.writeObject(movieMap);
-            oos.flush();
+    void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
+                oos.writeObject(movieMap);
+                oos.flush();
+            }
+        } catch (IOException e) {
+            // Handle the exception, log the error, or display an appropriate message
+            e.printStackTrace();
         }
     }
-
 }

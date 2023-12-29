@@ -7,14 +7,13 @@ class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
-    private Map<String, Movie> movieMap;
     static int countOfMovieGenere = 0;
 // comment
 
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
-        this.movieMap = new HashMap<>();
+        Map<String, Movie> movieMap = new HashMap<>();
     }
 
     public int getHallNum() {
@@ -51,25 +50,23 @@ class Cinema implements Serializable {
             // Create a new BackEnd.Movie object with the provided details
             Movie m = new Movie(name, g, show);
             // Add the movie to the specified hall in the halls ArrayList
-
+            InfoFiles f = new InfoFiles();
             Map<String, ArrayList<Movie>> moviesGenre;
-            if (fileGenre.length() == 0) {
+            if (f.fileGenre.length() == 0) {
                 moviesGenre = new HashMap<>();
                 moviesGenre.put("action", new ArrayList<>());
                 moviesGenre.put("Drama", new ArrayList<>());
                 moviesGenre.put("comedy", new ArrayList<>());
                 moviesGenre.put("adventure", new ArrayList<>());
                 moviesGenre.put("documentary", new ArrayList<>());
-                saveFileMovieGenre(moviesGenre);
+                f.saveFileMovieGenre(moviesGenre);
             }
             moviesGenre = loadFileMovieGenre();
-            if (moviesGenre.get(g) == null) {
-                moviesGenre.put(g, new ArrayList<>());
-            }
+            moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
             moviesGenre.get(g).add(m);
-            saveFileMovieGenre(moviesGenre);
+            f.saveFileMovieGenre(moviesGenre);
             appendToFile(name, m);
-            ArrayList<Cinema> hall = arrayOfObjectHallsLoad();
+            ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
             if (hall.isEmpty()) {
                 for (int i = 0; i < 5; i++) {
                     hall.add(new Cinema());
@@ -78,7 +75,7 @@ class Cinema implements Serializable {
 
             // Load hall data
             hall.get(hallNumToadd - 1).getMovies().add(m);
-            arrayOfObjectHallsSave(hall);
+            f.arrayOfObjectHallsSave(hall);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -89,21 +86,18 @@ class Cinema implements Serializable {
         System.out.println("Enter the title of the movie you want to delete");
         String title = scanner.next();
 
-        try {
-            ArrayList<Cinema> hall = arrayOfObjectHallsLoad();
-            hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
-            arrayOfObjectHallsSave(hall);
-            Map<String, Movie> movies = loadFileMovie();
-            String removedValue = String.valueOf(movies.remove(title));
-            if (removedValue != null) {
-                System.out.println(title + "BackEnd.Movie was removed");
-            } else {
-                System.out.println("there is no movie in this title");
-            }
-            saveFileMovie(movies);
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        InfoFiles f = new InfoFiles();
+        ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
+        hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
+        f.arrayOfObjectHallsSave(hall);
+        Map<String, Movie> movies = loadFileMovie();
+        String removedValue = String.valueOf(movies.remove(title));
+        if (removedValue != null) {
+            System.out.println(title + "BackEnd.Movie was removed");
+        } else {
+            System.out.println("there is no movie in this title");
         }
+        f.saveFileMovie(movies);
     }
 
     void getMoviesAroundTime() {
@@ -129,8 +123,6 @@ class Cinema implements Serializable {
                     System.out.println(m); // Print the movies that match the criteria
                 }
             }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
             System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
         }
@@ -140,60 +132,51 @@ class Cinema implements Serializable {
         System.out.println("Enter the genre you want:");
         Scanner scanner = new Scanner(System.in);
         String genre = scanner.next();
-        try {
-            Map<String, ArrayList<Movie>> moviesGenre = loadFileMovieGenre();
-            ArrayList<Movie> moviesGenreArray = moviesGenre.get(genre);
+        Map<String, ArrayList<Movie>> moviesGenre = loadFileMovieGenre();
+        ArrayList<Movie> moviesGenreArray = moviesGenre.get(genre);
 
-            if (moviesGenreArray == null || moviesGenreArray.isEmpty()) {
-                System.out.println("No movies found for the genre \"" + genre + "\"");
-            } else {
-                System.out.println("Movies in the genre \"" + genre + "\":");
-                for (Movie movie : moviesGenreArray) {
-                    System.out.println(movie);
+        if (moviesGenreArray == null || moviesGenreArray.isEmpty()) {
+            System.out.println("No movies found for the genre \"" + genre + "\"");
+        } else {
+            System.out.println("Movies in the genre \"" + genre + "\":");
+            for (Movie movie : moviesGenreArray) {
+                System.out.println(movie);
+            }
+        }
+    }
+
+
+    private Map<String, ArrayList<Movie>> loadFileMovieGenre() {
+        InfoFiles f = new InfoFiles();
+        Map<String, ArrayList<Movie>> mapRead = new HashMap<>();
+
+        try {
+            if (f.fileGenre.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f.fileGenre))) {
+                    mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            // Handle the exception, log it, or display an appropriate message
+            e.printStackTrace();
         }
-    }
 
-    File fileGenre = new File("GenerMovies.ser");
-
-    private Map<String, ArrayList<Movie>> loadFileMovieGenre() throws IOException, ClassNotFoundException {
-        Map<String, ArrayList<Movie>> mapRead;
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
-                mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
-            }
-        } else {
-            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
-        }
         return mapRead;
     }
 
-    private void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
-            oos.writeObject(movieMap);
-            oos.flush();
-        }
-    }
 
     void searchMovieByTitle() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the title of the movie");
         String title = scanner.nextLine();
 
-        try {
-            Map<String, Movie> movies = loadFileMovie();
-            Movie movie = movies.get(title);
-            if (movie != null) {
-                System.out.println("BackEnd.Movie found:");
-                System.out.println(movie);
-            } else {
-                System.out.println("BackEnd.Movie not found");
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        Map<String, Movie> movies = loadFileMovie();
+        Movie movie = movies.get(title);
+        if (movie != null) {
+            System.out.println("BackEnd.Movie found:");
+            System.out.println(movie);
+        } else {
+            System.out.println("BackEnd.Movie not found");
         }
     }
 
@@ -236,129 +219,55 @@ class Cinema implements Serializable {
     }*/
 
     public void printAllMovies() {
-        try {
-            Map<String, Movie> movies = loadFileMovie();
-            for (Map.Entry<String, Movie> entry : movies.entrySet()) {
-                System.out.println(entry.getValue());
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        Map<String, Movie> movies = loadFileMovie();
+        for (Map.Entry<String, Movie> entry : movies.entrySet()) {
+            System.out.println(entry.getValue());
         }
     }
 
     void printAllMoviesInHalls() {
-        try {
-            ArrayList<Cinema> halls = arrayOfObjectHallsLoad();
-            if (!halls.isEmpty()) {
-                for (int i = 0; i < halls.size(); i++) {
-                    List<Movie> movies = halls.get(i).getMovies();
-                    if (!movies.isEmpty()) {
-                        System.out.println("Movies in the " + (i + 1) + " hall:");
-                        for (Movie movie : movies) {
-                            System.out.println(movie);
-                        }
-                    } else {
-                        System.out.println("No movies found in the " + (i + 1) + " Hall");
+        InfoFiles f = new InfoFiles();
+        ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+        if (!halls.isEmpty()) {
+            for (int i = 0; i < halls.size(); i++) {
+                List<Movie> movies = halls.get(i).getMovies();
+                if (!movies.isEmpty()) {
+                    System.out.println("Movies in the " + (i + 1) + " hall:");
+                    for (Movie movie : movies) {
+                        System.out.println(movie);
                     }
+                } else {
+                    System.out.println("No movies found in the " + (i + 1) + " Hall");
                 }
-            } else {
-                System.out.println("No halls found.");
             }
-        } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } else {
+            System.out.println("No halls found.");
         }
     }
-
-    File file = new File("movie.ser");
 
     public void appendToFile(String name, Movie movie) {
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
+        existingMap.put(name, movie); // Append new data to existing data
+        f.saveFileMovie(existingMap); // Save the combined data back to the file
+    }
+
+
+    private Map<String, Movie> loadFileMovie() {
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> mapRead = new HashMap<>();
+
         try {
-            Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
-            existingMap.put(name, movie); // Append new data to existing data
-            saveFileMovie(existingMap); // Save the combined data back to the file
-        } catch (IOException e) {
-            // Handle IOException
-            System.out.println("An error occurred while accessing the file: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            // Handle ClassNotFoundException
-            System.out.println("An error occurred while loading the data: " + e.getMessage());
-        }
-    }
-
-
-    private void saveFileMovie(Map<String, Movie> movieMap) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
-            oos.writeObject(movieMap);
-            oos.flush();
-        }
-    }
-
-    private Map<String, Movie> loadFileMovie() throws IOException, ClassNotFoundException {
-        Map<String, Movie> mapRead;
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                mapRead = (Map<String, Movie>) ois.readObject();
+            if (f.file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f.file))) {
+                    mapRead = (Map<String, Movie>) ois.readObject();
+                }
             }
-        } else {
-            mapRead = new HashMap<>(); // If the file doesn't exist, create a new map
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
+
         return mapRead;
     }
-    static File fileHalls = new File("Halls.ser");
 
-    /*   public void appendToFileHalls(int index, BackEnd.Movie movie) {
-           try {
-               ArrayList<BackEnd.Cinema> hall = arrayOfObjectHallsLoad(); // Load hall data
-               hall.get(index).getMovies().add(movie);
-               arrayOfObjectHallsSave(hall); // Save the combined data back to the file
-           } catch (IOException e) {
-               // Handle IOException
-               System.out.println("An error occurred while accessing the file: " + e.getMessage());
-           } catch (ClassNotFoundException e) {
-               // Handle ClassNotFoundException
-               System.out.println("An error occurred while loading the data: " + e.getMessage());
-           }
-       }
-   */
-    private void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
-            oos.writeObject(hall);
-            oos.flush();
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-    }
-
-    private ArrayList<Cinema> arrayOfObjectHallsLoad() throws IOException, ClassNotFoundException {
-        ArrayList<Cinema> Reder;
-        if (fileHalls.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream((fileHalls)))) {
-                Reder = (ArrayList<Cinema>) ois.readObject();
-            }
-        } else
-            Reder = new ArrayList<>();
-        return Reder;
-    }
-
-    public void clearMovieFile() {
-        File movieFile = new File("movie.ser");
-        if (movieFile.exists()) {
-            movieFile.delete();
-            System.out.println("BackEnd.Movie file cleared successfully.");
-        } else {
-            System.out.println("BackEnd.Movie file does not exist.");
-        }
-    }
-
-    public void clearHallsFile() {
-        File hallsFile = new File("Halls.ser");
-        if (hallsFile.exists()) {
-            hallsFile.delete();
-            System.out.println("Halls file cleared successfully.");
-        } else {
-            System.out.println("Halls file does not exist.");
-        }
-    }
 }
