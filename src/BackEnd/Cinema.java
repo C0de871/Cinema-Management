@@ -60,11 +60,11 @@ class Cinema implements Serializable {
                 moviesGenre.put("documentary", new ArrayList<>());
                 f.saveFileMovieGenre(moviesGenre);
             }
-            moviesGenre = loadFileMovieGenre();
+            moviesGenre = f.loadFileMovieGenre();
             moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
             moviesGenre.get(g).add(m);
             f.saveFileMovieGenre(moviesGenre);
-            appendToFile(name, m);
+            f.appendToFile(name, m);
             ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
             if (hall.isEmpty()) {
                 for (int i = 0; i < 5; i++) {
@@ -89,7 +89,7 @@ class Cinema implements Serializable {
         ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
         hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
         f.arrayOfObjectHallsSave(hall);
-        Map<String, Movie> movies = loadFileMovie();
+        Map<String, Movie> movies = f.loadFileMovie();
         String removedValue = String.valueOf(movies.remove(title));
         if (removedValue != null) {
             System.out.println(title + "BackEnd.Movie was removed");
@@ -99,14 +99,27 @@ class Cinema implements Serializable {
         f.saveFileMovie(movies);
     }
 
+    void leaveComment(User user) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the title of the movie you want to leave a comment for:");
+        String title = scanner.nextLine();
+        System.out.println("Enter your comment:");
+        String comment = scanner.nextLine();
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> movies = f.loadFileMovie();
+        movies.get(title).getComments().get(user).add(comment);
+        f.saveFileMovie(movies);
+    }
+
     void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
         System.out.println("From Date:");
         Date startDate = Main.getUserDateTime(); // Get the start date from the user
         System.out.println("To Date:");
         Date endDate = Main.getUserDateTime(); // Get the end date from the user
+        InfoFiles f = new InfoFiles();
         try {
-            Map<String, Movie> movies = loadFileMovie();
+            Map<String, Movie> movies = f.loadFileMovie();
             ArrayList<Movie> moviesBetweenDates = new ArrayList<>();
             for (Map.Entry<String, Movie> entry : movies.entrySet()) {
                 boolean isMovieBetweenDates = entry.getValue().getShowtimes().stream()
@@ -131,7 +144,8 @@ class Cinema implements Serializable {
         System.out.println("Enter the genre you want:");
         Scanner scanner = new Scanner(System.in);
         String genre = scanner.next();
-        Map<String, ArrayList<Movie>> moviesGenre = loadFileMovieGenre();
+        InfoFiles f = new InfoFiles();
+        Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
         ArrayList<Movie> moviesGenreArray = moviesGenre.get(genre);
 
         if (moviesGenreArray == null || moviesGenreArray.isEmpty()) {
@@ -145,31 +159,12 @@ class Cinema implements Serializable {
     }
 
 
-    private Map<String, ArrayList<Movie>> loadFileMovieGenre() {
-        InfoFiles f = new InfoFiles();
-        Map<String, ArrayList<Movie>> mapRead = new HashMap<>();
-
-        try {
-            if (f.fileGenre.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f.fileGenre))) {
-                    mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
-                }
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            // Handle the exception, log it, or display an appropriate message
-            e.printStackTrace();
-        }
-
-        return mapRead;
-    }
-
-
     void searchMovieByTitle() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the title of the movie");
         String title = scanner.nextLine();
-
-        Map<String, Movie> movies = loadFileMovie();
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> movies = f.loadFileMovie();
         Movie movie = movies.get(title);
         if (movie != null) {
             System.out.println("BackEnd.Movie found:");
@@ -179,46 +174,9 @@ class Cinema implements Serializable {
         }
     }
 
- /*    public void updateMovieDetails(String title) {
-        try {
-            for (BackEnd.Movie movie : movies) {
-                if (movie.getTitle().equals(title)) {
-                    Scanner scanner = new Scanner(System.in);
-
-                    System.out.println("Enter the new title: ");
-                    String newTitle = scanner.nextLine();
-                    movie.setTitle(newTitle);
-
-                    System.out.println("Enter the new genre: ");
-                    String newGenre = scanner.nextLine();
-                    movie.setGenre(newGenre);
-
-                    movie.printShowtimes();
-
-                    System.out.println("Enter Which one you want to update it ");
-                    int numberOfShowtimeToUpdate = scanner.nextInt();
-                    System.out.println("Enter the new start time of the movie");
-                    Date newStartTime = BackEnd.Main.getUserDateTime();
-                    movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieStartTime(newStartTime);
-                    System.out.println("Enter the new end time of the movie");
-                    Date newEndTime = BackEnd.Main.getUserDateTime();
-                    movie.getShowtimes().get(numberOfShowtimeToUpdate).setMovieEndTime(newEndTime);
-
-                    System.out.println("BackEnd.Movie details updated successfully!");
-                    return;
-                }
-            }
-
-            System.out.println("BackEnd.Movie not found!");
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid input. Please enter a valid choice.");
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-    }*/
-
     public void printAllMovies() {
-        Map<String, Movie> movies = loadFileMovie();
+        InfoFiles f = new InfoFiles();
+        Map<String, Movie> movies = f.loadFileMovie();
         for (Map.Entry<String, Movie> entry : movies.entrySet()) {
             System.out.println(entry.getValue());
         }
@@ -243,30 +201,4 @@ class Cinema implements Serializable {
             System.out.println("No halls found.");
         }
     }
-
-    public void appendToFile(String name, Movie movie) {
-        InfoFiles f = new InfoFiles();
-        Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
-        existingMap.put(name, movie); // Append new data to existing data
-        f.saveFileMovie(existingMap); // Save the combined data back to the file
-    }
-
-
-    private Map<String, Movie> loadFileMovie() {
-        InfoFiles f = new InfoFiles();
-        Map<String, Movie> mapRead = new HashMap<>();
-
-        try {
-            if (f.file.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f.file))) {
-                    mapRead = (Map<String, Movie>) ois.readObject();
-                }
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return mapRead;
-    }
-
 }

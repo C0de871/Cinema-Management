@@ -15,6 +15,30 @@ public class User implements Serializable {
     public User() {
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public char getTypeOfUser() {
+        return typeOfUser;
+    }
+
+    public Pattern getPasswordPattern() {
+        return passwordPattern;
+    }
+
+    public ArrayList<Movie> getFavorite() {
+        return favorite;
+    }
+
     public User(String email, String password, String name, char typeOfUser) {
         this.typeOfUser = typeOfUser;
         this.name = name;
