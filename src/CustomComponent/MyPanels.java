@@ -1,12 +1,16 @@
 package CustomComponent;
 
 import Pages.*;
+import Pages.Action;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static CustomComponent.MyLabels.*;
 import static CustomComponent.MyLabels.heartIcon;
@@ -42,6 +46,14 @@ public class MyPanels {
     public static LeftSideMenu leftSideMenu = new LeftSideMenu();
     public static DiscoverBody bodyPanel = new DiscoverBody();
     public static TrendingBody trendingBody = new TrendingBody();
-    public static Cardpanel cardPanel = new Cardpanel();
+    public static UpcomingBody upcomingBody = new UpcomingBody();
+    public static Action action = new Action();
+    public static Drama drama = new Drama();
+    public static Comedy comedy = new Comedy();
+    public static Adventure adventure = new Adventure();
+    public static Documentary documentary = new Documentary();
+    public static Cardpanel cardPanel = new Cardpanel("Discover");
     public static ParentPanel parentPanel = new ParentPanel(new MigLayout("insets 0, gap 0"));
+
+
 }

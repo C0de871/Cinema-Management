@@ -24,12 +24,12 @@ public class DiscoverBody extends JPanel {
 
         //Add search field
         Search searchText = new Search(dark_Gray);
-        this.add(searchText,"w 10%,wrap,top");
+        this.add(searchText, "w 20%,wrap,top");
 
         //Add ShowTimes Panel
-        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane();
+        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
-        this.add(scrollPane1,"wmax 1000, wrap");
+        this.add(scrollPane1, "wmax 90%, wrap");
 
         //Add Text
         this.add(comingSoon,"wrap");
@@ -37,6 +37,6 @@ public class DiscoverBody extends JPanel {
         //Add ComingSoon panel
         ComingSoonContentPane comingSoonContentPane= new ComingSoonContentPane();
         JScrollPane scrollPane2 = new ScrollPaneWin11(comingSoonContentPane);
-        this.add(scrollPane2,"wmax 1000, wrap");
+        this.add(scrollPane2, "wmax 90%, wrap");
     }
 }

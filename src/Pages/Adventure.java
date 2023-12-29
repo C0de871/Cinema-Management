@@ -6,16 +6,15 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-import static CustomComponent.MyText.showTimes;
 import static CustomComponent.Properties.*;
 
-public class TrendingBody extends JPanel {
-    public TrendingBody() {
+public class Adventure extends JPanel {
+    public Adventure() {
         this.setLayout(new MigLayout("inset 0,gap 0", "2%[][]", "2%[]2%[]2%[]2%[]"));
         this.setBackground(light_Gray);
 
         //Add Text
-        this.add(new MyText("Trending", 30, white_, 1), "split 2 ,growx");
+        this.add(new MyText("Adventure", 30, white_, 1), "split 2 ,growx");
 
         //Add search field
         Search searchText = new Search(dark_Gray);
@@ -24,7 +23,7 @@ public class TrendingBody extends JPanel {
         //Add ShowTimes Panel
         ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
-        this.add(scrollPane1, "wmax 90%");
+        this.add(scrollPane1, "wmax 1000");
 
     }
 }
