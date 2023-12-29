@@ -7,6 +7,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static CustomComponent.MyLabels.*;
 import static CustomComponent.MyPanels.*;
@@ -14,6 +16,7 @@ import static CustomComponent.MyText.*;
 
 public class LeftSideMenu extends JPanel{
     public LeftSideMenu() {
+
         this.setLayout(new MigLayout("wrap,gapy 0,gapx 0,insets 0"));
         Border matteBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#373737"));
 

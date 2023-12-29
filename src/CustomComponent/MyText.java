@@ -25,7 +25,7 @@ public class MyText extends JLabel {
     public static MyText dramaText = new MyText("Drama", 9, light_Blue, 1);
     public static MyText comedyText = new MyText("Comedy", 9, light_Blue, 1);
     public static MyText adventureText = new MyText("Adventure", 9, light_Blue, 1);
-    public static MyText documentaryText = new MyText("documentary", 9, light_Blue, 1);
+    public static MyText documentaryText = new MyText("Documentary", 9, light_Blue, 1);
     public static MyText movieName = new MyText("Joker", 13, light_Blue, 1);
     public static MyText movieDuration = new MyText("120 min", 10, blue_, 0);
     public static MyText movieGenre = new MyText("Action/Adventure/Drama", 13, gray_, 0);

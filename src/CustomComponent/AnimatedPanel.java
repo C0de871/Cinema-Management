@@ -13,6 +13,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+import static CustomComponent.MyPanels.cardPanel;
+import static CustomComponent.Properties.cardLayout;
+
 public class AnimatedPanel extends JPanel {
 //    public void setPrefixIcon(Icon prefixIcon) {
 //        this.prefixIcon = prefixIcon;
@@ -64,8 +67,9 @@ public class AnimatedPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Print a message when the panel is clicked
-//                System.out.println("You clicked the panel");
+//                 Print a message when the panel is clicked
+                System.out.println(text.getText());
+                cardLayout.show(cardPanel, text.getText());
             }
 
             @Override
