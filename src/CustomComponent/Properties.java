@@ -3,6 +3,8 @@ package CustomComponent;
 import java.awt.*;
 
 public class Properties {
+    public static CardLayout cardLayout = new CardLayout();
+
     public static Color dark_Gray = Color.decode("#15151d");
     public static Color light_Gray = Color.decode("#222631");
     public static Color blue_ = Color.decode("#2585f8");

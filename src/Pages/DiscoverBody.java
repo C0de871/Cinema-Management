@@ -14,7 +14,7 @@ import static CustomComponent.Properties.*;
 import static java.awt.Color.*;
 
 public class DiscoverBody extends JPanel {
-    DiscoverBody(){
+    public DiscoverBody() {
         //set Layout and Background for the body
         this.setLayout(new MigLayout("inset 0,gap 0","2%[][]","2%[]2%[]2%[]2%[]"));
         this.setBackground(light_Gray);
