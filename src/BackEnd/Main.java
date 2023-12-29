@@ -118,8 +118,8 @@ public class Main implements Serializable {
 
     private static void performLogin(String c) {
         try {
-            Account login = new Account();
-            login.login(c);
+            User user = new User();
+            user.login();
         } catch (Exception e) {
             System.out.println("An error occurred during login: " + e.getMessage());
         }
@@ -127,8 +127,8 @@ public class Main implements Serializable {
 
     private static void performRegistration(String c) {
         try {
-            Account login = new Account();
-            login.register(c);
+            User user = new User();
+            user.register();
         } catch (Exception e) {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
