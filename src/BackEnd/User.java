@@ -76,48 +76,51 @@ public class User implements Serializable {
         return favorite;
     }
 
-    public boolean login() {
-        Scanner scanner = new Scanner(System.in);
+    public int login(String emailInput, String passwordInput, char type) {
+
         System.out.println("Enter your email");
-        String emailInput = scanner.next();
+
         System.out.println("Enter your password");
-        String passwordInput = scanner.next();
+
         System.out.println("Enter the type of Login");
-        char type = scanner.next().charAt(0);
+
         System.out.println((type == 'U') ? "User" : "Admin" + " Login");
         InfoFiles f = new InfoFiles();
         File fileName = (type == 'U') ? f.fileUser : f.fileAdmin;
-
-        if (isValidCredentials(emailInput, passwordInput, fileName, f)) {
-            System.out.println("Login successful!");
-            return true;
-        } else {
-            System.out.println("Invalid credentials. Please try again.");
-            return false;
-        }
+        int isValidCredentials = isValidCredentials(emailInput, passwordInput, fileName, f);
+        if (isValidCredentials == 1) {
+            return 1;
+        } else if (isValidCredentials == 2) {
+            return 2;
+        } else
+            return 3;
     }
 
-    public void register() {
+    public int register() {
         try {
             InfoFiles f = new InfoFiles();
             System.out.println((typeOfUser == 'U') ? "User" : "Admin" + " Registration");
             // Decide the filename based on the user's role
             File file = (typeOfUser == 'U') ? f.fileUser : f.fileAdmin;
-            if (isValidRegistration(this)) {
-                if (!isExistingEmail(this.email, file, f)) {
+            int isValidRegistration = isValidRegistration(this);
+            if (!isExistingEmail(this.email, file, f)) {
+                if (isValidRegistration == 1) {
                     ArrayList<User> users = f.readFromFileAccounts(file);
                     users.add(this);
                     f.saveToFileAccounts(users, file);
+                    return 1;
+                } else if (isValidRegistration == 2) {
+                    return 2;
                 } else {
-                    System.out.println(" User with the same email already exists. Please try a different email.");
+                    return 3;
                 }
             } else {
-                System.out.println("Invalid registration details. Please try again.");
+                return 0;
             }
-
         } catch (Exception e) {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
+        return 4;
     }
 
 
@@ -132,30 +135,33 @@ public class User implements Serializable {
     }
 
 
-    private boolean isValidRegistration(User user) {
+    private int isValidRegistration(User user) {
         if (!isValidGmailAddress(user.email)) {
             System.out.println("Invalid Gmail address format.");
-            return false;
+            return 2;
         }
 
         if (!isValidPassword(user.password)) {
             System.out.println("Invalid password format. Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%^&+=).");
-            return false;
+            return 3;
         }
-        return true;
+        return 1;
     }
 
 
-    private boolean isValidCredentials(String email, String password, File file, InfoFiles f) {
+    private int isValidCredentials(String email, String password, File file, InfoFiles f) {
 
         ArrayList<User> users = f.readFromFileAccounts(file);
         for (User user : users) {
-            if (Objects.equals(user.email, email) && Objects.equals(user.password, password)) {
-                System.out.println("Hello " + user.name);
-                return true;
+            if (Objects.equals(user.email, email)) {
+                if (Objects.equals(user.password, password)) {
+                    return 1;
+                } else {
+                    return 2;
+                }
             }
         }
-        return false;
+        return 3;
     }
 
     private boolean isValidGmailAddress(String email) {

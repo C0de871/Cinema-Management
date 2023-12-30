@@ -7,12 +7,14 @@ class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
+    private final InfoFiles infoFiles;
 // comment
 
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
         Map<String, Movie> movieMap = new HashMap<>();
+        this.infoFiles = new InfoFiles();
     }
 
     public int getHallNum() {
@@ -99,17 +101,56 @@ class Cinema implements Serializable {
         f.saveFileMovie(movies);
     }
 
-    void leaveComment(User user) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the title of the movie you want to leave a comment for:");
-        String title = scanner.nextLine();
-        System.out.println("Enter your comment:");
-        String comment = scanner.nextLine();
-        InfoFiles f = new InfoFiles();
-        Map<String, Movie> movies = f.loadFileMovie();
-        movies.get(title).getComments().get(user).add(comment);
-        f.saveFileMovie(movies);
+
+    public void leaveComment(User user, Movie movie) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Enter your comment:");
+            String comment = scanner.nextLine();
+
+            updateMovieComments(movie, user, comment);
+            updateGenreComments(movie, user, comment);
+            updateHallsComments(movie, user, comment);
+        }
     }
+
+    private void updateMovieComments(Movie movie, User user, String comment) {
+        Map<String, Movie> moviesTitle = infoFiles.loadFileMovie();
+        moviesTitle.get(movie.getTitle()).getComments().get(user).add(comment);
+        infoFiles.saveFileMovie(moviesTitle);
+    }
+
+
+    private void updateGenreComments(Movie movie, User user, String comment) {
+        Map<String, ArrayList<Movie>> moviesGenre = infoFiles.loadFileMovieGenre();
+
+        if (moviesGenre != null) {
+            moviesGenre.entrySet().stream()
+                    .filter(entry -> entry.getKey().equals(movie.getGenre()))
+                    .flatMap(entry -> entry.getValue().stream())
+                    .filter(m -> m == movie)
+                    .findFirst()
+                    .ifPresent(m -> {
+                        m.getComments().get(user).add(comment);
+                        infoFiles.saveFileMovieGenre(moviesGenre);
+                    });
+        }
+    }
+
+    private void updateHallsComments(Movie movie, User user, String comment) {
+        ArrayList<Cinema> halls = infoFiles.arrayOfObjectHallsLoad();
+
+        if (halls != null) {
+            halls.stream()
+                    .flatMap(hall -> hall.getMovies().stream())
+                    .filter(m -> m == movie)
+                    .findFirst()
+                    .ifPresent(m -> {
+                        m.getComments().get(user).add(comment);
+                        infoFiles.arrayOfObjectHallsSave(halls);
+                    });
+        }
+    }
+
 
     void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
@@ -167,10 +208,10 @@ class Cinema implements Serializable {
         Map<String, Movie> movies = f.loadFileMovie();
         Movie movie = movies.get(title);
         if (movie != null) {
-            System.out.println("BackEnd.Movie found:");
+            System.out.println("Movie found:");
             System.out.println(movie);
         } else {
-            System.out.println("BackEnd.Movie not found");
+            System.out.println("Movie not found");
         }
     }
 

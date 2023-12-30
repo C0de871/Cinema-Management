@@ -23,7 +23,6 @@ public class Main implements Serializable {
                     System.out.println("2-Admin Login");
                     choice = scanner.nextInt();
                     if (choice == 1) {
-                        performLogin("U");
                         while (true) {
                             System.out.println("1-search on movies by showtime");
                             System.out.println("2-search on movies by title");
@@ -54,7 +53,6 @@ public class Main implements Serializable {
                             }
                         }
                     } else {
-                        performLogin("A");
                         while (true) {
                             System.out.println("1-Add BackEnd.Movie");
                             System.out.println("2-Delete BackEnd.Movie");
@@ -115,14 +113,7 @@ public class Main implements Serializable {
     }
 
 
-    private static void performLogin(String c) {
-        try {
-            User user = new User();
-            user.login();
-        } catch (Exception e) {
-            System.out.println("An error occurred during login: " + e.getMessage());
-        }
-    }
+
 
     private static void performRegistration(String c) {
         try {
