@@ -7,21 +7,82 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import static CustomComponent.Properties.*;
 
 public class ShowTimesPosterPanel extends JLayeredPane {
     Oval rate = new Oval();
-    ShowTimesPosterPanel(){
-        this.setLayout(new MigLayout("insets 0,gap 0"));
+
+    ShowTimesPosterPanel(JLabel label, MyText name, MyText duration, MyText genre) {
+        this.setLayout(new MigLayout("insets 0,gap 0,debug"));
         this.setBackground(light_Gray);
 
         this.add(rate,"w 50,h 50,pos 155 170");
-        this.add(new JLabel(MyIcon.joker), "span 2,wrap, endgroupx grp1");
-        this.add(new MyText("Joker", 13, light_Blue, 1), "left");
-        this.add(new MyText("120 min", 10, blue_, 0), "wrap, endgroupx grp1");
-        this.add(new MyText("Action/Adventure/Drama", 13, gray_, 0));
+        this.add(label, "span 2,wrap, endgroupx grp1");
+        this.add(name, "left");
+        this.add(duration, "wrap, endgroupx grp1");
+        this.add(genre);
 
+
+        MouseListener labelListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        };
+        MouseListener nameListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                name.changeColor("#2585f8");
+                setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                name.changeColor("#B8BFF4");
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        };
+        label.addMouseListener(labelListener);
+        name.addMouseListener(nameListener);
 
 
     }

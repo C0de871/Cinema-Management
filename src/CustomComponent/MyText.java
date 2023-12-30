@@ -33,8 +33,7 @@ public class MyText extends JLabel {
     public static MyText comingSoon = new MyText("comingSoon", 30, white_, 1);
 
 
-
-    void changeColor(String color){
+    public void changeColor(String color) {
         this.setForeground(Color.decode(color));
     }
 }
