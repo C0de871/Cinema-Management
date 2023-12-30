@@ -3,6 +3,8 @@ package CustomComponent;
 import javax.swing.*;
 import java.awt.*;
 
+import static CustomComponent.Properties.*;
+
 public class MyPasswordField extends JPasswordField {
 
     public String getHint() {
@@ -38,16 +40,16 @@ public class MyPasswordField extends JPasswordField {
     public MyPasswordField() {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(0, 0, 0, 0));
-        setForeground(Color.decode("#7A8C8D"));
+        setForeground(light_Blue);
         setFont(new java.awt.Font("sansserif", 0, 13));
-        setSelectionColor(new Color(75, 175, 152));
+        setSelectionColor(blue_);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(230, 245, 241));
+        g2.setColor(dark_Gray);
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         paintIcon(g);
         super.paintComponent(g);

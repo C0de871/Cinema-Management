@@ -8,9 +8,54 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
+import static CustomComponent.Properties.*;
+
 public class PanelCover extends javax.swing.JPanel {
+    public double getRoundTopLeft() {
+        return roundTopLeft;
+    }
+
+    public void setRoundTopLeft(double roundTopLeft) {
+        this.roundTopLeft = roundTopLeft;
+        repaint();
+    }
+
+    public double getRoundTopRight() {
+        return roundTopRight;
+    }
+
+    public void setRoundTopRight(double roundTopRight) {
+        this.roundTopRight = roundTopRight;
+        repaint();
+    }
+
+    public double getRoundBottomLeft() {
+        return roundBottomLeft;
+    }
+
+    public void setRoundBottomLeft(double roundBottomLeft) {
+        this.roundBottomLeft = roundBottomLeft;
+        repaint();
+    }
+
+    public double getRoundBottomRight() {
+        return roundBottomRight;
+    }
+
+    public void setRoundBottomRight(double roundBottomRight) {
+        this.roundBottomRight = roundBottomRight;
+        repaint();
+    }
+
+    public double roundTopLeft = 0;
+    public double roundTopRight = 0;
+    public double roundBottomLeft = 0;
+    public double roundBottomRight = 0;
     
     
     private final DecimalFormat df = new DecimalFormat("##0.###");
@@ -31,7 +76,7 @@ public class PanelCover extends javax.swing.JPanel {
     private void init(){
         title = new JLabel("Welcome Back!");
         title.setFont(new Font("sansserif", 1, 30));
-        title.setForeground(new Color(245,245,245));
+        title.setForeground(blue_);
         add(title);
         description = new JLabel("To keep connected with us please");
         description.setForeground(new Color(245,245,245));
@@ -68,10 +113,22 @@ public class PanelCover extends javax.swing.JPanel {
     }// </editor-fold>                        
     @Override
     protected void paintComponent(Graphics grphcs){
-        Graphics2D g2 = (Graphics2D) grphcs;
-        GradientPaint gra = new GradientPaint(0, 0, new Color(35,166,97), 0, getHeight(), new Color(22,116,66));
+        Graphics2D g2 = (Graphics2D) grphcs.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        GradientPaint gra = new GradientPaint(0, 0, dark_Gray, 0, getHeight(), dark_Gray);
         g2.setPaint(gra);
-        g2.fillRect(0, 0, getWidth(), getHeight());
+        Area area = new Area(createRoundTopLeft());
+        if (roundTopRight > 0) {
+            area.intersect(new Area(createRoundTopRight()));
+        }
+        if (roundBottomLeft > 0) {
+            area.intersect(new Area(createRoundBottomLeft()));
+        }
+        if (roundBottomRight > 0) {
+            area.intersect(new Area(createRoundBottomRight()));
+        }
+        g2.fill(area);
+        g2.dispose();
         super.paintComponent(grphcs);
     }
     public void addEvent(ActionListener event){
@@ -122,6 +179,50 @@ public class PanelCover extends javax.swing.JPanel {
             }
             this.isLogin=login;
         }
+    }
+
+    private Shape createRoundTopLeft() {
+        int width = getWidth();
+        int height = getHeight();
+        double roundX = Math.min(width, roundTopLeft);
+        double roundY = Math.min(height, roundTopLeft);
+        Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, roundX, roundY));
+        area.add(new Area(new Rectangle2D.Double(roundX / 2, 0, width - roundX / 2, height)));
+        area.add(new Area(new Rectangle2D.Double(0, roundY / 2, width, height - roundY / 2)));
+        return area;
+    }
+
+    private Shape createRoundTopRight() {
+        int width = getWidth();
+        int height = getHeight();
+        double roundX = Math.min(width, roundTopRight);
+        double roundY = Math.min(height, roundTopRight);
+        Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, roundX, roundY));
+        area.add(new Area(new Rectangle2D.Double(0, 0, width - roundX / 2, height)));
+        area.add(new Area(new Rectangle2D.Double(0, roundY / 2, width, height - roundY / 2)));
+        return area;
+    }
+
+    private Shape createRoundBottomLeft() {
+        int width = getWidth();
+        int height = getHeight();
+        double roundX = Math.min(width, roundBottomLeft);
+        double roundY = Math.min(height, roundBottomLeft);
+        Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, roundX, roundY));
+        area.add(new Area(new Rectangle2D.Double(roundX / 2, 0, width - roundX / 2, height)));
+        area.add(new Area(new Rectangle2D.Double(0, 0, width, height - roundY / 2)));
+        return area;
+    }
+
+    private Shape createRoundBottomRight() {
+        int width = getWidth();
+        int height = getHeight();
+        double roundX = Math.min(width, roundBottomRight);
+        double roundY = Math.min(height, roundBottomRight);
+        Area area = new Area(new RoundRectangle2D.Double(0, 0, width, height, roundX, roundY));
+        area.add(new Area(new Rectangle2D.Double(0, 0, width - roundX / 2, height)));
+        area.add(new Area(new Rectangle2D.Double(0, 0, width, height - roundY / 2)));
+        return area;
     }
     // Variables declaration - do not modify                     
     // End of variables declaration                   
