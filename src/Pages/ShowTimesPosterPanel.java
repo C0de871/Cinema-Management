@@ -16,7 +16,7 @@ public class ShowTimesPosterPanel extends JLayeredPane {
     Oval rate = new Oval();
 
     ShowTimesPosterPanel(JLabel label, MyText name, MyText duration, MyText genre) {
-        this.setLayout(new MigLayout("insets 0,gap 0,debug"));
+        this.setLayout(new MigLayout("insets 0,gap 0"));
         this.setBackground(light_Gray);
 
         this.add(rate,"w 50,h 50,pos 155 170");

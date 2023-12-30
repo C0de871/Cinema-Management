@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 public class LogInUp extends javax.swing.JFrame {
-    
+    static Animator animator;
     private MigLayout layout;
     private PanelCover cover;
     private PanelLoginAndRegister loginAndRegister;
@@ -76,7 +76,7 @@ public class LogInUp extends javax.swing.JFrame {
                 isLogin= !isLogin;
             }
         };
-        Animator animator = new Animator(800, target);
+        animator = new Animator(800, target);
         animator.setAcceleration(0.5f);
         animator.setResolution(0);
         bg.setLayout(layout);
