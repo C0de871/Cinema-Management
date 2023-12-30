@@ -7,51 +7,83 @@ import java.util.Date;
 public class Showtimes implements Serializable {
     private Date movieStartTime;
     private Date movieEndTime;
-    private ArrayList<Ticket> tickets;
+    private ArrayList<ArrayList<Ticket>> tickets;
 
     void PrintAvailableSeats() {
-        for (Ticket seat : tickets) {
-            if (seat.isActive())
-                System.out.println(seat);
+        for (ArrayList<Ticket> row : tickets) {
+            for (Ticket seat : row) {
+                if (seat.isActive()) {
+                    System.out.println(seat);
+                }
+            }
         }
     }
-
+    public int bookedSeats() {
+        int booked = 0;
+        for (ArrayList<Ticket> row : tickets) {
+            for (Ticket seat : row) {
+                if (seat.isActive()) {
+                   booked++;
+                }
+            }
+        }
+        return booked ;
+    }
     public boolean hasAvailableSeats(int numTickets) {
         int available = 0;
-        for (Ticket seat : tickets) {
-            if (seat.isActive())
-                available++;
+        for (ArrayList<Ticket> row : tickets) {
+            for (Ticket seat : row) {
+                if (seat.isActive()) {
+                    available++;
+                }
+            }
         }
         return available >= numTickets;
     }
-    public void printAvailableSeats() {
-        for (Ticket seat : tickets) {
-            if (seat.isActive()) {
-                System.out.println(seat);
+    public boolean cancelSeat(int row, int colm) {
+        if (row >= 0 && row < tickets.size()) {
+            ArrayList<Ticket> rowSeats = tickets.get(row);
+
+            if (colm >= 1 && colm <= rowSeats.size()) {
+                Ticket seat = rowSeats.get(colm - 1);
+
+                if (seat.isActive()) {
+                    seat.setActive(false);
+                    return true;
+                } else {
+                    System.out.println("The Ticket is already not booked.");
+                    return false;
+                }
+            } else {
+                System.out.println("Incvalid seat number.");
+                return false;
             }
-        }
-    }
-    public boolean cancelSeat(int seatNum) {
-        if (tickets.get(seatNum-1).isActive()) {
-            tickets.get(seatNum-1).setActive(false);
-            return true;
         } else {
-            System.out.println(" The BackEnd.Ticket is already not booked.");
+            System.out.println("Invalid row number.");
             return false;
         }
     }
+
     public ArrayList<Ticket> bookSeats(int numTickets) {
-        ArrayList<Ticket> bookingSeat = new ArrayList<>();
-        for (Ticket seat : tickets) {
-            if (numTickets == 0)
-                break;
-            if (seat.isActive()) {
-                bookingSeat.add(seat);
-                seat.setActive(false);
+        ArrayList<Ticket> bookingSeats = new ArrayList<>();
+
+        for (ArrayList<Ticket> rowSeats : tickets) {
+            for (Ticket seat : rowSeats) {
+                if (numTickets == 0) {
+                    break;
+                }
+
+                if (seat.isActive()) {
+                    bookingSeats.add(seat);
+                    seat.setActive(false);
+                    numTickets--;
+                }
             }
         }
-        return bookingSeat;
+
+        return bookingSeats;
     }
+
 
     public Showtimes(Date movieStartTime, Date movieEndTime) {
         setMovieStartTime(movieStartTime);
@@ -97,15 +129,7 @@ public class Showtimes implements Serializable {
         }
     }
 
-    public void addTicket(Ticket ticket) {
-        tickets.add(ticket);
-    }
-
-    public void removeTicket(Ticket ticket) {
-        tickets.remove(ticket);
-    }
-
-    public ArrayList<Ticket> getTickets() {
+    public ArrayList<ArrayList<Ticket>> getTickets() {
         return tickets;
     }
 

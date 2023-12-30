@@ -8,23 +8,22 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Movie implements Serializable {
-    private static int nextMovieId = 1;
-    private final int movieId;
+
     private String title;
     private String genre;
     private ArrayList<Integer> Rating;
     private Map<User, ArrayList<String>> Comments;
+    private String moviePath;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
+    private int Booked;
 
     public Map<User, ArrayList<String>> getComments() {
         return Comments;
     }
 
 
-    public static int getNextMovieId() {
-        return nextMovieId;
-    }
+
 
     public ArrayList<Integer> getRating() {
         return Rating;
@@ -41,18 +40,29 @@ public class Movie implements Serializable {
     public void setMinutesOfMovie(int minutesOfMovie) {
         MinutesOfMovie = minutesOfMovie;
     }
+    public Movie(){}
 
-    public Movie(String title, String genre, List<Showtimes> showtimes) {
-        this.movieId = nextMovieId++; // Assign the next movieId and increment it
+    public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath) {
+
         this.title = title;
         this.genre = genre;
         this.showtimes = showtimes;
         this.MinutesOfMovie = showtimes.get(0).getMovieDuration();
+        this.moviePath = moviePath;
+        Rating=new ArrayList<>();
     }
 
-    public int getMovieId() {
-        return movieId;
+    public int popularity(Movie movie) {
+        InfoFiles f=new InfoFiles();
+        Map<String,Movie>moviesTitle=f.loadFileMovie();
+         return moviesTitle.get(movie.getTitle())
+                .getShowtimes()
+                .stream()
+                .mapToInt(Showtimes::bookedSeats)
+                .sum();
     }
+
+
 
     public String getTitle() {
         return title;
@@ -66,9 +76,7 @@ public class Movie implements Serializable {
         return showtimes;
     }
 
-    public static void setNextMovieId(int nextMovieId) {
-        Movie.nextMovieId = nextMovieId;
-    }
+
 
     public void setTitle(String title) {
         this.title = title;
@@ -81,6 +89,7 @@ public class Movie implements Serializable {
     public void setShowtimes(List<Showtimes> showtimes) {
         this.showtimes = showtimes;
     }
+
 
     void printShowtimes() {
         for (int i = 0; i < this.showtimes.size(); i++) {
@@ -101,9 +110,9 @@ public class Movie implements Serializable {
             return 0.0;
         }
 
-        List<Integer> ratings = selectedMovie.getRating();
+        ArrayList<Integer> ratings = selectedMovie.getRating();
 
-        if (ratings.isEmpty()) {
+        if (ratings==null||ratings.isEmpty()) {
             return 0.0;
         }
 
@@ -172,7 +181,6 @@ public class Movie implements Serializable {
     @Override
     public String toString() {
         return "Movie{" +
-                "movieId=" + movieId +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", Rating=" + Rating +

@@ -3,7 +3,7 @@ package BackEnd;
 import java.io.*;
 import java.util.*;
 
-class Cinema implements Serializable {
+public class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
     private List<Movie> movies;
@@ -49,7 +49,7 @@ class Cinema implements Serializable {
             System.out.println("Enter the genre of the movie");
             String g = scanner.next();
             // Create a new BackEnd.Movie object with the provided details
-            Movie m = new Movie(name, g, show);
+            Movie m = new Movie(name, g, show, "anything");
             // Add the movie to the specified hall in the halls ArrayList
             InfoFiles f = new InfoFiles();
             Map<String, ArrayList<Movie>> moviesGenre;
@@ -181,21 +181,19 @@ class Cinema implements Serializable {
         }
     }
 
-    public void printAllMoviesGenre() {
-        System.out.println("Enter the genre you want:");
-        Scanner scanner = new Scanner(System.in);
-        String genre = scanner.next();
+    public ArrayList<Movie> getAllMoviesGenre(String genre) {
+
         InfoFiles f = new InfoFiles();
+        if(Objects.equals(genre, "general"))
+            return getAllMovies();
+
         Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
         ArrayList<Movie> moviesGenreArray = moviesGenre.get(genre);
 
         if (moviesGenreArray == null || moviesGenreArray.isEmpty()) {
-            System.out.println("No movies found for the genre \"" + genre + "\"");
+            return new ArrayList<>();
         } else {
-            System.out.println("Movies in the genre \"" + genre + "\":");
-            for (Movie movie : moviesGenreArray) {
-                System.out.println(movie);
-            }
+            return moviesGenreArray;
         }
     }
 
@@ -215,12 +213,14 @@ class Cinema implements Serializable {
         }
     }
 
-    public void printAllMovies() {
+    public ArrayList<Movie> getAllMovies() {
         InfoFiles f = new InfoFiles();
+        ArrayList<Movie> m = new ArrayList<>();
         Map<String, Movie> movies = f.loadFileMovie();
         for (Map.Entry<String, Movie> entry : movies.entrySet()) {
-            System.out.println(entry.getValue());
+            m.add(entry.getValue());
         }
+        return m;
     }
 
     void printAllMoviesInHalls() {

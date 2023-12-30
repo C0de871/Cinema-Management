@@ -21,7 +21,7 @@ public class Drama extends JPanel {
         this.add(searchText, "w 20%,wrap,top");
 
         //Add ShowTimes Panel
-        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap");
+        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap","Drama");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
         this.add(scrollPane1, "wmax 1000");
 

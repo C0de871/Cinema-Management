@@ -116,7 +116,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     }
 
     public void initLogin() {
-        login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]push"));
+        login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]20[]push"));
         JLabel label = new JLabel("Sign In");
         label.setFont(new Font("sansserif", 1, 30));
         label.setForeground(new Color(7, 164, 121));
@@ -132,7 +132,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         Button cmd = new Button();
         JLabel error = new JLabel();
         error.setForeground(Color.red);
-        register.add(error);
+        login.add(error);
         error.setVisible(false);
         cmd.setBackground(new Color(7, 164, 121));
         cmd.setForeground(new Color(250, 250, 250));
@@ -146,9 +146,11 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 if (login == 1) {
                     MyFrame frame = new MyFrame();
                 } else if (login == 2) {
+                    System.out.println("password");
                     error.setText("* Invalid Password");
                     error.setVisible(true);
                 } else {
+                    System.out.println("email");
                     error.setText("* Invalid Email");
                     error.setVisible(true);
                 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InfoFiles {
+public class InfoFiles implements Serializable{
     File file = new File("movie.ser");
     File fileHalls = new File("Halls.ser");
     File fileGenre = new File("GenerMovies.ser");

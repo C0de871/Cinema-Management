@@ -11,6 +11,7 @@ public class User implements Serializable {
     private char typeOfUser;
     Pattern passwordPattern;
     private ArrayList<Movie> favorite;
+    private ArrayList<Ticket> myTicket;
 
     public User() {
     }
@@ -46,6 +47,7 @@ public class User implements Serializable {
         this.password = password;
         passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%.^&+=])(?=\\S+$).{8,}$");
         favorite = new ArrayList<>();
+        this.myTicket = new ArrayList<>();
     }
 
     public void addFavoriteMovie(Movie movie) {
@@ -78,11 +80,6 @@ public class User implements Serializable {
 
     public int login(String emailInput, String passwordInput, char type) {
 
-        System.out.println("Enter your email");
-
-        System.out.println("Enter your password");
-
-        System.out.println("Enter the type of Login");
 
         System.out.println((type == 'U') ? "User" : "Admin" + " Login");
         InfoFiles f = new InfoFiles();
@@ -171,5 +168,28 @@ public class User implements Serializable {
 
     private boolean isValidPassword(String password) {
         return passwordPattern.matcher(password).matches();
+    }
+
+    public void viewMyTickets() {
+        if (myTicket.isEmpty()) {
+            System.out.println("No tickets booked yet.");
+        } else {
+            System.out.println("My Tickets:");
+            for (Ticket ticket : myTicket) {
+                System.out.println(ticket);
+            }
+        }
+    }
+
+    public ArrayList<Ticket> getMyTickets() {
+        return myTicket;
+    }
+
+    public void bookTicket(Ticket ticket) {
+        myTicket.add(ticket);
+    }
+
+    public boolean cancelTicket(Ticket ticket) {
+        return myTicket.remove(ticket);
     }
 }
