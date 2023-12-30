@@ -49,7 +49,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "BackEnd.Ticket{" +
+        return " Ticket{" +
                 "seatNumber=" + seatNumber +
                 ", showtime=" + showtime +
                 ", ticketPrice=" + ticketPrice +

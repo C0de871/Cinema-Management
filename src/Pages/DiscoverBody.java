@@ -27,7 +27,7 @@ public class DiscoverBody extends JPanel {
         this.add(searchText, "w 20%,wrap,top");
 
         //Add ShowTimes Panel
-        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("");
+        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("","general");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
         this.add(scrollPane1, "wmax 90%, wrap");
 

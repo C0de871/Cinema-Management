@@ -13,16 +13,17 @@ import java.awt.event.MouseListener;
 import static CustomComponent.Properties.*;
 
 public class ShowTimesPosterPanel extends JLayeredPane {
-    Oval rate = new Oval();
+    Oval rate;
 
-    ShowTimesPosterPanel(JLabel label, MyText name, MyText duration, MyText genre) {
+    ShowTimesPosterPanel(JLabel label, MyText name, MyText duration, MyText genre,String rate) {
         this.setLayout(new MigLayout("insets 0,gap 0"));
+        this.rate = new Oval(rate);
         this.setBackground(light_Gray);
 
-        this.add(rate,"w 50,h 50,pos 155 170");
+        this.add(this.rate, "w 50,h 50,pos 155 170");
         this.add(label, "span 2,wrap, endgroupx grp1");
         this.add(name, "left");
-        this.add(duration, "wrap, endgroupx grp1");
+        this.add(duration, "wrap, endgroupx grp1,right");
         this.add(genre);
 
 

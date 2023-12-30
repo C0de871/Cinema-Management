@@ -1,10 +1,14 @@
 package Pages;
 
+import BackEnd.Cinema;
+import BackEnd.Movie;
 import CustomComponent.MyText;
 import CustomComponent.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+
+import java.util.ArrayList;
 
 import static CustomComponent.Properties.*;
 
@@ -21,7 +25,7 @@ public class Action extends JPanel {
         this.add(searchText, "w 20%,wrap,top");
 
         //Add ShowTimes Panel
-        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap");
+        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap","action");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
         this.add(scrollPane1, "wmax 1000");
 

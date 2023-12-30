@@ -26,8 +26,6 @@ public class Main implements Serializable {
                         while (true) {
                             System.out.println("1-search on movies by showtime");
                             System.out.println("2-search on movies by title");
-                            System.out.println("3-search on movies by genre");
-                            System.out.println("4-show all the movies");
                             System.out.println("5-show all the movies with the halls");
                             System.out.println("6-Leave a comment");
                             choice = scanner.nextInt();
@@ -37,12 +35,6 @@ public class Main implements Serializable {
                                 }
                                 case 2 -> {
                                     c.searchMovieByTitle();
-                                }
-                                case 3 -> {
-                                    c.printAllMoviesGenre();
-                                }
-                                case 4 -> {
-                                    c.printAllMovies();
                                 }
                                 case 5 -> {
                                     c.printAllMoviesInHalls();
@@ -58,8 +50,6 @@ public class Main implements Serializable {
                             System.out.println("2-Delete BackEnd.Movie");
                             System.out.println("3-search on movies by showtime");
                             System.out.println("4-search on movies by title");
-                            System.out.println("5-search on movies by genre");
-                            System.out.println("6-show all the movies");
                             System.out.println("7-show all the movies with the halls");
                             choice = scanner.nextInt();
                             switch (choice) {
@@ -76,12 +66,6 @@ public class Main implements Serializable {
                                 }
                                 case 4 -> {
                                     c.searchMovieByTitle();
-                                }
-                                case 5 -> {
-                                    c.printAllMoviesGenre();
-                                }
-                                case 6 -> {
-                                    c.printAllMovies();
                                 }
                                 case 7 -> {
                                     c.printAllMoviesInHalls();

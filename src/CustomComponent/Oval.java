@@ -12,13 +12,13 @@ import static java.awt.Color.*;
 
 public class Oval extends JPanel {
 
-    public Oval() {
+    public Oval(String rate1) {
         setLayout(new MigLayout("center","push[center]push","push[center]push"));
         setOpaque(false);
         setBorder(new EmptyBorder(0, 0, 0, 0));
         setBackground(blue_);
 //        setCursor(new Cursor(Cursor.HAND_CURSOR));
-        MyText rate = new MyText("7.5", 15, white_, 0);
+        MyText rate = new MyText( rate1, 15, white_, 0);
         this.add(rate,"dock center");
     }
 

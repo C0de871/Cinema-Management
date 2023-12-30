@@ -22,7 +22,7 @@ public class TrendingBody extends JPanel {
         this.add(searchText, "w 20%,wrap,top");
 
         //Add ShowTimes Panel
-        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap");
+        ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("wrap","general");
         JScrollPane scrollPane1 = new ScrollPaneWin11(showTimescontentPane);
         this.add(scrollPane1, "wmax 90%");
 
