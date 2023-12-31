@@ -2,6 +2,7 @@ package BackEnd;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Cinema implements Serializable {
     private final int hallNum;
@@ -93,14 +94,19 @@ public class Cinema implements Serializable {
         f.arrayOfObjectHallsSave(hall);
         Map<String, Movie> movies = f.loadFileMovie();
         String removedValue = String.valueOf(movies.remove(title));
+        Map<String, ArrayList<Movie>> movieGenre = f.loadFileMovieGenre();
+        for (Map.Entry<String, ArrayList<Movie>> entry : movieGenre.entrySet()) {
+           entry.getValue().removeIf(movie -> movie.getTitle().equals(title));
+        }
+        f.saveFileMovieGenre(movieGenre);
+        f.saveFileMovie(movies);
         if (removedValue != null) {
             System.out.println(title + "BackEnd.Movie was removed");
         } else {
             System.out.println("there is no movie in this title");
         }
-        f.saveFileMovie(movies);
-    }
 
+    }
 
     public void leaveComment(User user, Movie movie) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -184,7 +190,7 @@ public class Cinema implements Serializable {
     public ArrayList<Movie> getAllMoviesGenre(String genre) {
 
         InfoFiles f = new InfoFiles();
-        if(Objects.equals(genre, "general"))
+        if (Objects.equals(genre, "general"))
             return getAllMovies();
 
         Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
@@ -198,19 +204,19 @@ public class Cinema implements Serializable {
     }
 
 
-    void searchMovieByTitle() {
+    ArrayList<Movie> searchMovieByTitle() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the title of the movie");
         String title = scanner.nextLine();
         InfoFiles f = new InfoFiles();
-        Map<String, Movie> movies = f.loadFileMovie();
-        Movie movie = movies.get(title);
-        if (movie != null) {
-            System.out.println("Movie found:");
-            System.out.println(movie);
-        } else {
-            System.out.println("Movie not found");
-        }
+        Map<String, Movie> moviesMap = f.loadFileMovie();
+        ArrayList<Movie> movies = new ArrayList<>(moviesMap.values());
+
+        movies = movies.stream()
+                .filter(movie -> title.contains(movie.getTitle()))
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        return movies;
     }
 
     public ArrayList<Movie> getAllMovies() {
@@ -241,5 +247,32 @@ public class Cinema implements Serializable {
         } else {
             System.out.println("No halls found.");
         }
+    }
+    void addFavorite(User user,Movie movie)
+    {
+        InfoFiles f=new InfoFiles();
+
+        ArrayList<User>users=f.readFromFileAccounts(f.fileUser);
+        for(User u:users)
+        {
+            if(u==user)
+            {
+                u.getFavorite().add(movie);
+                break;
+            }
+        }
+        f.saveToFileAccounts(users,f.fileUser);
+    }
+    void removeFavorite(User user,Movie movie)
+    {
+        InfoFiles f=new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
+        users.stream()
+                .filter(u -> u.equals(user))
+                .findFirst()
+                .ifPresent(u -> u.getFavorite().remove(movie));
+
+        f.saveToFileAccounts(users, f.fileUser);
     }
 }
