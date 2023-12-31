@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import static CustomComponent.MyIcon.createRoundedImageIcon;
+import static CustomComponent.MyIcon.originalImage;
 import static CustomComponent.Properties.*;
 import static java.awt.Color.*;
 

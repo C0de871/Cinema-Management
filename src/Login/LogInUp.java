@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
+import static CustomComponent.Properties.light_Gray;
+
 public class LogInUp extends javax.swing.JFrame {
     static Animator animator;
     private MigLayout layout;
@@ -27,6 +29,8 @@ public class LogInUp extends javax.swing.JFrame {
     private void init(){
         layout = new MigLayout("fill,insets 0");
         cover = new PanelCover();
+        cover.setRoundBottomRight(300);
+        cover.setRoundTopRight(300);
         loginAndRegister = new PanelLoginAndRegister();
         TimingTarget target = new TimingTargetAdapter(){
             @Override
@@ -34,6 +38,10 @@ public class LogInUp extends javax.swing.JFrame {
                 double fractionCover;
                 double fractionLogin;
                 double size = coverSize;
+                double roundBottomRight = cover.getRoundBottomRight();
+                double roundTopRight = cover.getRoundTopRight();
+                double roundBottomLeft = cover.getRoundBottomLeft();
+                double roundTopLeft = cover.getRoundTopLeft();
                 if(fraction<=0.5f){
                     size+=fraction*addSize;
 //                    System.out.println("s"+size);
@@ -45,6 +53,10 @@ public class LogInUp extends javax.swing.JFrame {
 //                    System.out.println("I am the register");
                     fractionCover = 1f - fraction;
                     fractionLogin=fraction;
+                    roundBottomRight = (fraction) * 300;
+                    roundTopRight = (fraction) * 300;
+                    roundBottomLeft = (1f - fraction) * 300;
+                    roundTopLeft = (1f - fraction) * 300;
                     if(fraction>=0.5f){
                         cover.RegisterRight(fractionCover*100);
                     }else{
@@ -52,6 +64,10 @@ public class LogInUp extends javax.swing.JFrame {
                     }
                 }else{
 //                    System.out.println("I am the login");
+                    roundBottomRight = (1f - fraction) * 300;
+                    roundTopRight = (1f - fraction) * 300;
+                    roundBottomLeft = fraction * 300;
+                    roundTopLeft = fraction * 300;
                     fractionCover= fraction;
                     fractionLogin= 1f - fraction;
                     if(fraction<=0.5f){
@@ -65,7 +81,10 @@ public class LogInUp extends javax.swing.JFrame {
                 }
                 fractionCover= Double.valueOf(df.format(fractionCover));
                 fractionLogin= Double.valueOf(df.format(fractionLogin));
-
+                cover.setRoundBottomRight(roundBottomRight);
+                cover.setRoundTopRight(roundTopRight);
+                cover.setRoundBottomLeft(roundBottomLeft);
+                cover.setRoundTopLeft(roundTopLeft);
                 layout.setComponentConstraints(cover, "width "+ size +"%, pos " + fractionCover+ "al 0 n 100%");
                 layout.setComponentConstraints(loginAndRegister, "width "+ loginSize +"%, pos " + fractionLogin+ "al 0 n 100%");
                 bg.revalidate();
@@ -76,7 +95,7 @@ public class LogInUp extends javax.swing.JFrame {
                 isLogin= !isLogin;
             }
         };
-        animator = new Animator(800, target);
+        animator = new Animator(580, target);
         animator.setAcceleration(0.5f);
         animator.setResolution(0);
         bg.setLayout(layout);
@@ -100,7 +119,7 @@ public class LogInUp extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        bg.setBackground(new java.awt.Color(255, 255, 255));
+        bg.setBackground(light_Gray);
         bg.setOpaque(true);
 
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);

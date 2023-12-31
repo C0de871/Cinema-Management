@@ -19,6 +19,14 @@ public class Cardpanel extends JPanel {
         this.s = s;
     }
 
+    MovieInfoPanel movieInfoPanel;
+
+//    public void setMovieInfoPanel(MovieInfoPanel movieInfoPanel) {
+//        this.movieInfoPanel = movieInfoPanel;
+//        cardLayout.show(this, "MovieInfo");
+//    }
+
+
     public Cardpanel(String s) {
         this.setLayout(cardLayout);
         this.add(bodyPanel, "Discover");
@@ -29,6 +37,14 @@ public class Cardpanel extends JPanel {
         this.add(comedy, "Comedy");
         this.add(adventure, "Adventure");
         this.add(documentary, "Documentary");
+//        this.add(new MovieInfoPanel(),"MovieInfo");
+//        this.add(movieInfo,"movieInfo"); // temp
         cardLayout.show(this, s);
+    }
+
+    public void m() {
+        MovieInfoPanel movieInfoPanel1 = new MovieInfoPanel();
+        this.add(movieInfoPanel1, "MovieInfo");
+        cardLayout.show(this, "MovieInfo");
     }
 }

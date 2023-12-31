@@ -3,6 +3,9 @@ package CustomComponent;
 import javax.swing.*;
 import java.awt.*;
 
+import static CustomComponent.Properties.blue_;
+import static CustomComponent.Properties.light_Blue;
+
 public class MyTextField extends JTextField {
 
     public String getHint() {
@@ -38,9 +41,9 @@ public class MyTextField extends JTextField {
     public MyTextField(Color color) {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         setBackground(new Color(0, 0, 0, 0));// background color is transperent
-        setForeground(Color.decode("#7A8C8D"));// the color of the font
+        setForeground(light_Blue);// the color of the font
         setFont(new java.awt.Font("sansserif", 0, 13));
-        setSelectionColor(new Color(75, 175, 152));// when you select a text what is the color of the selected text
+        setSelectionColor(blue_);// when you select a text what is the color of the selected text
     }
 
     @Override

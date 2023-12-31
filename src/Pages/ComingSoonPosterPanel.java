@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import static CustomComponent.MyPanels.cardPanel;
 import static CustomComponent.Properties.*;
 
 public class ComingSoonPosterPanel extends JLayeredPane {
@@ -23,7 +24,7 @@ public class ComingSoonPosterPanel extends JLayeredPane {
         MouseListener labelListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                cardPanel.m();
             }
 
             @Override
@@ -54,6 +55,7 @@ public class ComingSoonPosterPanel extends JLayeredPane {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                cardPanel.m();
 
             }
 
