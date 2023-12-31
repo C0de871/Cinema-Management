@@ -1,9 +1,9 @@
 package Pages;
 
-import CustomComponent.MyText;
-import CustomComponent.MyTextField;
-import CustomComponent.PanelRound;
-import CustomComponent.ScrollPaneWin11;
+import CustomComponent.Text.MyText;
+import CustomComponent.Text.MyTextField;
+import CustomComponent.CustomPanel.PanelRound;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -12,11 +12,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 
-import static CustomComponent.Properties.dark_Gray;
-import static CustomComponent.Properties.white_;
-import static Login.PanelLoginAndRegister.txtEmail;
+import static CustomComponent.StaticClass.Properties.dark_Gray;
+import static CustomComponent.StaticClass.Properties.white_;
 
 public class Comment extends PanelRound {
     private ArrayList<CommentInfo> commentInfos = new ArrayList<>();

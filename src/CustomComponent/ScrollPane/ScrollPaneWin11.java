@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.ScrollPane;
 
 import javax.swing.*;
 import java.awt.*;

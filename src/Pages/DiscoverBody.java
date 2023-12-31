@@ -1,17 +1,12 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
-import CustomComponent.MyTextField;
-import CustomComponent.ScrollPaneWin11;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.awt.*;
 
-import static CustomComponent.MyText.*;
-import static CustomComponent.Properties.*;
-import static java.awt.Color.*;
+import static CustomComponent.Text.MyText.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class DiscoverBody extends JPanel {
     public DiscoverBody() {

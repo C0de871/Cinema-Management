@@ -1,15 +1,16 @@
 package Pages;
 
-import net.miginfocom.swing.MigLayout;
+import CustomComponent.popDialgou.GlassPanePopup;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static CustomComponent.MyPanels.parentPanel;
+import static CustomComponent.StaticClass.MyPanels.parentPanel;
 
 public class MyFrame extends JFrame {
 
     public MyFrame(){
+        GlassPanePopup.install(this);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.add(parentPanel);
         this.setUndecorated(true);

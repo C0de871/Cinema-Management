@@ -1,18 +1,14 @@
 package Pages;
 
-import CustomComponent.AnimatedPanel;
-import CustomComponent.MyIcon;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import static CustomComponent.MyLabels.*;
-import static CustomComponent.MyPanels.*;
-import static CustomComponent.MyText.*;
+import static CustomComponent.StaticClass.MyLabels.*;
+import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.Text.MyText.*;
 
 public class LeftSideMenu extends JPanel{
     public LeftSideMenu() {

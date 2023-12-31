@@ -1,5 +1,7 @@
-package CustomComponent;
+package CustomComponent.CustomPanel;
 
+import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -13,8 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
-import static CustomComponent.MyPanels.cardPanel;
-import static CustomComponent.Properties.cardLayout;
+import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class AnimatedPanel extends JPanel {
 //    public void setPrefixIcon(Icon prefixIcon) {
@@ -33,6 +35,7 @@ public class AnimatedPanel extends JPanel {
     public void setEffectColor(Color effectColor) {
         this.effectColor = effectColor;
     }
+
     //    private String text = "";
     private Animator animator;
     private int targetSize;
@@ -42,10 +45,31 @@ public class AnimatedPanel extends JPanel {
     private Color effectColor = new Color(255, 255, 255);
     private Icon prefixIcon;
     private Icon suffixIcon;
+    private MyText text;
+    JLabel icon;
     MouseListener listener;
+
+    public String getText() {
+        return text.getText();
+    }
+
+    public void setText() {
+        text.setForeground(light_Blue);
+    }
+
+    public void setIcon() {
+        if (icon.getIcon() == MyIcon.clickeddiscover) icon.setIcon(MyIcon.discover);
+        else if (icon.getIcon() == MyIcon.clickedtrending) icon.setIcon(MyIcon.trending);
+        else if (icon.getIcon() == MyIcon.clickedupcoming) icon.setIcon(MyIcon.upcoming);
+        else if (icon.getIcon() == MyIcon.clickedheart) icon.setIcon(MyIcon.heart);
+        else if (icon.getIcon() == MyIcon.clickeddot) icon.setIcon(MyIcon.dot);
+    }
+
     public AnimatedPanel(MigLayout migLayout, JLabel icon, MyText text) {
+        this.text = text;
+        this.icon = icon;
         this.setBackground(Color.decode("#15151d"));
-        this.add(icon);
+        this.add(this.icon);
         this.add(text);
         setLayout(migLayout);
 //        setContentAreaFilled(false);
@@ -67,32 +91,96 @@ public class AnimatedPanel extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                currentPage = text.getText();
 //                 Print a message when the panel is clicked
+                setBackground(Color.decode("#232331"));
+                text.changeColor("#2585f8");
+                if (icon.getIcon() == MyIcon.discover) icon.setIcon(MyIcon.clickeddiscover);
+                else if (icon.getIcon() == MyIcon.trending) icon.setIcon(MyIcon.clickedtrending);
+                else if (icon.getIcon() == MyIcon.upcoming) icon.setIcon(MyIcon.clickedupcoming);
+                else if (icon.getIcon() == MyIcon.heart) icon.setIcon(MyIcon.clickedheart);
+                else if (icon.getIcon() == MyIcon.dot) icon.setIcon(MyIcon.clickeddot);
                 System.out.println(text.getText());
                 cardLayout.show(cardPanel, text.getText());
+                if (discoverBar.getText() != currentPage) {
+                    discoverBar.setText();
+                    discoverBar.setBackground(dark_Gray);
+                    discoverBar.setIcon();
+                }
+                if (trendingBar.getText() != currentPage) {
+                    trendingBar.setText();
+                    trendingBar.setBackground(dark_Gray);
+                    trendingBar.setIcon();
+
+                }
+                if (upcomingBar.getText() != currentPage) {
+                    upcomingBar.setText();
+                    upcomingBar.setBackground(dark_Gray);
+                    upcomingBar.setIcon();
+
+                }
+                if (collectionBar.getText() != currentPage) {
+                    collectionBar.setText();
+                    collectionBar.setBackground(dark_Gray);
+                    collectionBar.setIcon();
+
+                }
+                if (actionBar.getText() != currentPage) {
+                    actionBar.setText();
+                    actionBar.setBackground(dark_Gray);
+                    actionBar.setIcon();
+
+                }
+                if (dramaBar.getText() != currentPage) {
+                    dramaBar.setText();
+                    dramaBar.setBackground(dark_Gray);
+                    dramaBar.setIcon();
+
+                }
+                if (comedyBar.getText() != currentPage) {
+                    comedyBar.setText();
+                    comedyBar.setBackground(dark_Gray);
+                    comedyBar.setIcon();
+
+                }
+                if (adventureBar.getText() != currentPage) {
+                    adventureBar.setText();
+                    adventureBar.setBackground(dark_Gray);
+                    adventureBar.setIcon();
+
+                }
+                if (documentaryBar.getText() != currentPage) {
+                    documentaryBar.setText();
+                    documentaryBar.setBackground(dark_Gray);
+                    documentaryBar.setIcon();
+
+                }
+
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(Color.decode("#232331"));
                 text.changeColor("#2585f8");
-                if(icon.getIcon() == MyIcon.discover)icon.setIcon(MyIcon.clickeddiscover);
-                else if(icon.getIcon() == MyIcon.trending)icon.setIcon(MyIcon.clickedtrending);
-                else if(icon.getIcon() == MyIcon.upcoming)icon.setIcon(MyIcon.clickedupcoming);
-                else if(icon.getIcon() == MyIcon.heart)icon.setIcon(MyIcon.clickedheart);
-                else if(icon.getIcon() == MyIcon.dot)icon.setIcon(MyIcon.clickeddot);
+                if (icon.getIcon() == MyIcon.discover) icon.setIcon(MyIcon.clickeddiscover);
+                else if (icon.getIcon() == MyIcon.trending) icon.setIcon(MyIcon.clickedtrending);
+                else if (icon.getIcon() == MyIcon.upcoming) icon.setIcon(MyIcon.clickedupcoming);
+                else if (icon.getIcon() == MyIcon.heart) icon.setIcon(MyIcon.clickedheart);
+                else if (icon.getIcon() == MyIcon.dot) icon.setIcon(MyIcon.clickeddot);
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(Color.decode("#15151d"));
-                text.changeColor("#B8BFF4");
-                if(icon.getIcon() == MyIcon.clickeddiscover)icon.setIcon(MyIcon.discover);
-                else if(icon.getIcon() == MyIcon.clickedtrending)icon.setIcon(MyIcon.trending);
-                else if(icon.getIcon() == MyIcon.clickedupcoming)icon.setIcon(MyIcon.upcoming);
-                else if(icon.getIcon() == MyIcon.clickedheart)icon.setIcon(MyIcon.heart);
-                else if(icon.getIcon() == MyIcon.clickeddot)icon.setIcon(MyIcon.dot);
+                if (currentPage != text.getText()) {
+                    setBackground(Color.decode("#15151d"));
+                    text.changeColor("#B8BFF4");
+                    if (icon.getIcon() == MyIcon.clickeddiscover) icon.setIcon(MyIcon.discover);
+                    else if (icon.getIcon() == MyIcon.clickedtrending) icon.setIcon(MyIcon.trending);
+                    else if (icon.getIcon() == MyIcon.clickedupcoming) icon.setIcon(MyIcon.upcoming);
+                    else if (icon.getIcon() == MyIcon.clickedheart) icon.setIcon(MyIcon.heart);
+                    else if (icon.getIcon() == MyIcon.clickeddot) icon.setIcon(MyIcon.dot);
+                }
             }
         };
         addMouseListener(listener);

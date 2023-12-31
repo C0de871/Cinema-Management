@@ -2,19 +2,14 @@ package Pages;
 
 import BackEnd.Cinema;
 import BackEnd.Movie;
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
+import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 
-import javax.crypto.Cipher;
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
-import static CustomComponent.MyIcon.createRoundedImageIcon;
-import static CustomComponent.MyIcon.originalImage;
-import static CustomComponent.Properties.*;
-import static java.awt.Color.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class ShowTimesContentPane extends JPanel {
     ShowTimesContentPane(String wrap,String genreInput) {

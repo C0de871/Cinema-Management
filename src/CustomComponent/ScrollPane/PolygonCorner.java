@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.ScrollPane;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

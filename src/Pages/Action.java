@@ -1,16 +1,12 @@
 package Pages;
 
-import BackEnd.Cinema;
-import BackEnd.Movie;
-import CustomComponent.MyText;
-import CustomComponent.ScrollPaneWin11;
+import CustomComponent.Text.MyText;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-import java.util.ArrayList;
-
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class Action extends JPanel {
     public Action() {

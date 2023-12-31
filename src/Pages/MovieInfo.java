@@ -1,19 +1,18 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
-import CustomComponent.PanelRound;
+import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.Text.MyText;
+import CustomComponent.CustomPanel.PanelRound;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-import static CustomComponent.MyIcon.createRoundedImageIcon;
-import static CustomComponent.MyIcon.originalImage;
-import static CustomComponent.MyPanels.cardPanel;
-import static CustomComponent.Properties.cardLayout;
-import static CustomComponent.Properties.dark_Gray;
+import static CustomComponent.StaticClass.MyIcon.*;
+import static CustomComponent.StaticClass.Properties.dark_Gray;
 
 public class MovieInfo extends PanelRound {
     Border matteBorder = BorderFactory.createMatteBorder(0, 0, 0, 1, Color.decode("#373737"));
@@ -70,7 +69,36 @@ public class MovieInfo extends PanelRound {
         this.add(lengthPanel, "split 3,bottom,w 13%,h 13%");
         this.add(hallPanel, "bottom,w 13%,h 13%");
         this.add(pricePanel, "bottom,w 13%,h 13%");
-        this.add(bookTicket, "split 2,center");
-        this.add(rightArrow, "center");
+        MouseListener listener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (heartIcon.getIcon() == like) {
+                    heartIcon.setIcon(likedIt);
+                } else heartIcon.setIcon(like);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+        heartIcon.addMouseListener(listener);
+//        this.add(bookTicket, "split 2,center");
+//        this.add(rightArrow, "center");
     }
 }

@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.StaticClass;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,19 +16,23 @@ public class MyIcon {
     public static ImageIcon dot = new ImageIcon("assest/dot.png");
     public static ImageIcon search = new ImageIcon("assest/search.png");
     static ImageIcon clickedsearch= new ImageIcon("assest/clickedsearch.png");
-    static ImageIcon clickeddiscover = new ImageIcon("assest/clickedplay.png");
-    static ImageIcon clickedtrending = new ImageIcon("assest/clickedtrending.png");
-    static ImageIcon clickedupcoming = new ImageIcon("assest/clickedupcoming.png");
-    static ImageIcon clickedheart = new ImageIcon("assest/clickedheart.png");
-    static ImageIcon clickeddot = new ImageIcon("assest/clickeddot.png");
+    public static ImageIcon clickeddiscover = new ImageIcon("assest/clickedplay.png");
+    public static ImageIcon clickedtrending = new ImageIcon("assest/clickedtrending.png");
+    public static ImageIcon clickedupcoming = new ImageIcon("assest/clickedupcoming.png");
+    public static ImageIcon clickedRightArrow = new ImageIcon("assest/clicked right arrow.png");
+    public static ImageIcon clickedheart = new ImageIcon("assest/clickedheart.png");
+    public static ImageIcon clickeddot = new ImageIcon("assest/clickeddot.png");
     public static ImageIcon clock = new ImageIcon("assest/clock.png");
+    public static ImageIcon chairIcon = new ImageIcon("assest/chair.png");
+
+    public static ImageIcon bookedChair = new ImageIcon("assest/booked up chair.png");
 
     public static ImageIcon hall = new ImageIcon("assest/hall.png");
 
     public static ImageIcon ticket = new ImageIcon("assest/ticket.png");
     public static ImageIcon rightArrow = new ImageIcon("assest/right arrow.png");
     public static ImageIcon like = new ImageIcon("assest/like.png");
-    static ImageIcon likedIt = new ImageIcon("assest/liked it.png");
+    public static ImageIcon likedIt = new ImageIcon("assest/liked it.png");
     public static ImageIcon star = new ImageIcon("assest/star.png");
 
     public static ImageIcon logo = new ImageIcon("assest/videocam.png");
