@@ -192,4 +192,16 @@ public class User implements Serializable {
     public boolean cancelTicket(Ticket ticket) {
         return myTicket.remove(ticket);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return getTypeOfUser() == user.getTypeOfUser() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getPassword(), getName(), getTypeOfUser());
+    }
 }
