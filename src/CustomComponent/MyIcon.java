@@ -21,9 +21,19 @@ public class MyIcon {
     static ImageIcon clickedupcoming = new ImageIcon("assest/clickedupcoming.png");
     static ImageIcon clickedheart = new ImageIcon("assest/clickedheart.png");
     static ImageIcon clickeddot = new ImageIcon("assest/clickeddot.png");
+    public static ImageIcon clock = new ImageIcon("assest/clock.png");
+
+    public static ImageIcon hall = new ImageIcon("assest/hall.png");
+
+    public static ImageIcon ticket = new ImageIcon("assest/ticket.png");
+    public static ImageIcon rightArrow = new ImageIcon("assest/right arrow.png");
+    public static ImageIcon like = new ImageIcon("assest/like.png");
+    static ImageIcon likedIt = new ImageIcon("assest/liked it.png");
+    public static ImageIcon star = new ImageIcon("assest/star.png");
+
     public static ImageIcon logo = new ImageIcon("assest/videocam.png");
     static ImageIcon logo2 = new ImageIcon("assest/videocam (1).png");
-    static BufferedImage originalImage;
+    public static BufferedImage originalImage;
 
     static {
         try {
@@ -33,16 +43,16 @@ public class MyIcon {
         }
     }
 
-    public static ImageIcon joker = createRoundedImageIcon(originalImage, 150);
+    public static ImageIcon joker = createRoundedImageIcon(originalImage, 150, 180, 250);
 
 
     // Method to resize the image
-    private static ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius) {
+    public static ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius, int width, int height) {
         // Create a rounded BufferedImage
         BufferedImage roundedImage = createRoundedImage(originalImage, cornerRadius);
 
         // Convert the BufferedImage to ImageIcon
-        Image scaledImage = roundedImage.getScaledInstance(180, 250, Image.SCALE_SMOOTH);
+        Image scaledImage = roundedImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
 

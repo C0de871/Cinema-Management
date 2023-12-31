@@ -52,6 +52,7 @@ public class MyPanels {
     public static Comedy comedy = new Comedy();
     public static Adventure adventure = new Adventure();
     public static Documentary documentary = new Documentary();
+    //    public static MovieInfo movieInfo = new MovieInfo(); // temp
     public static Cardpanel cardPanel = new Cardpanel("Discover");
     public static ParentPanel parentPanel = new ParentPanel(new MigLayout("insets 0, gap 0"));
 

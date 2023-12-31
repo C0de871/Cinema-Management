@@ -18,8 +18,7 @@ import static CustomComponent.Properties.light_Gray;
 import static Login.LogInUp.animator;
 
 public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
-
-
+    public static MyTextField txtEmail;
     public PanelLoginAndRegister() {
         initComponents();
         initLogin();
@@ -40,7 +39,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         txtUser.setHint("Name");
         txtUser.getText();
         register.add(txtUser, "w 60%");
-        MyTextField txtEmail = new MyTextField(Color.decode("#B8BFF4"));
+        txtEmail = new MyTextField(Color.decode("#B8BFF4"));
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
         txtEmail.setHint("Email");
         register.add(txtEmail, "w 60%");
