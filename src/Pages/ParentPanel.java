@@ -4,8 +4,8 @@ import javax.swing.*;
 
 import java.awt.*;
 
-import static CustomComponent.MyPanels.*;
-import static CustomComponent.Properties.light_Gray;
+import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.StaticClass.Properties.light_Gray;
 
 public class ParentPanel extends JPanel {
     public ParentPanel(LayoutManager layoutManager) {

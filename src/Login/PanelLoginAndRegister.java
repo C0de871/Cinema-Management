@@ -4,17 +4,17 @@ package Login;
 import BackEnd.User;
 import Pages.MyFrame;
 import net.miginfocom.swing.MigLayout;
-import CustomComponent.Button;
-import CustomComponent.MyPasswordField;
-import CustomComponent.MyTextField;
+import CustomComponent.Button.Button;
+import CustomComponent.Button.MyPasswordField;
+import CustomComponent.Text.MyTextField;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static CustomComponent.Properties.blue_;
-import static CustomComponent.Properties.light_Gray;
+import static CustomComponent.StaticClass.Properties.blue_;
+import static CustomComponent.StaticClass.Properties.light_Gray;
 import static Login.LogInUp.animator;
 
 public class PanelLoginAndRegister extends javax.swing.JLayeredPane {

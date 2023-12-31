@@ -1,13 +1,12 @@
 package Pages;
 
-import CustomComponent.MyText;
-import CustomComponent.ScrollPaneWin11;
+import CustomComponent.Text.MyText;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-import static CustomComponent.MyText.showTimes;
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class TrendingBody extends JPanel {
     public TrendingBody() {

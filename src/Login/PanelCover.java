@@ -2,7 +2,7 @@
 package Login;
 
 import net.miginfocom.swing.MigLayout;
-import CustomComponent.ButtonOutLine;
+import CustomComponent.Button.ButtonOutLine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class PanelCover extends javax.swing.JPanel {
     public double getRoundTopLeft() {

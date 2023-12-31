@@ -1,5 +1,6 @@
-package CustomComponent;
+package CustomComponent.StaticClass;
 
+import CustomComponent.CustomPanel.AnimatedPanel;
 import Pages.*;
 import Pages.Action;
 import net.miginfocom.swing.MigLayout;
@@ -8,14 +9,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import static CustomComponent.MyLabels.*;
-import static CustomComponent.MyLabels.heartIcon;
-import static CustomComponent.MyText.*;
-import static CustomComponent.Properties.dark_Gray;
+import static CustomComponent.StaticClass.MyLabels.*;
+import static CustomComponent.StaticClass.MyLabels.heartIcon;
+import static CustomComponent.Text.MyText.*;
+import static CustomComponent.StaticClass.Properties.dark_Gray;
 
 public class MyPanels {
     static Border matteBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#373737"));

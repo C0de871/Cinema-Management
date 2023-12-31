@@ -1,10 +1,10 @@
-package CustomComponent;
+package CustomComponent.Text;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static CustomComponent.Properties.blue_;
-import static CustomComponent.Properties.light_Blue;
+import static CustomComponent.StaticClass.Properties.blue_;
+import static CustomComponent.StaticClass.Properties.light_Blue;
 
 public class MyTextField extends JTextField {
 

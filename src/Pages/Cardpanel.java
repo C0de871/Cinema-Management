@@ -1,15 +1,15 @@
 package Pages;
 
 import javax.swing.*;
-import java.awt.*;
 
-import static CustomComponent.MyPanels.*;
-import static CustomComponent.Properties.cardLayout;
+import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.StaticClass.Properties.cardLayout;
+import static CustomComponent.StaticClass.Properties.currentPage;
 
 
 public class Cardpanel extends JPanel {
     //    CardLayout cardLayout = new CardLayout();
-    String s = "Discover";
+    String s = currentPage;
 
     public String getS() {
         return s;

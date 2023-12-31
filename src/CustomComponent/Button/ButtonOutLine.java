@@ -1,10 +1,10 @@
-package CustomComponent;
+package CustomComponent.Button;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-import static CustomComponent.Properties.blue_;
+import static CustomComponent.StaticClass.Properties.blue_;
 
 public class ButtonOutLine extends JButton {
 

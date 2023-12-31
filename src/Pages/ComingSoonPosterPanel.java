@@ -1,7 +1,6 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -9,8 +8,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static CustomComponent.MyPanels.cardPanel;
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.MyPanels.cardPanel;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class ComingSoonPosterPanel extends JLayeredPane {
     ComingSoonPosterPanel(JLabel label, MyText name, MyText duration, MyText genre) {

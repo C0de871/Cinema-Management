@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
-import static CustomComponent.Properties.light_Gray;
+import static CustomComponent.StaticClass.Properties.light_Gray;
 
 public class LogInUp extends javax.swing.JFrame {
     static Animator animator;

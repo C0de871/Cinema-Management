@@ -1,14 +1,12 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
+import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.awt.*;
 
-import static CustomComponent.Properties.*;
-import static java.awt.Color.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class ComingSoonContentPane extends JPanel {
     ComingSoonContentPane() {

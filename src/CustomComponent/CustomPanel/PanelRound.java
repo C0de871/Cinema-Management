@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.CustomPanel;
 
 import javax.swing.*;
 import java.awt.*;

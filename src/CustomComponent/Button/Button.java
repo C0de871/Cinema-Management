@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.Button;
 
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;

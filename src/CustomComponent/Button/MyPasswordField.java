@@ -1,9 +1,9 @@
-package CustomComponent;
+package CustomComponent.Button;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class MyPasswordField extends JPasswordField {
 

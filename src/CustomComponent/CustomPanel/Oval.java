@@ -1,5 +1,6 @@
-package CustomComponent;
+package CustomComponent.CustomPanel;
 
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -7,8 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static CustomComponent.Properties.*;
-import static java.awt.Color.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class Oval extends JPanel {
 

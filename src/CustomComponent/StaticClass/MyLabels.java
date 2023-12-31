@@ -1,4 +1,4 @@
-package CustomComponent;
+package CustomComponent.StaticClass;
 
 import javax.swing.*;
 
