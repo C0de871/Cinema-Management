@@ -1,94 +1,19 @@
 package BackEnd;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
+
 
 public class Showtimes implements Serializable {
     private Date movieStartTime;
     private Date movieEndTime;
-    private ArrayList<ArrayList<Ticket>> tickets;
-
-    void PrintAvailableSeats() {
-        for (ArrayList<Ticket> row : tickets) {
-            for (Ticket seat : row) {
-                if (seat.isActive()) {
-                    System.out.println(seat);
-                }
-            }
-        }
-    }
-    public int bookedSeats() {
-        int booked = 0;
-        for (ArrayList<Ticket> row : tickets) {
-            for (Ticket seat : row) {
-                if (seat.isActive()) {
-                   booked++;
-                }
-            }
-        }
-        return booked ;
-    }
-    public boolean hasAvailableSeats(int numTickets) {
-        int available = 0;
-        for (ArrayList<Ticket> row : tickets) {
-            for (Ticket seat : row) {
-                if (seat.isActive()) {
-                    available++;
-                }
-            }
-        }
-        return available >= numTickets;
-    }
-    public boolean cancelSeat(int row, int colm) {
-        if (row >= 0 && row < tickets.size()) {
-            ArrayList<Ticket> rowSeats = tickets.get(row);
-
-            if (colm >= 1 && colm <= rowSeats.size()) {
-                Ticket seat = rowSeats.get(colm - 1);
-
-                if (seat.isActive()) {
-                    seat.setActive(false);
-                    return true;
-                } else {
-                    System.out.println("The Ticket is already not booked.");
-                    return false;
-                }
-            } else {
-                System.out.println("Incvalid seat number.");
-                return false;
-            }
-        } else {
-            System.out.println("Invalid row number.");
-            return false;
-        }
-    }
-
-    public ArrayList<Ticket> bookSeats(int numTickets) {
-        ArrayList<Ticket> bookingSeats = new ArrayList<>();
-
-        for (ArrayList<Ticket> rowSeats : tickets) {
-            for (Ticket seat : rowSeats) {
-                if (numTickets == 0) {
-                    break;
-                }
-
-                if (seat.isActive()) {
-                    bookingSeats.add(seat);
-                    seat.setActive(false);
-                    numTickets--;
-                }
-            }
-        }
-
-        return bookingSeats;
-    }
-
+    private ArrayList<Ticket> tickets;
+    public Showtimes(){}
 
     public Showtimes(Date movieStartTime, Date movieEndTime) {
         setMovieStartTime(movieStartTime);
         setMovieEndTime(movieEndTime);
-        this.tickets = new ArrayList<>();
+        tickets = new ArrayList<>(Arrays.asList(new Ticket[30]));
     }
 
     public Date getMovieStartTime() {
@@ -104,18 +29,22 @@ public class Showtimes implements Serializable {
     }
 
     public int getMovieDuration() {
-        long startMillis = movieStartTime.getTime();
-        long endMillis = movieEndTime.getTime();
-        return (int) ((endMillis - startMillis) / (1000 * 60));
+        try {
+            long startMillis = movieStartTime.getTime();
+            long endMillis = movieEndTime.getTime();
+            return (int) ((endMillis - startMillis) / (1000 * 60));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while calculating movie duration. Start or end time is null.");
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An unexpected error occurred while calculating movie duration.");
+            return 0;
+        }
     }
 
-    public boolean overlapsWith(Showtimes otherShowtimes) {
-        long thisStartMillis = movieStartTime.getTime();
-        long thisEndMillis = movieEndTime.getTime();
-        long otherStartMillis = otherShowtimes.getMovieStartTime().getTime();
-        long otherEndMillis = otherShowtimes.getMovieEndTime().getTime();
-        return thisStartMillis < otherEndMillis && otherStartMillis < thisEndMillis;
-    }
+
 
     public Date getMovieEndTime() {
         return movieEndTime;
@@ -125,11 +54,11 @@ public class Showtimes implements Serializable {
         if (movieEndTime != null) {
             this.movieEndTime = movieEndTime;
         } else {
-            throw new IllegalArgumentException("BackEnd.Movie end time cannot be null.");
+            throw new IllegalArgumentException(" Movie end time cannot be null.");
         }
     }
 
-    public ArrayList<ArrayList<Ticket>> getTickets() {
+    public ArrayList<Ticket> getTickets() {
         return tickets;
     }
 
@@ -139,6 +68,39 @@ public class Showtimes implements Serializable {
                 "movieStartTime=" + movieStartTime +
                 ", movieEndTime=" + movieEndTime +
                 '}';
+    }
+
+    public void setTickets(ArrayList<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public int getAvailableSeats(Showtimes showtimes) {
+        try {
+            int available = 0;
+            ArrayList<Ticket> ticketArrayList = showtimes.getTickets();
+            if (ticketArrayList != null) {
+                for (Ticket t : ticketArrayList) {
+                    if (t != null && !t.isActive()) {
+                        available++;
+                    }
+                }
+            }
+            return available;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while calculating available seats.");
+            return 0;
+        }
+    }
+
+    public int bookedSeats() {
+        try {
+            return 30 - getAvailableSeats(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while calculating booked seats.");
+            return 0;
+        }
     }
 
 }

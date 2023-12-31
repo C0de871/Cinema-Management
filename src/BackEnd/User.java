@@ -50,74 +50,9 @@ public class User implements Serializable {
         this.myTicket = new ArrayList<>();
     }
 
-    public void addFavoriteMovie(Movie movie) {
-        InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
-        for (User user : users) {
-            if (user == this) {
-                user.getFavoriteMovies().add(movie);
-                break;
-            }
-        }
-        f.saveToFileAccounts(users, f.fileUser);
-    }
-
-    public void removeFavoriteMovie(Movie movie) {
-        InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
-        for (User user : users) {
-            if (user == this) {
-                user.getFavoriteMovies().remove(movie);
-                break;
-            }
-        }
-        f.saveToFileAccounts(users, f.fileUser);
-    }
 
     public ArrayList<Movie> getFavoriteMovies() {
         return favorite;
-    }
-
-    public int login(String emailInput, String passwordInput, char type) {
-
-
-        System.out.println((type == 'U') ? "User" : "Admin" + " Login");
-        InfoFiles f = new InfoFiles();
-        File fileName = (type == 'U') ? f.fileUser : f.fileAdmin;
-        int isValidCredentials = isValidCredentials(emailInput, passwordInput, fileName, f);
-        if (isValidCredentials == 1) {
-            return 1;
-        } else if (isValidCredentials == 2) {
-            return 2;
-        } else
-            return 3;
-    }
-
-    public int register() {
-        try {
-            InfoFiles f = new InfoFiles();
-            System.out.println((typeOfUser == 'U') ? "User" : "Admin" + " Registration");
-            // Decide the filename based on the user's role
-            File file = (typeOfUser == 'U') ? f.fileUser : f.fileAdmin;
-            int isValidRegistration = isValidRegistration(this);
-            if (!isExistingEmail(this.email, file, f)) {
-                if (isValidRegistration == 1) {
-                    ArrayList<User> users = f.readFromFileAccounts(file);
-                    users.add(this);
-                    f.saveToFileAccounts(users, file);
-                    return 1;
-                } else if (isValidRegistration == 2) {
-                    return 2;
-                } else {
-                    return 3;
-                }
-            } else {
-                return 0;
-            }
-        } catch (Exception e) {
-            System.out.println("An error occurred during registration: " + e.getMessage());
-        }
-        return 4;
     }
 
 
@@ -170,16 +105,6 @@ public class User implements Serializable {
         return passwordPattern.matcher(password).matches();
     }
 
-    public void viewMyTickets() {
-        if (myTicket.isEmpty()) {
-            System.out.println("No tickets booked yet.");
-        } else {
-            System.out.println("My Tickets:");
-            for (Ticket ticket : myTicket) {
-                System.out.println(ticket);
-            }
-        }
-    }
 
     public ArrayList<Ticket> getMyTickets() {
         return myTicket;
@@ -191,6 +116,109 @@ public class User implements Serializable {
 
     public boolean cancelTicket(Ticket ticket) {
         return myTicket.remove(ticket);
+    }
+
+    public void viewMyTickets(User user) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User u : users) {
+            if (u == user) {
+                ArrayList<Ticket> userTickets = u.getMyTickets();
+                if (myTicket.isEmpty()) {
+                    System.out.println("No tickets booked yet.");
+                } else {
+                    System.out.println("Your Tickets:");
+                    for (Ticket ticket : userTickets) {
+                        System.out.println(ticket);
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean findTicket(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User u : users) {
+            if (u == this) {
+                ArrayList<Ticket> userTickets = u.getMyTickets();
+                if (myTicket.isEmpty()) {
+                    return false;
+                } else {
+                    for (Ticket ticket : userTickets) {
+                        if (ticket.getMovie() == movie) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void addFavoriteMovie(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User user : users) {
+            if (user == this) {
+                user.getFavoriteMovies().add(movie);
+                break;
+            }
+        }
+        f.saveToFileAccounts(users, f.fileUser);
+    }
+
+    public void removeFavoriteMovie(Movie movie) {
+        InfoFiles f = new InfoFiles();
+        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+        for (User user : users) {
+            if (user == this) {
+                user.getFavoriteMovies().remove(movie);
+                break;
+            }
+        }
+        f.saveToFileAccounts(users, f.fileUser);
+    }
+
+    public int login(String emailInput, String passwordInput, char type) {
+        System.out.println((type == 'U') ? "User" : "Admin" + " Login");
+        InfoFiles f = new InfoFiles();
+        File fileName = (type == 'U') ? f.fileUser : f.fileAdmin;
+        int isValidCredentials = isValidCredentials(emailInput, passwordInput, fileName, f);
+        if (isValidCredentials == 1) {
+            return 1;
+        } else if (isValidCredentials == 2) {
+            return 2;
+        } else
+            return 3;
+    }
+
+    public int register() {
+        try {
+            InfoFiles f = new InfoFiles();
+            System.out.println((typeOfUser == 'U') ? "User" : "Admin" + " Registration");
+            // Decide the filename based on the user's role
+            File file = (typeOfUser == 'U') ? f.fileUser : f.fileAdmin;
+            int isValidRegistration = isValidRegistration(this);
+            if (!isExistingEmail(this.email, file, f)) {
+                if (isValidRegistration == 1) {
+                    ArrayList<User> users = f.readFromFileAccounts(file);
+                    users.add(this);
+                    f.saveToFileAccounts(users, file);
+                    return 1;
+                } else if (isValidRegistration == 2) {
+                    return 2;
+                } else {
+                    return 3;
+                }
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            System.out.println("An error occurred during registration: " + e.getMessage());
+        }
+        return 4;
     }
 
     @Override

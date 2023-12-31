@@ -148,5 +148,4 @@ public class InfoFiles implements Serializable{
         existingMap.put(name, movie); // Append new data to existing data
         saveFileMovie(existingMap); // Save the combined data back to the file
     }
-
 }
