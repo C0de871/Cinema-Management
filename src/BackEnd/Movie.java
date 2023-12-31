@@ -1,6 +1,5 @@
 package BackEnd;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +22,6 @@ public class Movie implements Serializable {
     }
 
 
-
-
     public ArrayList<Integer> getRating() {
         return Rating;
     }
@@ -40,7 +37,9 @@ public class Movie implements Serializable {
     public void setMinutesOfMovie(int minutesOfMovie) {
         MinutesOfMovie = minutesOfMovie;
     }
-    public Movie(){}
+
+    public Movie() {
+    }
 
     public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath) {
 
@@ -49,19 +48,28 @@ public class Movie implements Serializable {
         this.showtimes = showtimes;
         this.MinutesOfMovie = showtimes.get(0).getMovieDuration();
         this.moviePath = moviePath;
-        Rating=new ArrayList<>();
+        Rating = new ArrayList<>();
     }
 
     public int popularity(Movie movie) {
-        InfoFiles f=new InfoFiles();
-        Map<String,Movie>moviesTitle=f.loadFileMovie();
-         return moviesTitle.get(movie.getTitle())
-                .getShowtimes()
-                .stream()
-                .mapToInt(Showtimes::bookedSeats)
-                .sum();
-    }
+        try {
+            InfoFiles f = new InfoFiles();
+            Map<String, Movie> moviesTitle = f.loadFileMovie();
+            Movie selectedMovie = moviesTitle.get(movie.getTitle());
 
+            if (selectedMovie == null) {
+                return 0; // Handle the case where the movie is not found
+            }
+
+            return selectedMovie.getShowtimes()
+                    .stream()
+                    .mapToInt(Showtimes::bookedSeats)
+                    .sum();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
 
     public String getTitle() {
@@ -75,7 +83,6 @@ public class Movie implements Serializable {
     public List<Showtimes> getShowtimes() {
         return showtimes;
     }
-
 
 
     public void setTitle(String title) {
@@ -97,55 +104,75 @@ public class Movie implements Serializable {
         }
     }
 
-    void addRating(int Rate) {
-        this.Rating.add(Rate);
-    }
+
 
     public double getAverageRating(Movie movie) {
-        InfoFiles f = new InfoFiles();
-        Map<String, Movie> movies = f.loadFileMovie();
-        Movie selectedMovie = movies.get(movie.getTitle());
+        try {
+            InfoFiles f = new InfoFiles();
+            Map<String, Movie> movies = f.loadFileMovie();
+            Movie selectedMovie = movies.get(movie.getTitle());
 
-        if (selectedMovie == null) {
+            if (selectedMovie == null) {
+                return 0.0;
+            }
+
+            ArrayList<Integer> ratings = selectedMovie.getRating();
+
+            if (ratings == null || ratings.isEmpty()) {
+                return 0.0;
+            }
+
+            int sum = ratings.stream().mapToInt(Integer::intValue).sum();
+            return (double) sum / ratings.size();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while calculating the average rating.");
             return 0.0;
         }
-
-        ArrayList<Integer> ratings = selectedMovie.getRating();
-
-        if (ratings==null||ratings.isEmpty()) {
-            return 0.0;
-        }
-
-        int sum = ratings.stream().mapToInt(Integer::intValue).sum();
-        return (double) sum / ratings.size();
     }
 
+
     private void addRatingToMovie(Movie movie, int rating, InfoFiles f) {
-        Map<String, Movie> movies = f.loadFileMovie();
-        Movie selectedMovie = movies.get(movie.getTitle());
-        if (selectedMovie != null) {
-            selectedMovie.addRating(rating);
-            f.saveFileMovie(movies);
+        try {
+            Map<String, Movie> movies = f.loadFileMovie();
+            Movie selectedMovie = movies.get(movie.getTitle());
+            if (selectedMovie != null) {
+                selectedMovie.getRating().add(rating);
+                f.saveFileMovie(movies);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while adding a rating to the movie.");
         }
     }
 
     private void addRatingToGenreMovies(Map<String, ArrayList<Movie>> moviesGenre, Movie movie, int rating, InfoFiles f) {
-        moviesGenre.get(movie.getGenre()).stream()
-                .filter(m -> m == movie)
-                .findFirst()
-                .ifPresent(m -> {
-                    m.addRating(rating);
-                    f.saveFileMovieGenre(moviesGenre);
-                });
+        try {
+            moviesGenre.get(movie.getGenre()).stream()
+                    .filter(m -> m == movie)
+                    .findFirst()
+                    .ifPresent(m -> {
+                        m.getRating().add(rating);
+                        f.saveFileMovieGenre(moviesGenre);
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while adding a rating to the genre movies.");
+        }
     }
 
     private void addRatingToCinemaMovies(ArrayList<Cinema> halls, Movie movie, int rating, InfoFiles f) {
-        halls.stream()
-                .flatMap(hall -> hall.getMovies().stream())
-                .filter(m -> m == movie)
-                .findFirst()
-                .ifPresent(m -> m.addRating(rating));
-        f.arrayOfObjectHallsSave(halls);
+        try {
+            halls.stream()
+                    .flatMap(hall -> hall.getMovies().stream())
+                    .filter(m -> m == movie)
+                    .findFirst()
+                    .ifPresent(m -> m.getRating().add(rating));
+            f.arrayOfObjectHallsSave(halls);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while adding a rating to the cinema movies.");
+        }
     }
 
     public void addRate(Movie movie) {
@@ -159,8 +186,12 @@ public class Movie implements Serializable {
 
             ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             addRatingToCinemaMovies(halls, movie, rating, f);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while adding a rating.");
         }
     }
+
 
     public void displayComments(Movie movie) {
         InfoFiles f = new InfoFiles();

@@ -14,7 +14,6 @@ public class Cinema implements Serializable {
     public Cinema() {
         this.hallNum = nexthallnum++;
         this.movies = new ArrayList<>();
-        Map<String, Movie> movieMap = new HashMap<>();
         this.infoFiles = new InfoFiles();
     }
 
@@ -96,12 +95,12 @@ public class Cinema implements Serializable {
         String removedValue = String.valueOf(movies.remove(title));
         Map<String, ArrayList<Movie>> movieGenre = f.loadFileMovieGenre();
         for (Map.Entry<String, ArrayList<Movie>> entry : movieGenre.entrySet()) {
-           entry.getValue().removeIf(movie -> movie.getTitle().equals(title));
+            entry.getValue().removeIf(movie -> movie.getTitle().equals(title));
         }
         f.saveFileMovieGenre(movieGenre);
         f.saveFileMovie(movies);
         if (removedValue != null) {
-            System.out.println(title + "BackEnd.Movie was removed");
+            System.out.println(title + "Movie was removed");
         } else {
             System.out.println("there is no movie in this title");
         }
@@ -109,56 +108,76 @@ public class Cinema implements Serializable {
     }
 
     public void leaveComment(User user, Movie movie) {
-        try (Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
+        try {
             System.out.println("Enter your comment:");
             String comment = scanner.nextLine();
 
             updateMovieComments(movie, user, comment);
             updateGenreComments(movie, user, comment);
             updateHallsComments(movie, user, comment);
+        } catch (Exception e) {
+            // Handle the exception, e.g., log it or display an error message
+            e.printStackTrace();
+            System.out.println("An error occurred while leaving a comment.");
         }
     }
 
     private void updateMovieComments(Movie movie, User user, String comment) {
-        Map<String, Movie> moviesTitle = infoFiles.loadFileMovie();
-        moviesTitle.get(movie.getTitle()).getComments().get(user).add(comment);
-        infoFiles.saveFileMovie(moviesTitle);
+        try {
+            Map<String, Movie> moviesTitle = infoFiles.loadFileMovie();
+            moviesTitle.get(movie.getTitle()).getComments().get(user).add(comment);
+            infoFiles.saveFileMovie(moviesTitle);
+        } catch (Exception e) {
+            // Handle the exception, e.g., log it or display an error message
+            e.printStackTrace();
+            System.out.println("An error occurred while updating movie comments.");
+        }
     }
 
-
     private void updateGenreComments(Movie movie, User user, String comment) {
-        Map<String, ArrayList<Movie>> moviesGenre = infoFiles.loadFileMovieGenre();
+        try {
+            Map<String, ArrayList<Movie>> moviesGenre = infoFiles.loadFileMovieGenre();
 
-        if (moviesGenre != null) {
-            moviesGenre.entrySet().stream()
-                    .filter(entry -> entry.getKey().equals(movie.getGenre()))
-                    .flatMap(entry -> entry.getValue().stream())
-                    .filter(m -> m == movie)
-                    .findFirst()
-                    .ifPresent(m -> {
-                        m.getComments().get(user).add(comment);
-                        infoFiles.saveFileMovieGenre(moviesGenre);
-                    });
+            if (moviesGenre != null) {
+                moviesGenre.entrySet().stream()
+                        .filter(entry -> entry.getKey().equals(movie.getGenre()))
+                        .flatMap(entry -> entry.getValue().stream())
+                        .filter(m -> m == movie)
+                        .findFirst()
+                        .ifPresent(m -> {
+                            m.getComments().get(user).add(comment);
+                            infoFiles.saveFileMovieGenre(moviesGenre);
+                        });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while updating genre comments.");
         }
     }
 
     private void updateHallsComments(Movie movie, User user, String comment) {
-        ArrayList<Cinema> halls = infoFiles.arrayOfObjectHallsLoad();
+        try {
+            ArrayList<Cinema> halls = infoFiles.arrayOfObjectHallsLoad();
 
-        if (halls != null) {
-            halls.stream()
-                    .flatMap(hall -> hall.getMovies().stream())
-                    .filter(m -> m == movie)
-                    .findFirst()
-                    .ifPresent(m -> {
-                        m.getComments().get(user).add(comment);
-                        infoFiles.arrayOfObjectHallsSave(halls);
-                    });
+            if (halls != null) {
+                halls.stream()
+                        .flatMap(hall -> hall.getMovies().stream())
+                        .filter(m -> m == movie)
+                        .findFirst()
+                        .ifPresent(m -> {
+                            m.getComments().get(user).add(comment);
+                            infoFiles.arrayOfObjectHallsSave(halls);
+                        });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while updating halls comments.");
         }
     }
 
 
-    void getMoviesAroundTime() {
+/*    void getMoviesAroundTime() {
         System.out.println("Enter the duration of the movie you want ");
         System.out.println("From Date:");
         Date startDate = Main.getUserDateTime(); // Get the start date from the user
@@ -185,7 +204,7 @@ public class Cinema implements Serializable {
         } catch (Exception e) {
             System.err.println("Error occurred: " + e.getMessage()); // Handle any exceptions that occur during the process
         }
-    }
+    }*/
 
     public ArrayList<Movie> getAllMoviesGenre(String genre) {
 
@@ -203,76 +222,98 @@ public class Cinema implements Serializable {
         }
     }
 
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
 
     ArrayList<Movie> searchMovieByTitle() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the title of the movie");
-        String title = scanner.nextLine();
-        InfoFiles f = new InfoFiles();
-        Map<String, Movie> moviesMap = f.loadFileMovie();
-        ArrayList<Movie> movies = new ArrayList<>(moviesMap.values());
+        try {
+            System.out.println("Enter the title of the movie");
+            String title = scanner.nextLine();
+            InfoFiles f = new InfoFiles();
+            Map<String, Movie> moviesMap = f.loadFileMovie();
+            ArrayList<Movie> movies = new ArrayList<>(moviesMap.values());
 
-        movies = movies.stream()
-                .filter(movie -> title.contains(movie.getTitle()))
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        return movies;
+            movies = movies.stream()
+                    .filter(movie -> title.contains(movie.getTitle()))
+                    .collect(Collectors.toCollection(ArrayList::new));
+            return movies;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while searching for movies by title.");
+            return new ArrayList<>();
+        }
     }
 
     public ArrayList<Movie> getAllMovies() {
-        InfoFiles f = new InfoFiles();
-        ArrayList<Movie> m = new ArrayList<>();
-        Map<String, Movie> movies = f.loadFileMovie();
-        for (Map.Entry<String, Movie> entry : movies.entrySet()) {
-            m.add(entry.getValue());
+        try {
+            InfoFiles f = new InfoFiles();
+            ArrayList<Movie> movies = new ArrayList<>();
+            Map<String, Movie> moviesMap = f.loadFileMovie();
+
+            for (Map.Entry<String, Movie> entry : moviesMap.entrySet()) {
+                movies.add(entry.getValue());
+            }
+            return movies;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
-        return m;
     }
 
-    void printAllMoviesInHalls() {
-        InfoFiles f = new InfoFiles();
-        ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
-        if (!halls.isEmpty()) {
-            for (int i = 0; i < halls.size(); i++) {
-                List<Movie> movies = halls.get(i).getMovies();
-                if (!movies.isEmpty()) {
-                    System.out.println("Movies in the " + (i + 1) + " hall:");
-                    for (Movie movie : movies) {
-                        System.out.println(movie);
+    /*    void printAllMoviesInHalls() {
+            InfoFiles f = new InfoFiles();
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            if (!halls.isEmpty()) {
+                for (int i = 0; i < halls.size(); i++) {
+                    List<Movie> movies = halls.get(i).getMovies();
+                    if (!movies.isEmpty()) {
+                        System.out.println("Movies in the " + (i + 1) + " hall:");
+                        for (Movie movie : movies) {
+                            System.out.println(movie);
+                        }
+                    } else {
+                        System.out.println("No movies found in the " + (i + 1) + " Hall");
                     }
-                } else {
-                    System.out.println("No movies found in the " + (i + 1) + " Hall");
+                }
+            } else {
+                System.out.println("No halls found.");
+            }
+        }*/
+    void addFavorite(User user, Movie movie) {
+        try {
+            InfoFiles f = new InfoFiles();
+            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
+            for (User u : users) {
+                if (u == user) {
+                    u.getFavorite().add(movie);
+                    break;
                 }
             }
-        } else {
-            System.out.println("No halls found.");
+
+            f.saveToFileAccounts(users, f.fileUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while adding a favorite.");
         }
     }
-    void addFavorite(User user,Movie movie)
-    {
-        InfoFiles f=new InfoFiles();
 
-        ArrayList<User>users=f.readFromFileAccounts(f.fileUser);
-        for(User u:users)
-        {
-            if(u==user)
-            {
-                u.getFavorite().add(movie);
-                break;
-            }
+    void removeFavorite(User user, Movie movie) {
+        try {
+            InfoFiles f = new InfoFiles();
+            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
+            users.stream()
+                    .filter(u -> u.equals(user))
+                    .findFirst()
+                    .ifPresent(u -> u.getFavorite().remove(movie));
+
+            f.saveToFileAccounts(users, f.fileUser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while removing a favorite.");
         }
-        f.saveToFileAccounts(users,f.fileUser);
-    }
-    void removeFavorite(User user,Movie movie)
-    {
-        InfoFiles f=new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
-
-        users.stream()
-                .filter(u -> u.equals(user))
-                .findFirst()
-                .ifPresent(u -> u.getFavorite().remove(movie));
-
-        f.saveToFileAccounts(users, f.fileUser);
     }
 }
