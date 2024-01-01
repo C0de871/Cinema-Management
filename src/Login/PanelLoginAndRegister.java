@@ -1,7 +1,9 @@
 
 package Login;
 
+import BackEnd.InfoFiles;
 import BackEnd.User;
+import CustomComponent.StaticClass.Properties;
 import Pages.MyFrame;
 import net.miginfocom.swing.MigLayout;
 import CustomComponent.Button.Button;
@@ -12,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import static CustomComponent.StaticClass.Properties.blue_;
 import static CustomComponent.StaticClass.Properties.light_Gray;
@@ -142,9 +145,15 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
             @Override
             public void mouseClicked(MouseEvent e) {
 //              MyFrame frame = new MyFrame();
-                User user = new User();
-                int login = user.login(txtEmail.getText(), txtPass.getText(), 'U');
+                User u = new User();
+                int login = u.login(txtEmail.getText(), txtPass.getText(), 'U');
                 if (login == 1) {
+                    InfoFiles f = new InfoFiles();
+                    ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+                    u.setEmail(txtEmail.getText());
+                    u.setPassword(txtPass.getText());
+                    int index = users.indexOf(u);
+                    Properties.user = users.get(index);
                     MyFrame frame = new MyFrame();
                 } else if (login == 2) {
                     System.out.println("password");

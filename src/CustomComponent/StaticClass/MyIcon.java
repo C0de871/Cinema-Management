@@ -16,6 +16,7 @@ public class MyIcon {
     public static ImageIcon dot = new ImageIcon("assest/dot.png");
     public static ImageIcon search = new ImageIcon("assest/search.png");
     static ImageIcon clickedsearch= new ImageIcon("assest/clickedsearch.png");
+    public static ImageIcon myChair = new ImageIcon("assest/my chair.png");
     public static ImageIcon clickeddiscover = new ImageIcon("assest/clickedplay.png");
     public static ImageIcon clickedtrending = new ImageIcon("assest/clickedtrending.png");
     public static ImageIcon clickedupcoming = new ImageIcon("assest/clickedupcoming.png");

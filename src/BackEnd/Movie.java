@@ -15,8 +15,17 @@ public class Movie implements Serializable {
     private String moviePath;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
+    private int hallNum;
     private int Booked;
     private double price;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getHallNum() {
+        return hallNum;
+    }
 
     public Map<User, ArrayList<String>> getComments() {
         return Comments;
@@ -42,8 +51,9 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath, double price) {
+    public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath, int hallNum, double price) {
         this.price = price;
+        this.hallNum = hallNum;
         this.title = title;
         this.genre = genre;
         this.showtimes = showtimes;

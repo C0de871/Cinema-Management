@@ -1,6 +1,7 @@
 package BackEnd;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -8,7 +9,9 @@ public class Showtimes implements Serializable {
     private Date movieStartTime;
     private Date movieEndTime;
     private ArrayList<Ticket> tickets;
-    public Showtimes(){}
+
+    public Showtimes() {
+    }
 
     public Showtimes(Date movieStartTime, Date movieEndTime) {
         setMovieStartTime(movieStartTime);
@@ -28,6 +31,11 @@ public class Showtimes implements Serializable {
         }
     }
 
+    public String getTimeHour(Date movieStartTime) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        return dateFormat.format(movieStartTime);
+    }
+
     public int getMovieDuration() {
         try {
             long startMillis = movieStartTime.getTime();
@@ -43,7 +51,6 @@ public class Showtimes implements Serializable {
             return 0;
         }
     }
-
 
 
     public Date getMovieEndTime() {

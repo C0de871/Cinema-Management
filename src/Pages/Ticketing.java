@@ -1,7 +1,11 @@
 package Pages;
 
+import BackEnd.Movie;
+import BackEnd.Showtimes;
+import BackEnd.Ticket;
 import CustomComponent.StaticClass.ChairLabel;
 import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.StaticClass.Properties;
 import CustomComponent.Text.MyText;
 import CustomComponent.CustomPanel.PanelRound;
 import CustomComponent.popDialgou.GlassPanePopup;
@@ -14,21 +18,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import static CustomComponent.StaticClass.Properties.*;
 
 public class Ticketing extends PanelRound {
     int chairNum = 0;
+    ArrayList<Integer> pos;
+    ArrayList<Ticket> tickets;
+    Showtimes showtimes;
+    Movie movie;
 
-    public void addChair() {
+    public void addChair(int pos) {
         chairNum++;
+        this.pos.add(pos);
     }
 
-    public void minusChair() {
+    public void minusChair(int pos) {
         chairNum--;
+        this.pos.remove((Integer) pos);
     }
 
-    public Ticketing() {
+
+    public Ticketing(Showtimes showtimes, Movie movie) {
+        this.showtimes = showtimes;
+        this.movie = movie;
+        this.tickets = showtimes.getTickets();
         this.setRoundBottomLeft(40);
         this.setRoundBottomRight(40);
         this.setRoundTopLeft(40);
@@ -38,7 +53,7 @@ public class Ticketing extends PanelRound {
         int cnt = 0;
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
-                ChairLabel chair = new ChairLabel(cnt, this);
+                ChairLabel chair = new ChairLabel(cnt, this, tickets.get(cnt));
                 this.add(chair);
                 cnt++;
             }
@@ -88,6 +103,10 @@ public class Ticketing extends PanelRound {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 System.out.println("Click OK");
+                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
+                ticket.bookTicketAsync(user, pos, movie, showtimes);
+                pos.clear();
+                chairNum = 0;
                 GlassPanePopup.closePopupLast();
             }
         });
