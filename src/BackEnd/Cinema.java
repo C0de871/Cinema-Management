@@ -27,20 +27,33 @@ public class Cinema implements Serializable {
         return movies;
     }
 
-    void addMovie(String type,String name,String g,double p,int hallnum,ArrayList<Showtimes>show) {
+    void addMovie(String type, String name, String g, double p, int hallnum, ArrayList<String> showtimes) {
+
         Scanner scanner = new Scanner(System.in);
         InfoFiles f = new InfoFiles();
         if (type != "C") {
             try {
+                ArrayList<Showtimes> show = new ArrayList<>();
+                for (int i = 0; i < 6; i += 2) {
+                    if (Objects.equals(showtimes.get(i), "0")) {
+                        i += 2;
+                    }
+                    String dateTimeStringS = showtimes.get(i);
+                    String[] dateTimeParts = dateTimeStringS.split("/|/");
+                    String dateS = dateTimeParts[0] + "/" + dateTimeParts[1] + "/" + dateTimeParts[2];
+                    String timeS = dateTimeParts[3];
 
-                for (int i = 1; i <= 3; i++) {
-                    System.out.println("Enter the " + i + " Start showtime of the movie");
-                    Date tS = Main.getUserDateTime();
+                    String dateTimeStringE = showtimes.get(i);
+                    String[] dateTimePartsE = dateTimeStringE.split("/|/");
 
-                    System.out.println("Enter the " + i + " End showtime of the movie");
-                    Date tE = Main.getUserDateTime();
+                    String dateE = dateTimeParts[0] + "/" + dateTimeParts[1] + "/" + dateTimeParts[2];
+                    String timeE = dateTimeParts[3];
 
+
+                    Date tS = Main.getUserDateTime(dateE, timeE);
+                    Date tE = Main.getUserDateTime(dateS, timeS);
                     Showtimes s = new Showtimes(tS, tE);
+
                     show.add(s);
                 }
                 Movie m = new Movie(name, g, show, "anything", hallNum, p);
@@ -72,7 +85,7 @@ public class Cinema implements Serializable {
                 throw new RuntimeException(e);
             }
         } else {
-            ComingSoon c = new ComingSoon(name, g, "Nothing" );
+            ComingSoon c = new ComingSoon(name, g, "Nothing");
             f.appendToFileComing(name, c);
         }
     }
