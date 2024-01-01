@@ -90,16 +90,8 @@ public class Main implements Serializable {
             System.out.println("An error occurred during registration: " + e.getMessage());
         }
     }
-    public static Date getUserDateTime() {
+    public static Date getUserDateTime(String dateString,String timeString) {
         while (true) {
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Enter the date (dd/MM/yyyy): ");
-            String dateString = scanner.nextLine();
-
-            System.out.println("Enter the time (hh:mm a): ");
-            String timeString = scanner.nextLine();
-
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
             try {
                 return dateFormat.parse(dateString + " " + timeString);
