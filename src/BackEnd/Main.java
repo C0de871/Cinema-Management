@@ -43,9 +43,8 @@ public class Main implements Serializable {
                             choice = scanner.nextInt();
                             switch (choice) {
                                 case 1 -> {
-                                    System.out.println("Enter the Hall number");
-                                    int hallnum = scanner.nextInt();
-                                    c.add(hallnum);
+
+                                    c.add();
                                 }
                                 case 2 -> {
                                     c.deleteMovie();

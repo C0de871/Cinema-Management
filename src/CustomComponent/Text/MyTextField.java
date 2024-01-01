@@ -1,9 +1,12 @@
-package CustomComponent;
+package CustomComponent.Text;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MyPasswordField extends JPasswordField {
+import static CustomComponent.StaticClass.Properties.blue_;
+import static CustomComponent.StaticClass.Properties.light_Blue;
+
+public class MyTextField extends JTextField {
 
     public String getHint() {
         return hint;
@@ -35,19 +38,19 @@ public class MyPasswordField extends JPasswordField {
     private Icon suffixIcon;
     private String hint = "";
 
-    public MyPasswordField() {
+    public MyTextField(Color color) {
         setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setBackground(new Color(0, 0, 0, 0));
-        setForeground(Color.decode("#7A8C8D"));
+        setBackground(new Color(0, 0, 0, 0));// background color is transperent
+        setForeground(light_Blue);// the color of the font
         setFont(new java.awt.Font("sansserif", 0, 13));
-        setSelectionColor(new Color(75, 175, 152));
+        setSelectionColor(blue_);// when you select a text what is the color of the selected text
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(230, 245, 241));
+        g2.setColor(Color.decode("#15151d")); // set the background color of the field
         g2.fillRoundRect(0, 0, getWidth(), getHeight(), 5, 5);
         paintIcon(g);
         super.paintComponent(g);
@@ -56,7 +59,7 @@ public class MyPasswordField extends JPasswordField {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if (getPassword().length == 0) {
+        if (getText().length() == 0) {
             int h = getHeight();
             ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             Insets ins = getInsets();

@@ -1,23 +1,27 @@
 
 package Login;
 
+import BackEnd.InfoFiles;
 import BackEnd.User;
+import CustomComponent.StaticClass.Properties;
 import Pages.MyFrame;
 import net.miginfocom.swing.MigLayout;
-import CustomComponent.Button;
-import CustomComponent.MyPasswordField;
-import CustomComponent.MyTextField;
+import CustomComponent.Button.Button;
+import CustomComponent.Button.MyPasswordField;
+import CustomComponent.Text.MyTextField;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
+import static CustomComponent.StaticClass.Properties.blue_;
+import static CustomComponent.StaticClass.Properties.light_Gray;
 import static Login.LogInUp.animator;
 
 public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
-
-
+    public static MyTextField txtEmail;
     public PanelLoginAndRegister() {
         initComponents();
         initLogin();
@@ -31,14 +35,14 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         register.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]20[]push"));
         JLabel label = new JLabel("Create Account");
         label.setFont(new Font("sansserif", 1, 30));
-        label.setForeground(new Color(7, 164, 121));
+        label.setForeground(blue_);
         register.add(label);
         MyTextField txtUser = new MyTextField(Color.decode("#B8BFF4"));
         txtUser.setPrefixIcon(new ImageIcon("assest/user.png"));
         txtUser.setHint("Name");
         txtUser.getText();
         register.add(txtUser, "w 60%");
-        MyTextField txtEmail = new MyTextField(Color.decode("#B8BFF4"));
+        txtEmail = new MyTextField(Color.decode("#B8BFF4"));
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
         txtEmail.setHint("Email");
         register.add(txtEmail, "w 60%");
@@ -47,7 +51,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         txtPass.setHint("Password");
         register.add(txtPass, "w 60%");
         Button cmd = new Button();
-        cmd.setBackground(new Color(7, 164, 121));
+        cmd.setBackground(blue_);
         cmd.setForeground(new Color(250, 250, 250));
         JLabel error = new JLabel();
         error.setForeground(Color.red);
@@ -119,7 +123,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]20[]push"));
         JLabel label = new JLabel("Sign In");
         label.setFont(new Font("sansserif", 1, 30));
-        label.setForeground(new Color(7, 164, 121));
+        label.setForeground(blue_);
         login.add(label);
         MyTextField txtEmail = new MyTextField(Color.decode("#B8BFF4"));
         txtEmail.setPrefixIcon(new ImageIcon("assest/mail.png"));
@@ -134,16 +138,22 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         error.setForeground(Color.red);
         login.add(error);
         error.setVisible(false);
-        cmd.setBackground(new Color(7, 164, 121));
+        cmd.setBackground(blue_);
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("SIGN IN");
         MouseListener listener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
 //              MyFrame frame = new MyFrame();
-                User user = new User();
-                int login = user.login(txtEmail.getText(), txtPass.getText(), 'U');
+                User u = new User();
+                int login = u.login(txtEmail.getText(), txtPass.getText(), 'U');
                 if (login == 1) {
+                    InfoFiles f = new InfoFiles();
+                    ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+                    u.setEmail(txtEmail.getText());
+                    u.setPassword(txtPass.getText());
+                    int index = users.indexOf(u);
+                    Properties.user = users.get(index);
                     MyFrame frame = new MyFrame();
                 } else if (login == 2) {
                     System.out.println("password");
@@ -199,7 +209,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
 
         setLayout(new java.awt.CardLayout());
 
-        login.setBackground(new Color(255, 255, 255));
+        login.setBackground(light_Gray);
 
         javax.swing.GroupLayout loginLayout = new javax.swing.GroupLayout(login);
         login.setLayout(loginLayout);
@@ -214,7 +224,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
 
         add(login, "card3");
 
-        register.setBackground(new Color(255, 255, 255));
+        register.setBackground(light_Gray);
 
         javax.swing.GroupLayout registerLayout = new javax.swing.GroupLayout(register);
         register.setLayout(registerLayout);

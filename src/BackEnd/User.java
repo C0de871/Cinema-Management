@@ -6,6 +6,23 @@ import java.util.regex.Pattern;
 
 public class User implements Serializable {
     private String email;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTypeOfUser(char typeOfUser) {
+        this.typeOfUser = typeOfUser;
+    }
+
     private String password;
     private String name;
     private char typeOfUser;
@@ -108,6 +125,15 @@ public class User implements Serializable {
 
     public ArrayList<Ticket> getMyTickets() {
         return myTicket;
+    }
+
+    public boolean has(int searalNum) {
+        ArrayList<Ticket> tickets = this.myTicket;
+        for (Ticket t : tickets) {
+            if (t.getSeatNumber() == searalNum)
+                return true;
+        }
+        return false;
     }
 
     public void bookTicket(Ticket ticket) {
@@ -225,7 +251,7 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return getTypeOfUser() == user.getTypeOfUser() && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getName(), user.getName());
+        return (Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()));
     }
 
     @Override

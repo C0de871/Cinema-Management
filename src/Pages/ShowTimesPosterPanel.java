@@ -1,8 +1,8 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
-import CustomComponent.Oval;
+import BackEnd.Movie;
+import CustomComponent.Text.MyText;
+import CustomComponent.CustomPanel.Oval;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -10,12 +10,13 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.MyPanels.cardPanel;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class ShowTimesPosterPanel extends JLayeredPane {
     Oval rate;
 
-    ShowTimesPosterPanel(JLabel label, MyText name, MyText duration, MyText genre,String rate) {
+    ShowTimesPosterPanel(Movie movie, JLabel label, MyText name, MyText duration, MyText genre, String rate) {
         this.setLayout(new MigLayout("insets 0,gap 0"));
         this.rate = new Oval(rate);
         this.setBackground(light_Gray);
@@ -30,7 +31,7 @@ public class ShowTimesPosterPanel extends JLayeredPane {
         MouseListener labelListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                cardPanel.m(movie);
             }
 
             @Override
@@ -56,6 +57,8 @@ public class ShowTimesPosterPanel extends JLayeredPane {
         MouseListener nameListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                cardPanel.m(movie);
+
 
             }
 

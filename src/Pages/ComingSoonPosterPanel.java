@@ -1,7 +1,7 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyText;
+import BackEnd.Movie;
+import CustomComponent.Text.MyText;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -9,10 +9,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.MyPanels.cardPanel;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class ComingSoonPosterPanel extends JLayeredPane {
-    ComingSoonPosterPanel(JLabel label, MyText name, MyText duration, MyText genre) {
+    ComingSoonPosterPanel(Movie movie, JLabel label, MyText name, MyText duration, MyText genre) {
         this.setLayout(new MigLayout(" insets 0,gap 0"));
         this.setBackground(light_Gray);
 
@@ -23,7 +24,7 @@ public class ComingSoonPosterPanel extends JLayeredPane {
         MouseListener labelListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                cardPanel.m(movie);
             }
 
             @Override
@@ -54,6 +55,7 @@ public class ComingSoonPosterPanel extends JLayeredPane {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                cardPanel.m(movie);
 
             }
 

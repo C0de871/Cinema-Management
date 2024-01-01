@@ -1,20 +1,20 @@
 package Pages;
 
-import CustomComponent.MyText;
-import CustomComponent.ScrollPaneWin11;
+import CustomComponent.Text.MyText;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
-import static CustomComponent.Properties.*;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class UpcomingBody extends JPanel {
     public UpcomingBody() {
-        this.setLayout(new MigLayout("inset 0,gap 0", "2%[][]", "2%[]2%[]2%[]2%[]"));
+        this.setLayout(new MigLayout("inset 0,gap 0", "2%[][]9%", "2%[]2%[]2%[]2%[]"));
         this.setBackground(light_Gray);
 
         //Add Text
-        this.add(new MyText("Upcoming", 30, white_, 1), "split 2 ,growx");
+        this.add(new MyText("Upcoming", 30, white_, 1), "split 2 ,pushx,growx");
 
         //Add search field
         Search searchText = new Search(dark_Gray);

@@ -1,7 +1,7 @@
 package Pages;
 
-import CustomComponent.MyIcon;
-import CustomComponent.MyTextField;
+import CustomComponent.StaticClass.MyIcon;
+import CustomComponent.Text.MyTextField;
 
 import java.awt.*;
 

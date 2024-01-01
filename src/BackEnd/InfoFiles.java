@@ -10,10 +10,10 @@ public class InfoFiles implements Serializable {
     File fileComing = new File("moviesComing.ser");
     File fileHalls = new File("Halls.ser");
     File fileGenre = new File("GenerMovies.ser");
-    File fileUser = new File("fileUser.ser");
+    public File fileUser = new File("fileUser.ser");
     File fileAdmin = new File("fileAdmin.ser");
 
-    InfoFiles() {
+    public InfoFiles() {
     }
 
     Map<String, Movie> loadFileMovie() {
@@ -150,7 +150,7 @@ public class InfoFiles implements Serializable {
         }
     }
 
-    ArrayList<User> readFromFileAccounts(File file) {
+    public ArrayList<User> readFromFileAccounts(File file) {
         ArrayList<User> users = new ArrayList<>();
         try {
             if (file.exists()) {

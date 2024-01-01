@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Ticketing {
-    public void bookTicketAsync(User user, int ticketNumber, Movie movie) {
+    public void bookTicketAsync(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
         Thread bookThread = new Thread(() -> {
             try {
-                bookTicket(user, ticketNumber, movie);
+                bookTicket(user, pos, movie, showtimes);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("An error occurred during ticket booking.");
@@ -17,6 +17,7 @@ public class Ticketing {
 
         bookThread.start();
     }
+
     public void cancelTicketAsync(Ticket ticket, User user) {
         Thread cancelThread = new Thread(() -> {
             try {
@@ -30,103 +31,78 @@ public class Ticketing {
         cancelThread.start();
     }
 
-    public void bookTicket(User user, int ticketNumber, Movie movie) {
+    public void bookTicket(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
         InfoFiles f = new InfoFiles();
         Scanner scanner = new Scanner(System.in);
 
         try {
-            System.out.println("Enter the showtime: ");
+
             Map<String, Movie> movieTitle = f.loadFileMovie();
-            movieTitle.get(movie.getTitle()).printShowtimes();
-            int showtimeIndex = scanner.nextInt();
-            Showtimes selectedShowtime = movie.getShowtimes().get(showtimeIndex - 1);
-            int availableSeats = selectedShowtime.getAvailableSeats(selectedShowtime);
 
-            System.out.println("Enter the number of tickets to book: ");
-            int numTickets = scanner.nextInt();
 
-            if (availableSeats >= numTickets) {
-                ArrayList<Integer> chosen = new ArrayList<>();
-                System.out.println("Enter the seat positions to book: ");
+            Showtimes selectedShowtime = showtimes;
 
-                for (int i = 0; i < numTickets; i++) {
-                    int position = scanner.nextInt();
-                    chosen.add(position);
-                }
+            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+            int userIndex = users.indexOf(user);
+            ArrayList<Ticket> tickets = new ArrayList<>();
 
-                ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
-                int userIndex = users.indexOf(user);
-                ArrayList<Ticket> tickets = new ArrayList<>();
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            int index = 0;
+            outer:
+            for (Cinema hall : halls) {
+                ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
 
-                ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+                for (Movie m : movies) {
+                    if (m == movie) {
+                        index = m.getShowtimes().indexOf(showtimes);
+                        tickets = m.getShowtimes().get(index).getTickets();
 
-                for (Cinema hall : halls) {
-                    ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
+                        for (int position : pos) {
+                            Ticket selectedTicket = tickets.get(position);
 
-                    for (Movie m : movies) {
-                        if (m == movie) {
-                            tickets = m.getShowtimes().get(showtimeIndex - 1).getTickets();
 
-                            for (int position : chosen) {
-                                int ticketIndex = position - 1;
+                            Showtimes time = m.getShowtimes().get(index);
+                            selectedTicket.setMovie(m);
+                            selectedTicket.setShowtime(time);
+                            selectedTicket.setActive(true);
+                            selectedTicket.setTicketPrice(movie.getPrice());
+                            // Attempt to book the ticket for the user
+                            users.get(userIndex).getMyTickets().add(selectedTicket);
 
-                                if (ticketIndex >= 0 && ticketIndex < tickets.size()) {
-                                    Ticket selectedTicket = tickets.get(ticketIndex);
-
-                                    if (!selectedTicket.isActive()) {
-                                        Showtimes time = m.getShowtimes().get(showtimeIndex - 1);
-                                        selectedTicket.setMovie(m);
-                                        selectedTicket.setShowtime(time);
-                                        selectedTicket.setActive(true);
-                                        selectedTicket.setTicketPrice(50);
-                                        // Attempt to book the ticket for the user
-                                        users.get(userIndex).getMyTickets().add(selectedTicket);
-                                    } else {
-                                        System.out.println("The position " + position + " is already booked.");
-                                    }
-                                } else {
-                                    System.out.println("Invalid position: " + position);
-                                }
-                            }
-
-                            hall.setMovies(movies);
-                            f.saveToFileAccounts(users, f.fileUser);
-                            break;
                         }
+                        hall.setMovies(movies);
+                        f.saveToFileAccounts(users, f.fileUser);
+                        break outer;
                     }
+
                 }
-
-                f.arrayOfObjectHallsSave(halls);
-
-                Map<String, Movie> movies = f.loadFileMovie();
-                movies.get(movie.getTitle()).getShowtimes().get(showtimeIndex - 1).setTickets(tickets);
-                f.saveFileMovie(movies);
-
-                Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
-                String genre = movie.getGenre();
-                ArrayList<Movie> genreMovies = moviesGenre.get(genre);
-
-                for (Movie m : genreMovies) {
-                    if (m.equals(movie)) {
-                        m.getShowtimes().get(showtimeIndex - 1).setTickets(tickets);
-                        break;
-                    }
-                }
-
-                moviesGenre.put(genre, genreMovies);
-                f.saveFileMovieGenre(moviesGenre);
-
-                System.out.println("Ticket booking successful!");
-            } else {
-                System.out.println("Not enough available seats for the selected showtime.");
             }
+
+
+            f.arrayOfObjectHallsSave(halls);
+
+            Map<String, Movie> movies = f.loadFileMovie();
+            movies.get(movie.getTitle()).getShowtimes().get(index).setTickets(tickets);
+            f.saveFileMovie(movies);
+
+            Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
+            String genre = movie.getGenre();
+            ArrayList<Movie> genreMovies = moviesGenre.get(genre);
+
+            for (Movie m : genreMovies) {
+                if (m.equals(movie)) {
+                    m.getShowtimes().get(index).setTickets(tickets);
+                    break;
+                }
+            }
+
+            moviesGenre.put(genre, genreMovies);
+            f.saveFileMovieGenre(moviesGenre);
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("An error occurred during ticket booking.");
-        } finally {
-            scanner.close();
         }
+
     }
 
     public boolean cancelTicket(Ticket ticket, User user) {

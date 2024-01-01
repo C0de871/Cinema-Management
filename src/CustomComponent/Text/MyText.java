@@ -1,10 +1,10 @@
-package CustomComponent;
+package CustomComponent.Text;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static CustomComponent.Properties.*;
-import static CustomComponent.Properties.gray_;
+import static CustomComponent.StaticClass.Properties.*;
+import static CustomComponent.StaticClass.Properties.gray_;
 
 public class MyText extends JLabel {
     public MyText(String text, int size, Color color, int fontStyle) {

@@ -1,15 +1,17 @@
 package Pages;
 
-import javax.swing.*;
-import java.awt.*;
+import BackEnd.Movie;
 
-import static CustomComponent.MyPanels.*;
-import static CustomComponent.Properties.cardLayout;
+import javax.swing.*;
+
+import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.StaticClass.Properties.cardLayout;
+import static CustomComponent.StaticClass.Properties.currentPage;
 
 
 public class Cardpanel extends JPanel {
     //    CardLayout cardLayout = new CardLayout();
-    String s = "Discover";
+    String s = currentPage;
 
     public String getS() {
         return s;
@@ -18,6 +20,14 @@ public class Cardpanel extends JPanel {
     public void setS(String s) {
         this.s = s;
     }
+
+    MovieInfoPanel movieInfoPanel;
+
+//    public void setMovieInfoPanel(MovieInfoPanel movieInfoPanel) {
+//        this.movieInfoPanel = movieInfoPanel;
+//        cardLayout.show(this, "MovieInfo");
+//    }
+
 
     public Cardpanel(String s) {
         this.setLayout(cardLayout);
@@ -29,6 +39,14 @@ public class Cardpanel extends JPanel {
         this.add(comedy, "Comedy");
         this.add(adventure, "Adventure");
         this.add(documentary, "Documentary");
+//        this.add(new MovieInfoPanel(),"MovieInfo");
+//        this.add(movieInfo,"movieInfo"); // temp
         cardLayout.show(this, s);
+    }
+
+    public void m(Movie movie) {
+        MovieInfoPanel movieInfoPanel1 = new MovieInfoPanel(movie);
+        this.add(movieInfoPanel1, "MovieInfo");
+        cardLayout.show(this, "MovieInfo");
     }
 }

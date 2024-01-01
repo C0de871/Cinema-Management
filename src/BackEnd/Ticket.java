@@ -68,18 +68,6 @@ public class Ticket implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ticket ticket)) return false;
-        return getSeatNumber() == ticket.getSeatNumber() && Double.compare(getTicketPrice(), ticket.getTicketPrice()) == 0 && Objects.equals(getShowtime(), ticket.getShowtime()) && Objects.equals(getMovie(), ticket.getMovie());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSeatNumber(), getShowtime(), getMovie(), getTicketPrice());
-    }
-
-    @Override
     public String toString() {
         return "Ticket{" +
                 "serialNumber=" + serialNumber +
@@ -89,5 +77,18 @@ public class Ticket implements Serializable {
                 ", active=" + active +
                 ", ticketPrice=" + ticketPrice +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return serialNumber == ticket.serialNumber && seatNumber == ticket.seatNumber && active == ticket.active && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(showtime, ticket.showtime) && Objects.equals(movie, ticket.movie);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(serialNumber, seatNumber, showtime, movie, active, ticketPrice);
     }
 }
