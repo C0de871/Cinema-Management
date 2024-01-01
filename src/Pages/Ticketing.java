@@ -40,6 +40,22 @@ public class Ticketing extends PanelRound {
     }
 
 
+    private void jButton1ActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Message obj = new Message();
+        obj.eventOK(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                System.out.println("Click OK");
+                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
+                ticket.bookTicketAsync(user, pos, movie, showtimes);
+                pos.clear();
+                chairNum = 0;
+                GlassPanePopup.closePopupLast();
+            }
+        });
+        GlassPanePopup.showPopup(obj);
+    }
+
     public Ticketing(Showtimes showtimes, Movie movie) {
         this.showtimes = showtimes;
         this.movie = movie;
@@ -95,21 +111,5 @@ public class Ticketing extends PanelRound {
         };
         rightArrow.addMouseListener(listener);
         bookTicket.addMouseListener(listener);
-    }
-
-    private void jButton1ActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Message obj = new Message();
-        obj.eventOK(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                System.out.println("Click OK");
-                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
-                ticket.bookTicketAsync(user, pos, movie, showtimes);
-                pos.clear();
-                chairNum = 0;
-                GlassPanePopup.closePopupLast();
-            }
-        });
-        GlassPanePopup.showPopup(obj);
     }
 }

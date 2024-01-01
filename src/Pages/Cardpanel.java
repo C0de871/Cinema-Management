@@ -39,6 +39,7 @@ public class Cardpanel extends JPanel {
         this.add(comedy, "Comedy");
         this.add(adventure, "Adventure");
         this.add(documentary, "Documentary");
+        this.add(addMovie, "movieAdd");
 //        this.add(new MovieInfoPanel(),"MovieInfo");
 //        this.add(movieInfo,"movieInfo"); // temp
         cardLayout.show(this, s);

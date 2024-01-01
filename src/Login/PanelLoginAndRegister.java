@@ -4,7 +4,7 @@ package Login;
 import BackEnd.InfoFiles;
 import BackEnd.User;
 import CustomComponent.StaticClass.Properties;
-import Pages.MyFrame;
+import Pages.UserFrame;
 import net.miginfocom.swing.MigLayout;
 import CustomComponent.Button.Button;
 import CustomComponent.Button.MyPasswordField;
@@ -154,7 +154,7 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                     u.setPassword(txtPass.getText());
                     int index = users.indexOf(u);
                     Properties.user = users.get(index);
-                    MyFrame frame = new MyFrame();
+                    UserFrame frame = new UserFrame();
                 } else if (login == 2) {
                     System.out.println("password");
                     error.setText("* Invalid Password");
