@@ -1,5 +1,7 @@
 package Pages;
 
+import BackEnd.Cinema;
+import BackEnd.Movie;
 import BackEnd.User;
 import CustomComponent.Text.MyText;
 import CustomComponent.Text.MyTextField;
@@ -15,8 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static CustomComponent.StaticClass.Properties.dark_Gray;
-import static CustomComponent.StaticClass.Properties.white_;
+import static CustomComponent.StaticClass.Properties.*;
 
 public class Comment extends PanelRound {
     private ArrayList<CommentInfo> commentInfos = new ArrayList<>();
@@ -25,8 +26,10 @@ public class Comment extends PanelRound {
     MyText userName;
     private JPanel commentsPanel;
     MyTextField userCommentInput;
+    Movie movie;
 
-    Comment(Map<User, ArrayList<String>> comments) {
+    Comment(Map<User, ArrayList<String>> comments, Movie movie) {
+        this.movie = movie;
         for (Map.Entry<User, ArrayList<String>> entry : comments.entrySet()) {
             String name = entry.getKey().getName();
             for (String c : entry.getValue()) {
@@ -84,9 +87,10 @@ public class Comment extends PanelRound {
     private void addComment() {
         String comment = userCommentInput.getText();
         if (comment != null && !comment.isEmpty()) {
-            CommentInfo commentInfo = new CommentInfo("Ahmad", comment);
+            CommentInfo commentInfo = new CommentInfo(user.getName(), comment);
             commentInfos.add(commentInfo);
-            refreshLabelPanel();
+            Cinema cinema = new Cinema();
+            cinema.leaveComment(user, movie, comment);
         }
     }
 

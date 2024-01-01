@@ -1,13 +1,18 @@
 package Pages;
 
+import CustomComponent.Button.ShadingButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import static CustomComponent.StaticClass.MyIcon.plus;
 import static CustomComponent.StaticClass.MyLabels.*;
 import static CustomComponent.StaticClass.MyPanels.*;
+import static CustomComponent.StaticClass.Properties.*;
 import static CustomComponent.Text.MyText.*;
 
 public class LeftSideMenu extends JPanel{
@@ -21,6 +26,15 @@ public class LeftSideMenu extends JPanel{
         this.add(middlePanel,"growx,growy,pushx,pushy, h 35%,wrap");
         this.add(lowerPanel,"growx,growy,pushx,pushy, h 35%,wrap");
         this.add(freePanel,"growx,growy,pushx,pushy, h 15%,wrap");
+
+        ShadingButton add = new ShadingButton();
+        add.setRound(400);
+        add.setBackground(light_Gray);
+        add.setForeground(light_Blue);
+        add.setFocusable(false);
+        add.setIcon(plus);
+        add.setRippleColor(new java.awt.Color(255, 255, 255));
+        add.setShadowColor(dark_Gray);
 
         header.add(logoIcon);
         header.add(appName);
@@ -40,6 +54,35 @@ public class LeftSideMenu extends JPanel{
         lowerPanel.add(comedyBar, "growx,pushx,h 17%");
         lowerPanel.add(adventureBar, "growx,pushx,h 17%");
         lowerPanel.add(documentaryBar, "growx,pushx,h 17%");
+
+        freePanel.add(add, ", h 50%,w 30%");
+        MouseListener listener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cardLayout.show(cardPanel, "movieAdd");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+        add.addMouseListener(listener);
     }
 
 }

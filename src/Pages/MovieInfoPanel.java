@@ -17,7 +17,7 @@ public class MovieInfoPanel extends JPanel {
         this.setBackground(light_Gray);
         MovieInfo movieInfo = new MovieInfo(movie);
         TabTime tabTime = new TabTime(movie);
-        Comment comment = new Comment(movie.getComments());
+        Comment comment = new Comment(movie.getComments(), movie);
         this.add(movieInfo, "top, pad 2% 2% 0 0 , w 60%, h 45%");
         this.add(tabTime, "pad 2% 2% 0 0 , w 36%, h 70%,wrap,spany 2");
         this.add(comment, " pad 2% 2% 0 0 , w 60%, h 45%");
