@@ -7,9 +7,9 @@ import java.awt.*;
 
 import static CustomComponent.StaticClass.MyPanels.parentPanel;
 
-public class MyFrame extends JFrame {
+public class AdminFrame extends JFrame {
 
-    public MyFrame(){
+    public AdminFrame() {
         GlassPanePopup.install(this);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.add(parentPanel);

@@ -112,12 +112,9 @@ public class Cinema implements Serializable {
 
     }
 
-    public void leaveComment(User user, Movie movie) {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.println("Enter your comment:");
-            String comment = scanner.nextLine();
+    public void leaveComment(User user, Movie movie, String comment) {
 
+        try {
             updateMovieComments(movie, user, comment);
             updateGenreComments(movie, user, comment);
             updateHallsComments(movie, user, comment);

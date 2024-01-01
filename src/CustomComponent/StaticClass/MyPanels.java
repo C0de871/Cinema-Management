@@ -22,7 +22,7 @@ public class MyPanels {
     public static LeftSidePanels headPanel = new LeftSidePanels(new MigLayout("wrap,aligny center"), dark_Gray, matteBorder);
     public static LeftSidePanels middlePanel = new LeftSidePanels(new MigLayout("wrap, insets 0"), dark_Gray, matteBorder);
     public static LeftSidePanels lowerPanel = new LeftSidePanels(new MigLayout("wrap, insets 0"), dark_Gray);
-    public static LeftSidePanels freePanel = new LeftSidePanels(new MigLayout("wrap"), dark_Gray);
+    public static LeftSidePanels freePanel = new LeftSidePanels(new MigLayout("wrap", "push[center]push", "push[center]push"), dark_Gray);
 
     //The Titles Panel of each Parents panels
     public static LeftSidePanels header = new LeftSidePanels(new MigLayout("insets 0,aligny center", "15%[]0[]"), dark_Gray);
@@ -45,6 +45,7 @@ public class MyPanels {
     public static DiscoverBody bodyPanel = new DiscoverBody();
     public static TrendingBody trendingBody = new TrendingBody();
     public static UpcomingBody upcomingBody = new UpcomingBody();
+    public static AddMovie addMovie = new AddMovie();
     public static Action action = new Action();
     public static Drama drama = new Drama();
     public static Comedy comedy = new Comedy();
