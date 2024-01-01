@@ -15,7 +15,7 @@ public class MyIcon {
     public static ImageIcon heart = new ImageIcon("assest/heart.png");
     public static ImageIcon dot = new ImageIcon("assest/dot.png");
     public static ImageIcon search = new ImageIcon("assest/search.png");
-    static ImageIcon clickedsearch= new ImageIcon("assest/clickedsearch.png");
+    static ImageIcon clickedsearch = new ImageIcon("assest/clickedsearch.png");
     public static ImageIcon myChair = new ImageIcon("assest/my chair.png");
     public static ImageIcon plus = new ImageIcon("assest/plus.png");
     public static ImageIcon plus2 = new ImageIcon("assest/plus2.png");
@@ -45,7 +45,7 @@ public class MyIcon {
 
     static {
         try {
-            originalImage = ImageIO.read(new File("D:/Second Year Project/Cinema-Management/assest/joker.jpg"));
+            originalImage = ImageIO.read(new File("D:/TheFinalProject/assest/joker.jpg"));
         } catch (IOException e) {
             System.out.println("im");
         }
@@ -53,8 +53,6 @@ public class MyIcon {
 
     public static ImageIcon joker = createRoundedImageIcon(originalImage, 150, 180, 250);
 
-
-    // Method to resize the image
     public static ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius, int width, int height) {
         // Create a rounded BufferedImage
         BufferedImage roundedImage = createRoundedImage(originalImage, cornerRadius);
@@ -65,6 +63,11 @@ public class MyIcon {
     }
 
     private static BufferedImage createRoundedImage(BufferedImage originalImage, int cornerRadius) {
+        if (originalImage == null) {
+            // Handle the case where originalImage is null
+            // You might want to throw an exception or return a default image
+            throw new IllegalArgumentException("Original image cannot be null");
+        }
         int width = originalImage.getWidth();
         int height = originalImage.getHeight();
 

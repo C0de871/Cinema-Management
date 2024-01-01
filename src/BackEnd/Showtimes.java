@@ -16,7 +16,10 @@ public class Showtimes implements Serializable {
     public Showtimes(Date movieStartTime, Date movieEndTime) {
         setMovieStartTime(movieStartTime);
         setMovieEndTime(movieEndTime);
-        tickets = new ArrayList<>(Arrays.asList(new Ticket[30]));
+        tickets = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            tickets.add(new Ticket());
+        }
     }
 
     public Date getMovieStartTime() {
@@ -67,14 +70,6 @@ public class Showtimes implements Serializable {
 
     public ArrayList<Ticket> getTickets() {
         return tickets;
-    }
-
-    @Override
-    public String toString() {
-        return "BackEnd.Showtimes{" +
-                "movieStartTime=" + movieStartTime +
-                ", movieEndTime=" + movieEndTime +
-                '}';
     }
 
     public void setTickets(ArrayList<Ticket> tickets) {
