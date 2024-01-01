@@ -42,13 +42,14 @@ public class InfoFiles implements Serializable {
             e.printStackTrace();
         }
     }
-    Map<String, Movie> loadFileMovieComing() {
-        Map<String, Movie> mapRead = new HashMap<>();
+
+    Map<String, ComingSoon> loadFileMovieComing() {
+        Map<String, ComingSoon> mapRead = new HashMap<>();
 
         try {
             if (file.exists()) {
                 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileComing))) {
-                    mapRead = (Map<String, Movie>) ois.readObject();
+                    mapRead = (Map<String, ComingSoon>) ois.readObject();
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -58,7 +59,7 @@ public class InfoFiles implements Serializable {
         return mapRead;
     }
 
-    void saveFileMovieComing(Map<String, Movie> movieMap) {
+    void saveFileMovieComing(Map<String, ComingSoon> movieMap) {
         try {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileComing))) {
                 oos.writeObject(movieMap);
@@ -68,6 +69,7 @@ public class InfoFiles implements Serializable {
             e.printStackTrace();
         }
     }
+
     void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
@@ -171,5 +173,11 @@ public class InfoFiles implements Serializable {
         Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
         existingMap.put(name, movie); // Append new data to existing data
         saveFileMovie(existingMap); // Save the combined data back to the file
+    }
+
+    public void appendToFileComing(String name, ComingSoon movie) {
+        Map<String, ComingSoon> existingMap = loadFileMovieComing(); // Load existing data
+        existingMap.put(name, movie); // Append new data to existing data
+        saveFileMovieComing(existingMap); // Save the combined data back to the file
     }
 }

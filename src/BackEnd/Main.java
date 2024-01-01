@@ -37,18 +37,10 @@ public class Main implements Serializable {
                         }
                     } else {
                         while (true) {
-                            System.out.println("1-Add BackEnd.Movie");
-                            System.out.println("2-Delete BackEnd.Movie");
+
                             System.out.println("4-search on movies by title");
                             choice = scanner.nextInt();
                             switch (choice) {
-                                case 1 -> {
-
-                                    c.add();
-                                }
-                                case 2 -> {
-                                    c.deleteMovie();
-                                }
                                 case 4 -> {
                                     c.searchMovieByTitle();
                                 }
@@ -77,9 +69,6 @@ public class Main implements Serializable {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
-
-
-
 
     private static void performRegistration(String c) {
         try {

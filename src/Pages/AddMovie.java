@@ -1,5 +1,6 @@
 package Pages;
 
+import BackEnd.Cinema;
 import CustomComponent.Text.ShadingTextField;
 import net.miginfocom.swing.MigLayout;
 
@@ -20,6 +21,17 @@ public class AddMovie extends JPanel {
         ShadingTextField showTime2EndField = new ShadingTextField();
         ShadingTextField startTime3StartField = new ShadingTextField();
         ShadingTextField showTime3EndField = new ShadingTextField();
+
+
+        startTime1StartField.getText();
+        showTime1EndField.getText();
+        startTime2StartField.getText();
+        showTime2EndField.getText();
+        startTime3StartField.getText();
+        showTime3EndField.getText();
+
+   /*     Cinema c=new Cinema();
+        c.addMovie("N", nameField.getText(), genreField.getText(),priceField.getText(), hallNumField.getText());*/
         this.setBackground(light_Gray);
         MigLayout layout = new MigLayout("insets 2%", "", "[]7%[]2%[]2%[]2%[]");
         this.setLayout(layout);

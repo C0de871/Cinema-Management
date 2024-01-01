@@ -14,7 +14,7 @@ public class UserFrame extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.add(parentPanel);
         this.setUndecorated(false);
-        this.setSize(screenSize.width, screenSize.height);
+        this.setSize(1000,500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

@@ -1,5 +1,6 @@
 package Pages;
 
+import BackEnd.InfoFiles;
 import Login.LogInUp;
 
 import javax.swing.*;

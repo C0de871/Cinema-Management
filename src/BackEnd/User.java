@@ -74,7 +74,6 @@ public class User implements Serializable {
 
 
     private boolean isExistingEmail(String email, File file, InfoFiles f) {
-
         ArrayList<User> usersRead = f.readFromFileAccounts(file);
         for (User u : usersRead) {
             if (Objects.equals(u.email, email))
@@ -86,12 +85,9 @@ public class User implements Serializable {
 
     private int isValidRegistration(User user) {
         if (!isValidGmailAddress(user.email)) {
-            System.out.println("Invalid Gmail address format.");
             return 2;
         }
-
         if (!isValidPassword(user.password)) {
-            System.out.println("Invalid password format. Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%^&+=).");
             return 3;
         }
         return 1;

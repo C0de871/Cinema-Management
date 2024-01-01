@@ -27,17 +27,13 @@ public class Cinema implements Serializable {
         return movies;
     }
 
-    void add() {
-        try {
-            System.out.println("Enter the Hall number");
-            Scanner scanner = new Scanner(System.in);
-            int hallnum = scanner.nextInt();
-            System.out.println("Enter the number of showing times for the movie");
-            int x = scanner.nextInt();
-            ArrayList<Showtimes> show = new ArrayList<>();
+    void addMovie(String type,String name,String g,double p,int hallnum,ArrayList<Showtimes>show) {
+        Scanner scanner = new Scanner(System.in);
+        InfoFiles f = new InfoFiles();
+        if (type != "C") {
+            try {
 
-                // Loop to get the start and end showtimes for the movie
-                for (int i = 1; i <= x; i++) {
+                for (int i = 1; i <= 3; i++) {
                     System.out.println("Enter the " + i + " Start showtime of the movie");
                     Date tS = Main.getUserDateTime();
 
@@ -47,50 +43,41 @@ public class Cinema implements Serializable {
                     Showtimes s = new Showtimes(tS, tE);
                     show.add(s);
                 }
-            System.out.println("Enter the title of the movie");
-            String name = scanner.next();
-            System.out.println("Enter the genre of the movie");
-            String g = scanner.next();
-            System.out.println("Enter the price ");
-            double p = scanner.nextDouble();
-            // Create a new BackEnd.Movie object with the provided details
-            Movie m = new Movie(name, g, show, "anything", hallNum, p);
-            // Add the movie to the specified hall in the halls ArrayList
-            InfoFiles f = new InfoFiles();
-            Map<String, ArrayList<Movie>> moviesGenre;
-            if (f.fileGenre.length() == 0) {
-                moviesGenre = new HashMap<>();
-                moviesGenre.put("action", new ArrayList<>());
-                moviesGenre.put("Drama", new ArrayList<>());
-                moviesGenre.put("comedy", new ArrayList<>());
-                moviesGenre.put("adventure", new ArrayList<>());
-                moviesGenre.put("documentary", new ArrayList<>());
-                f.saveFileMovieGenre(moviesGenre);
-            }
-            moviesGenre = f.loadFileMovieGenre();
-            moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
-            moviesGenre.get(g).add(m);
-            f.saveFileMovieGenre(moviesGenre);
-            f.appendToFile(name, m);
-            ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
-            if (hall.isEmpty()) {
-                for (int i = 0; i < 5; i++) {
-                    hall.add(new Cinema());
+                Movie m = new Movie(name, g, show, "anything", hallNum, p);
+                Map<String, ArrayList<Movie>> moviesGenre;
+                if (f.fileGenre.length() == 0) {
+                    moviesGenre = new HashMap<>();
+                    moviesGenre.put("action", new ArrayList<>());
+                    moviesGenre.put("Drama", new ArrayList<>());
+                    moviesGenre.put("comedy", new ArrayList<>());
+                    moviesGenre.put("adventure", new ArrayList<>());
+                    moviesGenre.put("documentary", new ArrayList<>());
+                    f.saveFileMovieGenre(moviesGenre);
                 }
+                moviesGenre = f.loadFileMovieGenre();
+                moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
+                moviesGenre.get(g).add(m);
+                f.saveFileMovieGenre(moviesGenre);
+                f.appendToFile(name, m);
+                ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
+                if (hall.isEmpty()) {
+                    for (int i = 0; i < 5; i++) {
+                        hall.add(new Cinema());
+                    }
+                }
+                // Load hall data
+                hall.get(hallNum - 1).getMovies().add(m);
+                f.arrayOfObjectHallsSave(hall);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-
-            // Load hall data
-            hall.get(hallNum - 1).getMovies().add(m);
-            f.arrayOfObjectHallsSave(hall);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } else {
+            ComingSoon c = new ComingSoon(name, g, "Nothing" );
+            f.appendToFileComing(name, c);
         }
     }
 
-    void deleteMovie() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the title of the movie you want to delete");
-        String title = scanner.next();
+    void deleteMovie(String title) {
 
         InfoFiles f = new InfoFiles();
         ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
@@ -104,22 +91,15 @@ public class Cinema implements Serializable {
         }
         f.saveFileMovieGenre(movieGenre);
         f.saveFileMovie(movies);
-        if (removedValue != null) {
-            System.out.println(title + "Movie was removed");
-        } else {
-            System.out.println("there is no movie in this title");
-        }
-
     }
 
     public void leaveComment(User user, Movie movie, String comment) {
-
+        Scanner scanner = new Scanner(System.in);
         try {
             updateMovieComments(movie, user, comment);
             updateGenreComments(movie, user, comment);
             updateHallsComments(movie, user, comment);
         } catch (Exception e) {
-            // Handle the exception, e.g., log it or display an error message
             e.printStackTrace();
             System.out.println("An error occurred while leaving a comment.");
         }
