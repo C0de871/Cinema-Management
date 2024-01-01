@@ -16,6 +16,7 @@ public class Movie implements Serializable {
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
     private int Booked;
+    private double price;
 
     public Map<User, ArrayList<String>> getComments() {
         return Comments;
@@ -41,8 +42,8 @@ public class Movie implements Serializable {
     public Movie() {
     }
 
-    public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath) {
-
+    public Movie(String title, String genre, List<Showtimes> showtimes, String moviePath, double price) {
+        this.price = price;
         this.title = title;
         this.genre = genre;
         this.showtimes = showtimes;
@@ -58,7 +59,7 @@ public class Movie implements Serializable {
             Movie selectedMovie = moviesTitle.get(movie.getTitle());
 
             if (selectedMovie == null) {
-                return 0; // Handle the case where the movie is not found
+                return 0;
             }
 
             return selectedMovie.getShowtimes()
@@ -105,7 +106,6 @@ public class Movie implements Serializable {
     }
 
 
-
     public double getAverageRating(Movie movie) {
         try {
             InfoFiles f = new InfoFiles();
@@ -130,7 +130,6 @@ public class Movie implements Serializable {
             return 0.0;
         }
     }
-
 
     private void addRatingToMovie(Movie movie, int rating, InfoFiles f) {
         try {

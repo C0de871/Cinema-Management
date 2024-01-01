@@ -26,59 +26,66 @@ public class Cinema implements Serializable {
         return movies;
     }
 
-    void add(int hallNumToadd) {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the number of showing times for the movie");
-            int x = scanner.nextInt();
-            ArrayList<Showtimes> show = new ArrayList<>();
+    void add(int hallNumToadd, char type) {
+        if (type != 'C') {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println();
+                System.out.println("Enter the number of showing times for the movie");
+                int x = scanner.nextInt();
+                ArrayList<Showtimes> show = new ArrayList<>();
 
-            // Loop to get the start and end showtimes for the movie
-            for (int i = 1; i <= x; i++) {
-                System.out.println("Enter the " + i + " Start showtime of the movie");
-                Date tS = Main.getUserDateTime();
+                // Loop to get the start and end showtimes for the movie
+                for (int i = 1; i <= x; i++) {
+                    System.out.println("Enter the " + i + " Start showtime of the movie");
+                    Date tS = Main.getUserDateTime();
 
-                System.out.println("Enter the " + i + " End showtime of the movie");
-                Date tE = Main.getUserDateTime();
+                    System.out.println("Enter the " + i + " End showtime of the movie");
+                    Date tE = Main.getUserDateTime();
 
-                Showtimes s = new Showtimes(tS, tE);
-                show.add(s);
-            }
-            System.out.println("Enter the title of the movie");
-            String name = scanner.next();
-            System.out.println("Enter the genre of the movie");
-            String g = scanner.next();
-            // Create a new BackEnd.Movie object with the provided details
-            Movie m = new Movie(name, g, show, "anything");
-            // Add the movie to the specified hall in the halls ArrayList
-            InfoFiles f = new InfoFiles();
-            Map<String, ArrayList<Movie>> moviesGenre;
-            if (f.fileGenre.length() == 0) {
-                moviesGenre = new HashMap<>();
-                moviesGenre.put("action", new ArrayList<>());
-                moviesGenre.put("Drama", new ArrayList<>());
-                moviesGenre.put("comedy", new ArrayList<>());
-                moviesGenre.put("adventure", new ArrayList<>());
-                moviesGenre.put("documentary", new ArrayList<>());
-                f.saveFileMovieGenre(moviesGenre);
-            }
-            moviesGenre = f.loadFileMovieGenre();
-            moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
-            moviesGenre.get(g).add(m);
-            f.saveFileMovieGenre(moviesGenre);
-            f.appendToFile(name, m);
-            ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
-            if (hall.isEmpty()) {
-                for (int i = 0; i < 5; i++) {
-                    hall.add(new Cinema());
+                    Showtimes s = new Showtimes(tS, tE);
+                    show.add(s);
                 }
-            }
+                System.out.println("Enter the title of the movie");
+                String name = scanner.next();
+                System.out.println("Enter the genre of the movie");
+                String g = scanner.next();
+                System.out.println("Enter the price of the movie");
+                double p = scanner.nextDouble();
+                // Create a new BackEnd.Movie object with the provided details
+                Movie m = new Movie(name, g, show, "anything", p);
+                // Add the movie to the specified hall in the halls ArrayList
+                InfoFiles f = new InfoFiles();
+                Map<String, ArrayList<Movie>> moviesGenre;
+                if (f.fileGenre.length() == 0) {
+                    moviesGenre = new HashMap<>();
+                    moviesGenre.put("action", new ArrayList<>());
+                    moviesGenre.put("Drama", new ArrayList<>());
+                    moviesGenre.put("comedy", new ArrayList<>());
+                    moviesGenre.put("adventure", new ArrayList<>());
+                    moviesGenre.put("documentary", new ArrayList<>());
+                    f.saveFileMovieGenre(moviesGenre);
+                }
+                moviesGenre = f.loadFileMovieGenre();
+                moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
+                moviesGenre.get(g).add(m);
+                f.saveFileMovieGenre(moviesGenre);
+                f.appendToFile(name, m);
+                ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
+                if (hall.isEmpty()) {
+                    for (int i = 0; i < 5; i++) {
+                        hall.add(new Cinema());
+                    }
+                }
 
-            // Load hall data
-            hall.get(hallNumToadd - 1).getMovies().add(m);
-            f.arrayOfObjectHallsSave(hall);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                // Load hall data
+                hall.get(hallNumToadd - 1).getMovies().add(m);
+                f.arrayOfObjectHallsSave(hall);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+
         }
     }
 
