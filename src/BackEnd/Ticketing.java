@@ -5,6 +5,31 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Ticketing {
+    public void bookTicketAsync(User user, int ticketNumber, Movie movie) {
+        Thread bookThread = new Thread(() -> {
+            try {
+                bookTicket(user, ticketNumber, movie);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("An error occurred during ticket booking.");
+            }
+        });
+
+        bookThread.start();
+    }
+    public void cancelTicketAsync(Ticket ticket, User user) {
+        Thread cancelThread = new Thread(() -> {
+            try {
+                cancelTicket(ticket, user);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("An error occurred during ticket cancellation.");
+            }
+        });
+
+        cancelThread.start();
+    }
+
     public void bookTicket(User user, int ticketNumber, Movie movie) {
         InfoFiles f = new InfoFiles();
         Scanner scanner = new Scanner(System.in);
@@ -108,32 +133,32 @@ public class Ticketing {
         InfoFiles f = new InfoFiles();
 
         try {
-            // Read user data
+
             ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
 
-            // Attempt to cancel ticket for the user
+
             boolean userCancellationSuccessful = users.stream()
                     .filter(u -> u.equals(user))
                     .findFirst()
                     .map(u -> u.getMyTickets().removeIf(t -> t == ticket))
                     .orElse(false);
 
-            // Save user data
+
             f.saveToFileAccounts(users, f.fileUser);
 
-            // Read movie data
+
             Map<String, Movie> movieTitle = f.loadFileMovie();
 
-            // Attempt to cancel ticket for the movie title
+
             int index = movieTitle.get(ticket.getMovie().getTitle()).getShowtimes().indexOf(ticket.getShowtime());
             boolean movieTitleCancellation = movieTitle.get(ticket.getMovie().getTitle()).getShowtimes().get(index).getTickets().get(ticket.getPosition()).isActive();
             movieTitle.get(ticket.getMovie().getTitle()).getShowtimes().get(index).getTickets().get(ticket.getPosition()).setActive(false);
             f.saveFileMovie(movieTitle);
 
-            // Read movie genre data
+
             Map<String, ArrayList<Movie>> movieGenre = f.loadFileMovieGenre();
 
-            // Attempt to cancel ticket for the movie genre
+
             boolean movieGenreCancellation = movieGenre.get(ticket.getMovie().getGenre()).stream()
                     .filter(m -> m == ticket.getMovie())
                     .findFirst()
@@ -145,10 +170,10 @@ public class Ticketing {
                     .ifPresent(m -> m.getShowtimes().get(index).getTickets().get(ticket.getPosition()).setActive(false));
             f.saveFileMovieGenre(movieGenre);
 
-            // Read cinema halls data
+
             ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
 
-            // Attempt to cancel ticket for the cinema halls
+
             boolean hallCancellation = halls.stream()
                     .flatMap(hall -> hall.getMovies().stream())
                     .filter(m -> m == ticket.getMovie())
@@ -170,8 +195,7 @@ public class Ticketing {
                 return false;
             }
         } catch (Exception e) {
-            // Handle specific exceptions or log the exception
-            e.printStackTrace(); // Print the stack trace for debugging
+            e.printStackTrace();
             System.out.println("An error occurred during ticket cancellation.");
             return false;
         }

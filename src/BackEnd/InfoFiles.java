@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InfoFiles implements Serializable{
+public class InfoFiles implements Serializable {
     File file = new File("movie.ser");
+    File fileComing = new File("moviesComing.ser");
     File fileHalls = new File("Halls.ser");
     File fileGenre = new File("GenerMovies.ser");
     File fileUser = new File("fileUser.ser");
@@ -25,7 +26,6 @@ public class InfoFiles implements Serializable{
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
-            // Handle the exceptions, log the error, or display an appropriate message
             e.printStackTrace();
         }
 
@@ -39,11 +39,35 @@ public class InfoFiles implements Serializable{
                 oos.flush();
             }
         } catch (IOException e) {
-            // Handle the exception, log the error, or display an appropriate message
             e.printStackTrace();
         }
     }
+    Map<String, Movie> loadFileMovieComing() {
+        Map<String, Movie> mapRead = new HashMap<>();
 
+        try {
+            if (file.exists()) {
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileComing))) {
+                    mapRead = (Map<String, Movie>) ois.readObject();
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return mapRead;
+    }
+
+    void saveFileMovieComing(Map<String, Movie> movieMap) {
+        try {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileComing))) {
+                oos.writeObject(movieMap);
+                oos.flush();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     void arrayOfObjectHallsSave(ArrayList<Cinema> hall) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
