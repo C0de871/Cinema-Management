@@ -1,5 +1,6 @@
 package Pages;
 
+import BackEnd.User;
 import CustomComponent.Text.MyText;
 import CustomComponent.Text.MyTextField;
 import CustomComponent.CustomPanel.PanelRound;
@@ -12,18 +13,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static CustomComponent.StaticClass.Properties.dark_Gray;
 import static CustomComponent.StaticClass.Properties.white_;
 
 public class Comment extends PanelRound {
     private ArrayList<CommentInfo> commentInfos = new ArrayList<>();
+
     MyText userInput;
     MyText userName;
     private JPanel commentsPanel;
     MyTextField userCommentInput;
 
-    Comment() {
+    Comment(Map<User, ArrayList<String>> comments) {
+        for (Map.Entry<User, ArrayList<String>> entry : comments.entrySet()) {
+            String name = entry.getKey().getName();
+            for (String c : entry.getValue()) {
+                String comment = c;
+                CommentInfo commentInfo = new CommentInfo(name, comment);
+                commentInfos.add(commentInfo);
+            }
+        }
         this.setRoundBottomLeft(40);
         this.setRoundBottomRight(40);
         this.setRoundTopLeft(40);
@@ -44,6 +55,7 @@ public class Comment extends PanelRound {
         MigLayout layout = new MigLayout("wrap, gapx 2%,ax center", "push[center]push");
         commentsPanel = new JPanel(layout);
         commentsPanel.setBackground(dark_Gray);
+        refreshLabelPanel();
         if (isPanelEmpty(commentsPanel)) {
             MyText noComment = new MyText("No comments yet", 18, white_, 0);
             MyText massage = new MyText("say something to start the conversation", 15, Color.decode("#373737"), 0);

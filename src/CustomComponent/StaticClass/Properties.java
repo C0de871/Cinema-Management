@@ -1,5 +1,7 @@
 package CustomComponent.StaticClass;
 
+import BackEnd.User;
+
 import java.awt.*;
 
 public class Properties {
@@ -12,6 +14,7 @@ public class Properties {
     public static Color white_ = Color.decode("#FFFFFF");
     public static Color gray_ = Color.decode("#B2B3B6");
     public static String currentPage = "Discover";
+    public static User user;
 
 }
 

@@ -1,5 +1,7 @@
 package Pages;
 
+import BackEnd.Movie;
+
 import javax.swing.*;
 
 import static CustomComponent.StaticClass.MyPanels.*;
@@ -42,8 +44,8 @@ public class Cardpanel extends JPanel {
         cardLayout.show(this, s);
     }
 
-    public void m() {
-        MovieInfoPanel movieInfoPanel1 = new MovieInfoPanel();
+    public void m(Movie movie) {
+        MovieInfoPanel movieInfoPanel1 = new MovieInfoPanel(movie);
         this.add(movieInfoPanel1, "MovieInfo");
         cardLayout.show(this, "MovieInfo");
     }
