@@ -45,7 +45,7 @@ public class MyIcon {
 
     static {
         try {
-            originalImage = ImageIO.read(new File("D:/TheFinalProject/assest/joker.jpg"));
+            originalImage = ImageIO.read(new File("assest/joker.jpg"));
         } catch (IOException e) {
             System.out.println("im");
         }
