@@ -5,7 +5,6 @@ import BackEnd.Showtimes;
 import BackEnd.Ticket;
 import CustomComponent.StaticClass.ChairLabel;
 import CustomComponent.StaticClass.MyIcon;
-import CustomComponent.StaticClass.Properties;
 import CustomComponent.Text.MyText;
 import CustomComponent.CustomPanel.PanelRound;
 import CustomComponent.popDialgou.GlassPanePopup;
@@ -24,31 +23,41 @@ import static CustomComponent.StaticClass.Properties.*;
 
 public class Ticketing extends PanelRound {
     int chairNum = 0;
-    ArrayList<Integer> pos;
+    ArrayList<Integer> addPos;
+    ArrayList<Integer> cancelPos;
+
     ArrayList<Ticket> tickets;
     Showtimes showtimes;
     Movie movie;
 
     public void addChair(int pos) {
         chairNum++;
-        this.pos.add(pos);
+        this.addPos.add(pos);
     }
 
     public void minusChair(int pos) {
         chairNum--;
-        this.pos.remove((Integer) pos);
+        this.addPos.remove((Integer) pos);
+    }
+
+    public void addCancel(int pos) {
+        this.cancelPos.add((Integer) pos);
+    }
+
+    public void minusCancel(int pos) {
+        this.cancelPos.remove((Integer) pos);
     }
 
 
-    private void jButton1ActionPerformed(MouseEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void book(MouseEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Message obj = new Message();
         obj.eventOK(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 System.out.println("Click OK");
                 BackEnd.Ticketing ticket = new BackEnd.Ticketing();
-                ticket.bookTicketAsync(user, pos, movie, showtimes);
-                pos.clear();
+                ticket.bookTicketAsync(user, addPos, movie, showtimes);
+                addPos.clear();
                 chairNum = 0;
                 GlassPanePopup.closePopupLast();
             }
@@ -56,6 +65,20 @@ public class Ticketing extends PanelRound {
         GlassPanePopup.showPopup(obj);
     }
 
+    private void cancel(MouseEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Message obj = new Message();
+        obj.eventOK(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                System.out.println("Click OK");
+//                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
+//                ticket.bookTicketAsync(user, addPos, movie, showtimes);
+                cancelPos.clear();
+                GlassPanePopup.closePopupLast();
+            }
+        });
+        GlassPanePopup.showPopup(obj);
+    }
     public Ticketing(Showtimes showtimes, Movie movie) {
         this.showtimes = showtimes;
         this.movie = movie;
@@ -76,15 +99,19 @@ public class Ticketing extends PanelRound {
             }
         }
 
-        JLabel rightArrow = new JLabel(MyIcon.rightArrow);
+        JLabel bookRightArrow = new JLabel(MyIcon.rightArrow);
         MyText bookTicket = new MyText("Book Now", 30, Color.WHITE, 0);
+        JLabel unbookRightArrow = new JLabel(MyIcon.rightArrow);
+        MyText cancelTicket = new MyText("Cancel!", 30, Color.WHITE, 0);
         this.add(bookTicket, "spanx 6, split 2,center");
-        this.add(rightArrow, "center");
+        this.add(bookRightArrow, "center,wrap");
+        this.add(cancelTicket, "spanx 6, split 2,center");
+        this.add(unbookRightArrow, "center");
         MouseListener listener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println(chairNum);
-                jButton1ActionPerformed(e);
+                book(e);
             }
 
             @Override
@@ -100,17 +127,53 @@ public class Ticketing extends PanelRound {
             @Override
             public void mouseEntered(MouseEvent e) {
                 bookTicket.setForeground(blue_);
-                rightArrow.setIcon(MyIcon.clickedRightArrow);
+                bookRightArrow.setIcon(MyIcon.clickedRightArrow);
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 bookTicket.setForeground(white_);
-                rightArrow.setIcon(MyIcon.rightArrow);
+                bookRightArrow.setIcon(MyIcon.rightArrow);
             }
         };
-        rightArrow.addMouseListener(listener);
+
+        bookRightArrow.addMouseListener(listener);
         bookTicket.addMouseListener(listener);
+
+//        unBookListener
+
+        MouseListener unBookListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println(chairNum);
+                cancel(e);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                cancelTicket.setForeground(blue_);
+                unbookRightArrow.setIcon(MyIcon.clickedRightArrow);
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                cancelTicket.setForeground(white_);
+                unbookRightArrow.setIcon(MyIcon.rightArrow);
+            }
+        };
+        unbookRightArrow.addMouseListener(unBookListener);
+        cancelTicket.addMouseListener(unBookListener);
     }
 }

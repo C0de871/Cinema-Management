@@ -41,6 +41,7 @@ public class MyIcon {
 
     public static ImageIcon logo = new ImageIcon("assest/videocam.png");
     static ImageIcon logo2 = new ImageIcon("assest/videocam (1).png");
+    public static ImageIcon profile = new ImageIcon("assest/profile.png");
     public static BufferedImage originalImage;
 
     static {
