@@ -72,6 +72,7 @@ public class Ticketing extends PanelRound {
                 ChairLabel chair = new ChairLabel(cnt, this, tickets.get(cnt));
                 this.add(chair);
                 cnt++;
+
             }
         }
 

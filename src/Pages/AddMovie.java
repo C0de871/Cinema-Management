@@ -3,15 +3,22 @@ package Pages;
 import BackEnd.Cinema;
 import CustomComponent.Button.ShadingButton;
 import CustomComponent.Text.ShadingTextField;
+import jnafilechooser.api.JnaFileChooser;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import static CustomComponent.StaticClass.MyPanels.*;
 import static CustomComponent.StaticClass.Properties.light_Gray;
 import static CustomComponent.Text.MyText.*;
+import static CustomComponent.Text.MyText.addMovie;
+
+import CustomComponent.CustomComboBox.Combobox;
 
 public class AddMovie extends JPanel {
     public AddMovie() {
@@ -26,47 +33,35 @@ public class AddMovie extends JPanel {
         ShadingTextField showTime3StartField = new ShadingTextField();
         ShadingTextField showTime3EndField = new ShadingTextField();
 
-        ArrayList<String> time = new ArrayList<>();
 
-        showTime1StartField.getText();
-        showTime1EndField.getText();
-        showTime2StartField.getText();
-        showTime2EndField.getText();
-        showTime3StartField.getText();
-        showTime3EndField.getText();
-        time.add(showTime1StartField.getText());
-        time.add(showTime1EndField.getText());
-        time.add(showTime2StartField.getText());
-        time.add(showTime2EndField.getText());
-        time.add(showTime3StartField.getText());
-        time.add(showTime3EndField.getText());
 
-   /*     Cinema c=new Cinema();
-        c.addMovie("N", nameField.getText(), genreField.getText(),priceField.getText(), hallNumField.getText());*/
         this.setBackground(light_Gray);
-        MigLayout layout = new MigLayout("insets 2%", "", "[]7%[]2%[]2%[]2%[]");
+        MigLayout layout = new MigLayout("insets 2%", "", "[]7%[]7%[]7%[]14%[]");
         this.setLayout(layout);
-        this.add(addMovie, "wrap,spanx,center");
+        this.add(addMovie, "wrap,spanx,center,pushx");
         this.add(movieTitle, "split 4 , spanx,center");
         this.add(nameField, "w 20%,gapafter 10%,center");
 
-        this.add(movieGenre, "center");
-        this.add(genreField, "w 20%,wrap,center");
+        Combobox genre = new Combobox();
+        genre.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public void setBackground(Color c) {
+                // Override the setBackground method to set a transparent color
+                super.setBackground(new Color(0, 0, 0, 0));
+            }
+        });
+        genre.setModel(new DefaultComboBoxModel(new String[]{"action", "drama", "comedy", "adventure", "documentary"}));
+        genre.setSelectedIndex(-1);
+        genre.setLabeText("Genre");
+        genre.setBackground(light_Gray);
 
-        this.add(movieShowTime_1, "pushx,center");
-        this.add(movieShowTime_2, "pushx,center");
-        this.add(movieShowTime_3, "pushx,center,wrap");
-//        layout.setLayoutConstraints(" debug ");
-//        layout.setColumnConstraints("");
-//        this.add(movieStart, " split 4 , spanx,gap before 13%,gap after 1%,sg 1");
-        this.add(showTime1StartField, "pushx,center, w 15%");
-        this.add(showTime2StartField, "pushx,center, w 15%");
-        this.add(showTime3StartField, "pushx,center, w 15%,wrap");
+//        genre.set
+        this.add(genre, "center,wrap,w 20%");
+//        this.add(genreField, "w 20%,wrap,center");
+        this.add(show1, "center,w 20%,spanx,split 3,gap after 5%");
+        this.add(show2, "center,w 20%,gap after 5%");
+        this.add(show3, "center,w 20%,wrap");
 
-//        this.add(movieEnd,"split 4 , spanx,gap before 13%,gap after 1%,sg 1");
-        this.add(showTime1EndField, "pushx,center, w 15%");
-        this.add(showTime2EndField, "pushx,center, w 15%");
-        this.add(showTime3EndField, "pushx,center, w 15%,wrap");
         this.add(moviePrice, "split 4 , spanx,center");
         this.add(priceField, "w 20%,gapafter 10%,center");
 
@@ -74,9 +69,42 @@ public class AddMovie extends JPanel {
         this.add(hallNumField, "w 20%,wrap,center");
 
         ShadingButton button = new ShadingButton();
-        button.setBackground(new java.awt.Color(246, 246, 246));
-        button.setShadowColor(new Color(170, 170, 170));
+        button.setBackground(new java.awt.Color(29, 162, 253));
+        button.setForeground(new java.awt.Color(245, 245, 245));
+        button.setRippleColor(new java.awt.Color(255, 255, 255));
+        button.setShadowColor(new java.awt.Color(29, 162, 253));
         button.setText("Add");
         this.add(button, "center,pushx,span,w 10%");
+        MouseListener listener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JnaFileChooser chooser = new JnaFileChooser();
+                boolean action = chooser.showOpenDialog(null);
+                if (action) {
+                    System.out.println(chooser.getSelectedFile());
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+        button.addMouseListener(listener);
     }
 }
