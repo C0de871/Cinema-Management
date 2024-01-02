@@ -12,6 +12,7 @@ import static CustomComponent.StaticClass.Properties.user;
 public class ChairLabel extends JLabel {
     boolean booked = false;
     boolean editable = true;
+    //    boolean myChair=false;
     int cnt;
     Ticketing ticketing;
     Ticket ticket;
@@ -24,9 +25,10 @@ public class ChairLabel extends JLabel {
         this.serialNum = ticket.getSerialNumber();
         this.cnt = cnt;
         this.ticketing = ticketing;
-        if (user.has(serialNum))
+        if (user.has(serialNum)) {
+            this.booked = true;
             this.setIcon(MyIcon.myChair);
-        else if (!this.isActive)
+        } else if (!this.isActive)
             this.setIcon(MyIcon.chairIcon);
         else {
             this.editable = false;
@@ -36,7 +38,17 @@ public class ChairLabel extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (editable) {
-                    if (!booked) {
+                    if (user.has(serialNum)) {
+                        if (!booked) {
+                            ChairLabel.this.setIcon(MyIcon.myChair);
+                            booked = true;
+                            ticketing.addCancel(cnt);
+                        } else {
+                            ChairLabel.this.setIcon(MyIcon.chairIcon);
+                            booked = false;
+                            ticketing.minusCancel(cnt);
+                        }
+                    } else if (!booked) {
                         ChairLabel.this.setIcon(MyIcon.bookedChair);
                         booked = true;
                         ticketing.addChair(cnt);

@@ -5,21 +5,23 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
+import static CustomComponent.StaticClass.MyLabels.profileIcon;
 import static CustomComponent.Text.MyText.*;
 import static CustomComponent.StaticClass.Properties.*;
 
 public class DiscoverBody extends JPanel {
     public DiscoverBody() {
         //set Layout and Background for the body
-        this.setLayout(new MigLayout("inset 0,gap 0", "2%[][]9%", "2%[]2%[]2%[]2%[]"));
+        this.setLayout(new MigLayout("inset 0,gap 0", "2%[][]1%", "2%[center]2%[]2%[]2%[]"));
         this.setBackground(light_Gray);
 
         //Add Text
-        this.add(showTimes, "split 2,growx,pushx");
+        this.add(showTimes, "split 3,growx,pushx,center");
 
         //Add search field
         Search searchText = new Search(dark_Gray);
-        this.add(searchText, "w 20%,wrap,top,gp 1");
+        this.add(searchText, "w 20%,center,gp 1");
+        this.add(profileIcon, "center,gap before 4%,wrap");
 
         //Add ShowTimes Panel
         ShowTimesContentPane showTimescontentPane = new ShowTimesContentPane("","general");
