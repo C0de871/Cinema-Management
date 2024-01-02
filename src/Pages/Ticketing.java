@@ -23,8 +23,8 @@ import static CustomComponent.StaticClass.Properties.*;
 
 public class Ticketing extends PanelRound {
     int chairNum = 0;
-    ArrayList<Integer> addPos;
-    ArrayList<Integer> cancelPos;
+    ArrayList<Integer> addPos = new ArrayList<>();
+    ArrayList<Integer> cancelPos = new ArrayList<>();
 
     ArrayList<Ticket> tickets;
     Showtimes showtimes;
@@ -71,8 +71,9 @@ public class Ticketing extends PanelRound {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 System.out.println("Click OK");
-//                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
-//                ticket.bookTicketAsync(user, addPos, movie, showtimes);
+                BackEnd.Ticketing ticket = new BackEnd.Ticketing();
+                ticket.cancelTicketAsync(user, cancelPos, movie, showtimes);
+
                 cancelPos.clear();
                 GlassPanePopup.closePopupLast();
             }
@@ -83,6 +84,7 @@ public class Ticketing extends PanelRound {
         this.showtimes = showtimes;
         this.movie = movie;
         this.tickets = showtimes.getTickets();
+        System.out.println(tickets.size());
         this.setRoundBottomLeft(40);
         this.setRoundBottomRight(40);
         this.setRoundTopLeft(40);

@@ -34,7 +34,6 @@ public class AddMovie extends JPanel {
         ShadingTextField showTime3EndField = new ShadingTextField();
 
 
-
         this.setBackground(light_Gray);
         MigLayout layout = new MigLayout("insets 2%", "", "[]7%[]7%[]7%[]14%[]");
         this.setLayout(layout);
@@ -46,7 +45,7 @@ public class AddMovie extends JPanel {
         genre.setRenderer(new DefaultListCellRenderer() {
             @Override
             public void setBackground(Color c) {
-                // Override the setBackground method to set a transparent color
+
                 super.setBackground(new Color(0, 0, 0, 0));
             }
         });
@@ -61,7 +60,6 @@ public class AddMovie extends JPanel {
         this.add(show1, "center,w 20%,spanx,split 3,gap after 5%");
         this.add(show2, "center,w 20%,gap after 5%");
         this.add(show3, "center,w 20%,wrap");
-
         this.add(moviePrice, "split 4 , spanx,center");
         this.add(priceField, "w 20%,gapafter 10%,center");
 
@@ -78,11 +76,21 @@ public class AddMovie extends JPanel {
         MouseListener listener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                ArrayList<String> showtimes = new ArrayList<>();
+                showtimes.addAll(show1.showTimeInfo());
+                showtimes.addAll(show2.showTimeInfo());
+                showtimes.addAll(show3.showTimeInfo());
+                String path = null;
                 JnaFileChooser chooser = new JnaFileChooser();
                 boolean action = chooser.showOpenDialog(null);
                 if (action) {
-                    System.out.println(chooser.getSelectedFile());
+                    path = String.valueOf(chooser.getSelectedFile());
                 }
+                Cinema cinema = new Cinema();
+                if (nameField.getText() != null && genre.getSelectedItem() != null && priceField.getText() != null && hallNumField.getText() != null) {
+                    cinema.addMovie("N", nameField.getText(), (String) genre.getSelectedItem(), Double.parseDouble(priceField.getText()), Integer.parseInt(hallNumField.getText()), showtimes, path);
+                }
+
             }
 
             @Override

@@ -28,45 +28,37 @@ public class Cinema implements Serializable {
         return movies;
     }
 
-    public void addMovie(String type, String name, String g, double p, int h, ArrayList<String> showtimes) {
+    public void addMovie(String type, String name, String g, double p, int h, ArrayList<String> showtimes, String path) {
         Scanner scanner = new Scanner(System.in);
         InfoFiles f = new InfoFiles();
         if (type != "C") {
             try {
+//                ArrayList<String>showTimess= showtimes;
+//                System.out.println(name);
+//                System.out.println(g);
+//                System.out.println(p);
+//                System.out.println(h);
+//                for (String s:showTimess);
+//                {
+//                    System.out.println(s);
+//                }
                 ArrayList<Showtimes> show = new ArrayList<>();
-                for (int i = 0; i < 6; i += 2) {
-                    if (Objects.equals(showtimes.get(i), "0")) {
-                        i += 2;
-                    }
-                    String dateTimeStringS = showtimes.get(i);
-                    String[] dateTimeParts = dateTimeStringS.split("/|/");
-                    String dateS = dateTimeParts[0] + "/" + dateTimeParts[1] + "/" + dateTimeParts[2];
-                    String timeS = dateTimeParts[3];
+                for (int i = 0; i < showtimes.size(); i += 4) {
+                    String dateStart = showtimes.get(i);
+                    String timeStart = showtimes.get(i + 1);
+                    Date Start = Main.getUserDateTime(dateStart, timeStart);
 
-                    String dateTimeStringE = showtimes.get(i);
-                    String[] dateTimePartsE = dateTimeStringE.split("/|/");
+                    String dateEnd = showtimes.get(i + 2);
+                    String timeEnd = showtimes.get(i + 3);
+                    Date End = Main.getUserDateTime(dateEnd, timeEnd);
+                    Showtimes showtimes1 = new Showtimes(Start, End);
+                    show.add(showtimes1);
 
-                    String dateE = dateTimeParts[0] + "/" + dateTimeParts[1] + "/" + dateTimeParts[2];
-                    String timeE = dateTimeParts[3];
-
-
-                    Date tS = Main.getUserDateTime(dateE, timeE);
-                    Date tE = Main.getUserDateTime(dateS, timeS);
-                    Showtimes s = new Showtimes(tS, tE);
-
-                    show.add(s);
                 }
-                Movie m = new Movie(name, g, show, "anything", hallNum, p);
+                System.out.println("Date added!");
+                Movie m = new Movie(name, g, show, path, h, p);
                 Map<String, ArrayList<Movie>> moviesGenre;
-                if (f.fileGenre.length() == 0) {
-                    moviesGenre = new HashMap<>();
-                    moviesGenre.put("action", new ArrayList<>());
-                    moviesGenre.put("Drama", new ArrayList<>());
-                    moviesGenre.put("comedy", new ArrayList<>());
-                    moviesGenre.put("adventure", new ArrayList<>());
-                    moviesGenre.put("documentary", new ArrayList<>());
-                    f.saveFileMovieGenre(moviesGenre);
-                }
+
                 moviesGenre = f.loadFileMovieGenre();
                 moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
                 moviesGenre.get(g).add(m);
@@ -79,7 +71,7 @@ public class Cinema implements Serializable {
                     }
                 }
                 // Load hall data
-                hall.get(hallNum - 1).getMovies().add(m);
+                hall.get(h - 1).getMovies().add(m);
                 f.arrayOfObjectHallsSave(hall);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -121,7 +113,16 @@ public class Cinema implements Serializable {
     private void updateMovieComments(Movie movie, User user, String comment) {
         try {
             Map<String, Movie> moviesTitle = infoFiles.loadFileMovie();
-            moviesTitle.get(movie.getTitle()).getComments().get(user).add(comment);
+            if (moviesTitle.get(movie.getTitle()).getComments().get(user) == null) {
+                ArrayList<String> com = new ArrayList<>();
+                com.add(comment);
+                moviesTitle.get(movie.getTitle()).getComments().put(user, com);
+                System.out.println("comment added");
+
+            } else {
+                moviesTitle.get(movie.getTitle()).getComments().get(user).add(comment);
+                System.out.println("comment added");
+            }
             infoFiles.saveFileMovie(moviesTitle);
         } catch (Exception e) {
             // Handle the exception, e.g., log it or display an error message

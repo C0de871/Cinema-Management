@@ -66,6 +66,7 @@ public class Ticketing {
                             users.get(userIndex).getMyTickets().add(selectedTicket);
 
                         }
+
                         hall.setMovies(movies);
                         f.saveToFileAccounts(users, f.fileUser);
                         break outer;
@@ -102,9 +103,9 @@ public class Ticketing {
         InfoFiles f = new InfoFiles();
 
         try {
-            Map<String, Movie> movieTitle = f.loadFileMovie();
+
             ArrayList<Ticket> tickets = new ArrayList<>();
-            Showtimes selectedShowtime = showtimes;
+
             ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
             int userIndex = users.indexOf(user);
             int index = 0;

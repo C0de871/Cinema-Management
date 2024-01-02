@@ -21,10 +21,16 @@ public class InfoFiles implements Serializable {
 
         try {
             if (file.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                    mapRead = (Map<String, Movie>) ois.readObject();
+                if (file.length() != 0) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                        mapRead = (Map<String, Movie>) ois.readObject();
+                        System.out.println("Loading Done");
+                    }
+                } else {
+                    System.out.println("File is empty");
                 }
             }
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -32,11 +38,13 @@ public class InfoFiles implements Serializable {
         return mapRead;
     }
 
+
     void saveFileMovie(Map<String, Movie> movieMap) {
         try {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                 oos.writeObject(movieMap);
                 oos.flush();
+                System.out.println("saving Done");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,8 +56,13 @@ public class InfoFiles implements Serializable {
 
         try {
             if (file.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileComing))) {
-                    mapRead = (Map<String, ComingSoon>) ois.readObject();
+                if (fileGenre.length() != 0) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileComing))) {
+                        mapRead = (Map<String, ComingSoon>) ois.readObject();
+                        System.out.println("Loading Done");
+                    }
+                } else {
+                    System.out.println("is equal to zero");
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -64,6 +77,7 @@ public class InfoFiles implements Serializable {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileComing))) {
                 oos.writeObject(movieMap);
                 oos.flush();
+                System.out.println("saving Done");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -74,6 +88,7 @@ public class InfoFiles implements Serializable {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileHalls))) {
             oos.writeObject(hall);
             oos.flush();
+            System.out.println("saving Done");
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -84,9 +99,20 @@ public class InfoFiles implements Serializable {
 
         try {
             if (fileHalls.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileHalls))) {
-                    reader = (ArrayList<Cinema>) ois.readObject();
+                if (fileHalls.length() != 0) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileHalls))) {
+                        reader = (ArrayList<Cinema>) ois.readObject();
+                        System.out.println("Loading Done");
+                    }
+                } else {
+                    System.out.println("is equal to zero");
                 }
+            }
+            if (fileHalls.createNewFile()) {
+
+                System.out.println("File created successfully.");
+            } else {
+                System.out.println("File already exists.");
             }
         } catch (IOException | ClassNotFoundException e) {
             // Handle the exceptions, log the error, or display an appropriate message
@@ -118,13 +144,33 @@ public class InfoFiles implements Serializable {
 
         try {
             if (fileGenre.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
-                    mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
+                if (fileGenre.length() != 0) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileGenre))) {
+                        mapRead = (Map<String, ArrayList<Movie>>) ois.readObject();
+                        System.out.println("Loading Done");
+                    }
+                } else {
+                    mapRead.put("action", new ArrayList<>());
+                    mapRead.put("Drama", new ArrayList<>());
+                    mapRead.put("comedy", new ArrayList<>());
+                    mapRead.put("adventure", new ArrayList<>());
+                    mapRead.put("documentary", new ArrayList<>());
+                    saveFileMovieGenre(mapRead);
+                    System.out.println("is equal to zero");
                 }
+            } else {
+                if (fileGenre.createNewFile()) {
+
+                    System.out.println("File created successfully.");
+                } else {
+                    System.out.println("File already exists.");
+                }
+
             }
         } catch (IOException | ClassNotFoundException e) {
             // Handle the exceptions, log the error, or display an appropriate message
             e.printStackTrace();
+            clearAllFiles();
         }
 
         return mapRead;
@@ -133,8 +179,10 @@ public class InfoFiles implements Serializable {
     void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) {
         try {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
+                System.out.println("saving Done");
                 oos.writeObject(movieMap);
                 oos.flush();
+
             }
         } catch (IOException e) {
             // Handle the exception, log the error, or display an appropriate message
@@ -156,8 +204,13 @@ public class InfoFiles implements Serializable {
         ArrayList<User> users = new ArrayList<>();
         try {
             if (file.exists()) {
-                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                    users = (ArrayList<User>) ois.readObject();
+                if (file.length() != 0) {
+                    try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+                        users = (ArrayList<User>) ois.readObject();
+                        System.out.println("Loading Done");
+                    }
+                } else {
+                    System.out.println("is equal to zero");
                 }
                 System.out.println("Data read from file: " + file);
             } else {
