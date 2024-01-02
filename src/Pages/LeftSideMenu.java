@@ -1,6 +1,7 @@
 package Pages;
 
 import CustomComponent.Button.ShadingButton;
+import CustomComponent.ScrollPane.ScrollPaneWin11;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

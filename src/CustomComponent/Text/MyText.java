@@ -14,7 +14,7 @@ public class MyText extends JLabel {
     }
 
     public static MyText appName = new MyText("Tr", 20, blue_, 1);
-    public static MyText addMovie = new MyText("Add Movie", 50, light_Blue, 1);
+    public static MyText addMovie = new MyText("Add Movie", 50, new java.awt.Color(29, 162, 253), 1);
 
     public static MyText movieTitle = new MyText("Title : ", 20, Color.decode("#7f7f82"), 1);
     public static MyText movieGenre = new MyText("Genre : ", 20, Color.decode("#7f7f82"), 1);

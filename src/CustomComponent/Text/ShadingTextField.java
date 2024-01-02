@@ -13,6 +13,11 @@ import java.awt.image.BufferedImage;
 import static CustomComponent.StaticClass.Properties.dark_Gray;
 
 public class ShadingTextField extends JTextField {
+    private String hint = "";
+
+    public void setHint(String hint) {
+        this.hint = hint;
+    }
 
     public int getRound() {
         return round;
@@ -47,6 +52,19 @@ public class ShadingTextField extends JTextField {
         setSelectionColor(new Color(133, 209, 255));
         setBorder(new EmptyBorder(10, 12, 15, 12));
         setBackground(Color.decode("#1A1A25"));
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        if (getText().length() == 0) {
+            int h = getHeight();
+            ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            Insets ins = getInsets();
+            FontMetrics fm = g.getFontMetrics();
+            g.setColor(new Color(159, 159, 159));
+            g.drawString(hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
+        }
     }
 
     @Override

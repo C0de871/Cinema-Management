@@ -1,6 +1,7 @@
 package BackEnd;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,8 +28,7 @@ public class Cinema implements Serializable {
         return movies;
     }
 
-    void addMovie(String type, String name, String g, double p, int hallnum, ArrayList<String> showtimes) {
-
+    public void addMovie(String type, String name, String g, double p, int h, ArrayList<String> showtimes) {
         Scanner scanner = new Scanner(System.in);
         InfoFiles f = new InfoFiles();
         if (type != "C") {

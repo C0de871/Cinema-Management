@@ -45,6 +45,9 @@ public class MyPanels {
     public static DiscoverBody bodyPanel = new DiscoverBody();
     public static TrendingBody trendingBody = new TrendingBody();
     public static UpcomingBody upcomingBody = new UpcomingBody();
+    public static InputShowStart show1 = new InputShowStart(movieShowTime_1);
+    public static InputShowStart show2 = new InputShowStart(movieShowTime_2);
+    public static InputShowStart show3 = new InputShowStart(movieShowTime_3);
     public static AddMovie addMovie = new AddMovie();
     public static Action action = new Action();
     public static Drama drama = new Drama();
