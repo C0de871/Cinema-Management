@@ -27,12 +27,12 @@ public class ChairLabel extends JLabel {
         this.ticketing = ticketing;
         if (user.has(serialNum)) {
             this.booked = true;
-            this.setIcon(MyIcon.myChair);
+            this.setIcon(MyIcon.myChair);// red  for the current user if he click on the book
         } else if (!this.isActive)
-            this.setIcon(MyIcon.chairIcon);
+            this.setIcon(MyIcon.chairIcon);// light blue non booked
         else {
             this.editable = false;
-            this.setIcon(MyIcon.bookedChair);
+            this.setIcon(MyIcon.bookedChair);// Blue
         }
         MouseListener listener = new MouseListener() {
             @Override

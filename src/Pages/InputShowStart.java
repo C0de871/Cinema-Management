@@ -6,20 +6,27 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
+import java.util.ArrayList;
+
 import static CustomComponent.StaticClass.Properties.light_Gray;
 import static CustomComponent.Text.MyText.movieShowTime_1;
 
 public class InputShowStart extends JPanel {
+    ShadingTextField showTimeDateStartField;
+    ShadingTextField showTimeDateEndField;
+    ShadingTextField showTimeHourStartField;
+    ShadingTextField showTimeHourEndField;
+
     public InputShowStart(MyText showNum) {
         this.setLayout(new MigLayout("center", "push[center]push"));
-        ShadingTextField showTimeDateStartField = new ShadingTextField();
+        showTimeDateStartField = new ShadingTextField();
         //dd/MM/yyyy hh:mm a
         showTimeDateStartField.setHint("Start: dd/MM/yyyy");
-        ShadingTextField showTimeDateEndField = new ShadingTextField();
+        showTimeDateEndField = new ShadingTextField();
         showTimeDateEndField.setHint("End: dd/MM/yyyy");
-        ShadingTextField showTimeHourStartField = new ShadingTextField();
+        showTimeHourStartField = new ShadingTextField();
         showTimeHourStartField.setHint("Start: hh:mm a");
-        ShadingTextField showTimeHourEndField = new ShadingTextField();
+        showTimeHourEndField = new ShadingTextField();
         showTimeHourEndField.setHint("End: hh:mm a");
 
         this.setBackground(light_Gray);
@@ -28,5 +35,14 @@ public class InputShowStart extends JPanel {
         this.add(showTimeDateEndField, "wrap,w 50%");
         this.add(showTimeHourStartField, "split 2,w 50%");
         this.add(showTimeHourEndField, "wrap,w 50%");
+    }
+
+    ArrayList<String> showTimeInfo() {
+        ArrayList<String> showTimes = new ArrayList<>();
+        showTimes.add(showTimeDateStartField.getText());
+        showTimes.add(showTimeHourStartField.getText());
+        showTimes.add(showTimeDateEndField.getText());
+        showTimes.add(showTimeHourEndField.getText());
+        return showTimes;
     }
 }

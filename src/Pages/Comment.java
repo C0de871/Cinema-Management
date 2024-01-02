@@ -30,12 +30,14 @@ public class Comment extends PanelRound {
 
     Comment(Map<User, ArrayList<String>> comments, Movie movie) {
         this.movie = movie;
-        for (Map.Entry<User, ArrayList<String>> entry : comments.entrySet()) {
-            String name = entry.getKey().getName();
-            for (String c : entry.getValue()) {
-                String comment = c;
-                CommentInfo commentInfo = new CommentInfo(name, comment);
-                commentInfos.add(commentInfo);
+        if (comments != null) {
+            for (Map.Entry<User, ArrayList<String>> entry : comments.entrySet()) {
+                String name = entry.getKey().getName();
+                for (String c : entry.getValue()) {
+                    String comment = c;
+                    CommentInfo commentInfo = new CommentInfo(name, comment);
+                    commentInfos.add(commentInfo);
+                }
             }
         }
         this.setRoundBottomLeft(40);
@@ -43,11 +45,11 @@ public class Comment extends PanelRound {
         this.setRoundTopLeft(40);
         this.setRoundTopRight(40);
         this.setBackground(dark_Gray);
-        this.setLayout(new MigLayout("insets 3% 3% 3% 3%", "[]3%[]5%[]", "[]5%[]"));
+        this.setLayout(new MigLayout("debug,insets 3% 3% 3% 3%", "[]3%[]5%[]", "[]5%[]"));
 
         MyText comment = new MyText("Comments", 40, Color.white, 1);
         comment.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#373737")));
-        this.add(comment, "pushx,growx,wrap");
+        this.add(comment, "pushx,growx,wrap,left");
 
         userCommentInput = new MyTextField(Color.WHITE);
         userCommentInput.setForeground(white_);
@@ -65,7 +67,9 @@ public class Comment extends PanelRound {
 
             commentsPanel.add(noComment, "wrap");
             commentsPanel.add(massage, "wrap");
-
+        } else {
+            layout.setLayoutConstraints("wrap, gapx 2% ");
+            layout.setColumnConstraints("");
         }
 
         userCommentInput.addActionListener(new ActionListener() {
@@ -92,6 +96,7 @@ public class Comment extends PanelRound {
             Cinema cinema = new Cinema();
             cinema.leaveComment(user, movie, comment);
         }
+        refreshLabelPanel();
     }
 
     private void refreshLabelPanel() {

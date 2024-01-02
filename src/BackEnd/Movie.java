@@ -1,17 +1,14 @@
 package BackEnd;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Movie implements Serializable {
 
     private String title;
     private String genre;
     private ArrayList<Integer> Rating;
-    private Map<User, ArrayList<String>> Comments;
+    private Map<User, ArrayList<String>> comments;
     private String moviePath;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
@@ -28,7 +25,7 @@ public class Movie implements Serializable {
     }
 
     public Map<User, ArrayList<String>> getComments() {
-        return Comments;
+        return comments;
     }
 
 
@@ -60,6 +57,9 @@ public class Movie implements Serializable {
         this.MinutesOfMovie = showtimes.get(0).getMovieDuration();
         this.moviePath = moviePath;
         Rating = new ArrayList<>();
+
+        comments = new HashMap<>();
+
     }
 
     public int popularity(Movie movie) {
@@ -224,7 +224,7 @@ public class Movie implements Serializable {
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +
                 ", Rating=" + Rating +
-                ", Comments=" + Comments +
+                ", Comments=" + comments +
                 ", MinutesOfMovie=" + MinutesOfMovie +
                 ", showtimes=" + showtimes +
                 '}';
