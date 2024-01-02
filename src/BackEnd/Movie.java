@@ -65,9 +65,19 @@ public class Movie implements Serializable {
     public int popularity(Movie movie) {
         try {
             InfoFiles f = new InfoFiles();
-            Map<String, Movie> moviesTitle = f.loadFileMovie();
-            Movie selectedMovie = moviesTitle.get(movie.getTitle());
-
+            //Map<String, Movie> moviesTitle = f.loadFileMovie();
+            Movie selectedMovie = null;
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            outer:
+            for (Cinema hall : halls) {
+                ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
+                for (Movie m : movies) {
+                    if (m == movie) {
+                        selectedMovie = m;
+                        break outer;
+                    }
+                }
+            }
             if (selectedMovie == null) {
                 return 0;
             }
@@ -119,9 +129,18 @@ public class Movie implements Serializable {
     public double getAverageRating(Movie movie) {
         try {
             InfoFiles f = new InfoFiles();
-            Map<String, Movie> movies = f.loadFileMovie();
-            Movie selectedMovie = movies.get(movie.getTitle());
-
+            Movie selectedMovie = null;
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            outer:
+            for (Cinema hall : halls) {
+                ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
+                for (Movie m : movies) {
+                    if (m == movie) {
+                        selectedMovie = m;
+                        break outer;
+                    }
+                }
+            }
             if (selectedMovie == null) {
                 return 0.0;
             }
@@ -141,7 +160,7 @@ public class Movie implements Serializable {
         }
     }
 
-    private void addRatingToMovie(Movie movie, int rating, InfoFiles f) {
+ /*   private void addRatingToMovie(Movie movie, int rating, InfoFiles f) {
         try {
             Map<String, Movie> movies = f.loadFileMovie();
             Movie selectedMovie = movies.get(movie.getTitle());
@@ -153,9 +172,9 @@ public class Movie implements Serializable {
             e.printStackTrace();
             System.out.println("An error occurred while adding a rating to the movie.");
         }
-    }
+    }*/
 
-    private void addRatingToGenreMovies(Map<String, ArrayList<Movie>> moviesGenre, Movie movie, int rating, InfoFiles f) {
+ /*   private void addRatingToGenreMovies(Map<String, ArrayList<Movie>> moviesGenre, Movie movie, int rating, InfoFiles f) {
         try {
             moviesGenre.get(movie.getGenre()).stream()
                     .filter(m -> m == movie)
@@ -168,7 +187,7 @@ public class Movie implements Serializable {
             e.printStackTrace();
             System.out.println("An error occurred while adding a rating to the genre movies.");
         }
-    }
+    }*/
 
     private void addRatingToCinemaMovies(ArrayList<Cinema> halls, Movie movie, int rating, InfoFiles f) {
         try {
@@ -189,9 +208,9 @@ public class Movie implements Serializable {
         System.out.println("Enter your Rate from 10");
         try (Scanner scanner = new Scanner(System.in)) {
             int rating = scanner.nextInt();
-            addRatingToMovie(movie, rating, f);
-            Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
-            addRatingToGenreMovies(moviesGenre, movie, rating, f);
+            // addRatingToMovie(movie, rating, f);
+           /* Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
+            addRatingToGenreMovies(moviesGenre, movie, rating, f);*/
 
             ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             addRatingToCinemaMovies(halls, movie, rating, f);
@@ -204,7 +223,7 @@ public class Movie implements Serializable {
 
     public void displayComments(Movie movie) {
         InfoFiles f = new InfoFiles();
-        Map<String, Movie> movieMap = f.loadFileMovie();
+       /* Map<String, Movie> movieMap = f.loadFileMovie();
         Movie selectedMovie = movieMap.get(movie.getTitle());
         if (selectedMovie != null) {
             Map<User, ArrayList<String>> comments = selectedMovie.getComments();
@@ -215,7 +234,7 @@ public class Movie implements Serializable {
                     System.out.println(comment);
                 }
             }
-        }
+        }*/
     }
 
     @Override

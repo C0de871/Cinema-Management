@@ -36,10 +36,10 @@ public class Ticketing {
    /* public void shutdownThreadPool() {
         threadPool.shutdown();
     }*/
-    public synchronized void bookTicket(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
+    public synchronized void bookTicket(User user,ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
         InfoFiles f = new InfoFiles();
         try {
-            Map<String, Movie> movieTitle = f.loadFileMovie();
+         //   Map<String, Movie> movieTitle = f.loadFileMovie();
             Showtimes selectedShowtime = showtimes;
             ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
             int userIndex = users.indexOf(user);
@@ -76,7 +76,7 @@ public class Ticketing {
             }
             f.arrayOfObjectHallsSave(halls);
 
-            Map<String, Movie> movies = f.loadFileMovie();
+          /*  Map<String, Movie> movies = f.loadFileMovie();
             movies.get(movie.getTitle()).getShowtimes().get(index).setTickets(tickets);
             f.saveFileMovie(movies);
 
@@ -92,7 +92,7 @@ public class Ticketing {
             }
 
             moviesGenre.put(genre, genreMovies);
-            f.saveFileMovieGenre(moviesGenre);
+            f.saveFileMovieGenre(moviesGenre);*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,7 +133,7 @@ public class Ticketing {
             }
 
             f.arrayOfObjectHallsSave(halls);
-
+/*
             Map<String, Movie> movies = f.loadFileMovie();
             movies.get(movie.getTitle()).getShowtimes().get(index).setTickets(tickets);
             f.saveFileMovie(movies);
@@ -150,7 +150,7 @@ public class Ticketing {
             }
 
             moviesGenre.put(genre, genreMovies);
-            f.saveFileMovieGenre(moviesGenre);
+            f.saveFileMovieGenre(moviesGenre);*/
 
         } catch (Exception e) {
             e.printStackTrace();

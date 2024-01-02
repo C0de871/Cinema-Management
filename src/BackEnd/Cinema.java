@@ -33,15 +33,7 @@ public class Cinema implements Serializable {
         InfoFiles f = new InfoFiles();
         if (type != "C") {
             try {
-//                ArrayList<String>showTimess= showtimes;
-//                System.out.println(name);
-//                System.out.println(g);
-//                System.out.println(p);
-//                System.out.println(h);
-//                for (String s:showTimess);
-//                {
-//                    System.out.println(s);
-//                }
+
                 ArrayList<Showtimes> show = new ArrayList<>();
                 for (int i = 0; i < showtimes.size(); i += 4) {
                     String dateStart = showtimes.get(i);
@@ -59,11 +51,11 @@ public class Cinema implements Serializable {
                 Movie m = new Movie(name, g, show, path, h, p);
                 Map<String, ArrayList<Movie>> moviesGenre;
 
-                moviesGenre = f.loadFileMovieGenre();
+           /*     moviesGenre = f.loadFileMovieGenre();
                 moviesGenre.computeIfAbsent(g, k -> new ArrayList<>());
                 moviesGenre.get(g).add(m);
                 f.saveFileMovieGenre(moviesGenre);
-                f.appendToFile(name, m);
+                f.appendToFile(name, m);*/
                 ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
                 if (hall.isEmpty()) {
                     for (int i = 0; i < 5; i++) {
@@ -88,21 +80,21 @@ public class Cinema implements Serializable {
         ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
         hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
         f.arrayOfObjectHallsSave(hall);
-        Map<String, Movie> movies = f.loadFileMovie();
+      /*  Map<String, Movie> movies = f.loadFileMovie();
         String removedValue = String.valueOf(movies.remove(title));
         Map<String, ArrayList<Movie>> movieGenre = f.loadFileMovieGenre();
         for (Map.Entry<String, ArrayList<Movie>> entry : movieGenre.entrySet()) {
             entry.getValue().removeIf(movie -> movie.getTitle().equals(title));
         }
         f.saveFileMovieGenre(movieGenre);
-        f.saveFileMovie(movies);
+        f.saveFileMovie(movies);*/
     }
 
     public void leaveComment(User user, Movie movie, String comment) {
         Scanner scanner = new Scanner(System.in);
         try {
-            updateMovieComments(movie, user, comment);
-            updateGenreComments(movie, user, comment);
+        /*    updateMovieComments(movie, user, comment);
+            updateGenreComments(movie, user, comment);*/
             updateHallsComments(movie, user, comment);
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +102,7 @@ public class Cinema implements Serializable {
         }
     }
 
-    private void updateMovieComments(Movie movie, User user, String comment) {
+  /*  private void updateMovieComments(Movie movie, User user, String comment) {
         try {
             Map<String, Movie> moviesTitle = infoFiles.loadFileMovie();
             if (moviesTitle.get(movie.getTitle()).getComments().get(user) == null) {
@@ -129,9 +121,9 @@ public class Cinema implements Serializable {
             e.printStackTrace();
             System.out.println("An error occurred while updating movie comments.");
         }
-    }
+    }*/
 
-    private void updateGenreComments(Movie movie, User user, String comment) {
+/*    private void updateGenreComments(Movie movie, User user, String comment) {
         try {
             Map<String, ArrayList<Movie>> moviesGenre = infoFiles.loadFileMovieGenre();
 
@@ -150,7 +142,7 @@ public class Cinema implements Serializable {
             e.printStackTrace();
             System.out.println("An error occurred while updating genre comments.");
         }
-    }
+    }*/
 
     private void updateHallsComments(Movie movie, User user, String comment) {
         try {
@@ -202,7 +194,7 @@ public class Cinema implements Serializable {
         }
     }*/
 
-    public ArrayList<Movie> getAllMoviesGenre(String genre) {
+   /* public ArrayList<Movie> getAllMoviesGenre(String genre) {
 
         InfoFiles f = new InfoFiles();
         if (Objects.equals(genre, "general"))
@@ -216,24 +208,26 @@ public class Cinema implements Serializable {
         } else {
             return moviesGenreArray;
         }
-    }
+    }*/
 
     public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
 
-    ArrayList<Movie> searchMovieByTitle() {
+    ArrayList<Movie> searchMovieByTitle(String title) {
         Scanner scanner = new Scanner(System.in);
         try {
-            System.out.println("Enter the title of the movie");
-            String title = scanner.nextLine();
-            InfoFiles f = new InfoFiles();
-            Map<String, Movie> moviesMap = f.loadFileMovie();
-            ArrayList<Movie> movies = new ArrayList<>(moviesMap.values());
 
-            movies = movies.stream()
-                    .filter(movie -> title.contains(movie.getTitle()))
-                    .collect(Collectors.toCollection(ArrayList::new));
+            InfoFiles f = new InfoFiles();
+            ArrayList<Movie> movies = new ArrayList<>();
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            for (Cinema hall : halls) {
+                ArrayList<Movie> hallMovies = (ArrayList<Movie>) hall.getMovies();
+                for (Movie movie : hallMovies) {
+                    if (movie.getTitle().contains(title))
+                        movies.add(movie);
+                }
+            }
             return movies;
         } catch (Exception e) {
             e.printStackTrace();
@@ -246,10 +240,9 @@ public class Cinema implements Serializable {
         try {
             InfoFiles f = new InfoFiles();
             ArrayList<Movie> movies = new ArrayList<>();
-            Map<String, Movie> moviesMap = f.loadFileMovie();
-
-            for (Map.Entry<String, Movie> entry : moviesMap.entrySet()) {
-                movies.add(entry.getValue());
+            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+            for (Cinema hall : halls) {
+                movies.addAll(hall.getMovies());
             }
             return movies;
         } catch (Exception e) {
@@ -258,25 +251,26 @@ public class Cinema implements Serializable {
         }
     }
 
-    /*    void printAllMoviesInHalls() {
-            InfoFiles f = new InfoFiles();
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
-            if (!halls.isEmpty()) {
-                for (int i = 0; i < halls.size(); i++) {
-                    List<Movie> movies = halls.get(i).getMovies();
-                    if (!movies.isEmpty()) {
-                        System.out.println("Movies in the " + (i + 1) + " hall:");
-                        for (Movie movie : movies) {
-                            System.out.println(movie);
-                        }
-                    } else {
-                        System.out.println("No movies found in the " + (i + 1) + " Hall");
+    void printAllMoviesInHalls() {
+        InfoFiles f = new InfoFiles();
+        ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+        if (!halls.isEmpty()) {
+            for (int i = 0; i < halls.size(); i++) {
+                List<Movie> movies = halls.get(i).getMovies();
+                if (!movies.isEmpty()) {
+                    System.out.println("Movies in the " + (i + 1) + " hall:");
+                    for (Movie movie : movies) {
+                        System.out.println(movie);
                     }
+                } else {
+                    System.out.println("No movies found in the " + (i + 1) + " Hall");
                 }
-            } else {
-                System.out.println("No halls found.");
             }
-        }*/
+        } else {
+            System.out.println("No halls found.");
+        }
+    }
+
     void addFavorite(User user, Movie movie) {
         try {
             InfoFiles f = new InfoFiles();

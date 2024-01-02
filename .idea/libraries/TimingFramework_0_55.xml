@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="TimingFramework-0.55">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../Login001/java-swing-login-ui-001/part 1/login-001/TimingFramework-0.55.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TimingFramework-0.55.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
