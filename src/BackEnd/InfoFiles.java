@@ -6,17 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InfoFiles implements Serializable {
-    File file = new File("movie.ser");
+    // File file = new File("movie.ser");
     File fileComing = new File("moviesComing.ser");
     File fileHalls = new File("Halls.ser");
-    File fileGenre = new File("GenerMovies.ser");
+    // File fileGenre = new File("GenerMovies.ser");
     public File fileUser = new File("fileUser.ser");
     File fileAdmin = new File("fileAdmin.ser");
 
     public InfoFiles() {
     }
 
-    Map<String, Movie> loadFileMovie() {
+  /*  Map<String, Movie> loadFileMovie() {
         Map<String, Movie> mapRead = new HashMap<>();
 
         try {
@@ -36,10 +36,10 @@ public class InfoFiles implements Serializable {
         }
 
         return mapRead;
-    }
+    }*/
 
 
-    void saveFileMovie(Map<String, Movie> movieMap) {
+/*    void saveFileMovie(Map<String, Movie> movieMap) {
         try {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
                 oos.writeObject(movieMap);
@@ -49,14 +49,14 @@ public class InfoFiles implements Serializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     Map<String, ComingSoon> loadFileMovieComing() {
         Map<String, ComingSoon> mapRead = new HashMap<>();
 
         try {
-            if (file.exists()) {
-                if (fileGenre.length() != 0) {
+            if (fileComing.exists()) {
+                if (fileComing.length() != 0) {
                     try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileComing))) {
                         mapRead = (Map<String, ComingSoon>) ois.readObject();
                         System.out.println("Loading Done");
@@ -132,14 +132,14 @@ public class InfoFiles implements Serializable {
     }
 
     public void clearAllFiles() {
-        clearFile(file);
+        // clearFile(file);
         clearFile(fileHalls);
-        clearFile(fileGenre);
+        //   clearFile(fileGenre);
         clearFile(fileUser);
         clearFile(fileAdmin);
     }
 
-    Map<String, ArrayList<Movie>> loadFileMovieGenre() {
+/*    Map<String, ArrayList<Movie>> loadFileMovieGenre() {
         Map<String, ArrayList<Movie>> mapRead = new HashMap<>();
 
         try {
@@ -174,9 +174,9 @@ public class InfoFiles implements Serializable {
         }
 
         return mapRead;
-    }
+    }*/
 
-    void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) {
+  /*  void saveFileMovieGenre(Map<String, ArrayList<Movie>> movieMap) {
         try {
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileGenre))) {
                 System.out.println("saving Done");
@@ -188,7 +188,7 @@ public class InfoFiles implements Serializable {
             // Handle the exception, log the error, or display an appropriate message
             e.printStackTrace();
         }
-    }
+    }*/
 
     void saveToFileAccounts(ArrayList<User> users, File file) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -222,11 +222,11 @@ public class InfoFiles implements Serializable {
         return users;
     }
 
-    public void appendToFile(String name, Movie movie) {
+   /* public void appendToFile(String name, Movie movie) {
         Map<String, Movie> existingMap = loadFileMovie(); // Load existing data
         existingMap.put(name, movie); // Append new data to existing data
         saveFileMovie(existingMap); // Save the combined data back to the file
-    }
+    }*/
 
     public void appendToFileComing(String name, ComingSoon movie) {
         Map<String, ComingSoon> existingMap = loadFileMovieComing(); // Load existing data
