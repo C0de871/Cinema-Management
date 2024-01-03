@@ -3,6 +3,7 @@ package Pages;
 import BackEnd.Cinema;
 import BackEnd.Movie;
 import BackEnd.User;
+import CustomComponent.StaticClass.MyPanels;
 import CustomComponent.Text.MyText;
 import CustomComponent.Text.MyTextField;
 import CustomComponent.CustomPanel.PanelRound;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import static CustomComponent.StaticClass.Properties.*;
+import static Login.PanelLoginAndRegister.user;
 
 public class Comment extends PanelRound {
     private ArrayList<CommentInfo> commentInfos = new ArrayList<>();

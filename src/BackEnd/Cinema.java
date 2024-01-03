@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static Pages.Main.halls;
+import static Pages.Main.users;
+
 public class Cinema implements Serializable {
     private final int hallNum;
     private static int nexthallnum = 1;
@@ -56,15 +59,14 @@ public class Cinema implements Serializable {
                 moviesGenre.get(g).add(m);
                 f.saveFileMovieGenre(moviesGenre);
                 f.appendToFile(name, m);*/
-                ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
-                if (hall.isEmpty()) {
+                if (halls.isEmpty()) {
                     for (int i = 0; i < 5; i++) {
-                        hall.add(new Cinema());
+                        halls.add(new Cinema());
                     }
                 }
-                // Load hall data
-                hall.get(h - 1).getMovies().add(m);
-                f.arrayOfObjectHallsSave(hall);
+                // Load halls data
+                halls.get(h - 1).getMovies().add(m);
+                f.arrayOfObjectHallsSave(halls);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -77,9 +79,8 @@ public class Cinema implements Serializable {
     void deleteMovie(String title) {
 
         InfoFiles f = new InfoFiles();
-        ArrayList<Cinema> hall = f.arrayOfObjectHallsLoad();
-        hall.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
-        f.arrayOfObjectHallsSave(hall);
+        halls.forEach(h -> h.getMovies().removeIf(m -> m.getTitle().equals(title)));
+        f.arrayOfObjectHallsSave(halls);
       /*  Map<String, Movie> movies = f.loadFileMovie();
         String removedValue = String.valueOf(movies.remove(title));
         Map<String, ArrayList<Movie>> movieGenre = f.loadFileMovieGenre();
@@ -146,14 +147,15 @@ public class Cinema implements Serializable {
 
     private void updateHallsComments(Movie movie, User user, String comment) {
         try {
-            ArrayList<Cinema> halls = infoFiles.arrayOfObjectHallsLoad();
-
             if (halls != null) {
                 halls.stream()
                         .flatMap(hall -> hall.getMovies().stream())
                         .filter(m -> m == movie)
                         .findFirst()
                         .ifPresent(m -> {
+                            if (m.getComments().get(user) == null) {
+                                m.getComments().put(user, new ArrayList<>());
+                            }
                             m.getComments().get(user).add(comment);
                             infoFiles.arrayOfObjectHallsSave(halls);
                         });
@@ -220,7 +222,6 @@ public class Cinema implements Serializable {
 
             InfoFiles f = new InfoFiles();
             ArrayList<Movie> movies = new ArrayList<>();
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             for (Cinema hall : halls) {
                 ArrayList<Movie> hallMovies = (ArrayList<Movie>) hall.getMovies();
                 for (Movie movie : hallMovies) {
@@ -240,7 +241,6 @@ public class Cinema implements Serializable {
         try {
             InfoFiles f = new InfoFiles();
             ArrayList<Movie> movies = new ArrayList<>();
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             for (Cinema hall : halls) {
                 movies.addAll(hall.getMovies());
             }
@@ -253,7 +253,6 @@ public class Cinema implements Serializable {
 
     void printAllMoviesInHalls() {
         InfoFiles f = new InfoFiles();
-        ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
         if (!halls.isEmpty()) {
             for (int i = 0; i < halls.size(); i++) {
                 List<Movie> movies = halls.get(i).getMovies();
@@ -274,7 +273,7 @@ public class Cinema implements Serializable {
     void addFavorite(User user, Movie movie) {
         try {
             InfoFiles f = new InfoFiles();
-            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
 
             for (User u : users) {
                 if (u == user) {
@@ -293,7 +292,7 @@ public class Cinema implements Serializable {
     void removeFavorite(User user, Movie movie) {
         try {
             InfoFiles f = new InfoFiles();
-            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
 
             users.stream()
                     .filter(u -> u.equals(user))

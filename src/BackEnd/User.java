@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static Pages.Main.users;
+
 public class User implements Serializable {
     private String email;
 
@@ -126,7 +128,7 @@ public class User implements Serializable {
     public boolean has(int searalNum) {
         ArrayList<Ticket> tickets = this.myTicket;
         for (Ticket t : tickets) {
-            if (t.getSeatNumber() == searalNum)
+            if (t.getSerialNumber() == searalNum)
                 return true;
         }
         return false;
@@ -142,10 +144,11 @@ public class User implements Serializable {
 
     public void viewMyTickets(User user) {
         InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
-        for (User u : users) {
-            if (u == user) {
-                ArrayList<Ticket> userTickets = u.getMyTickets();
+
+        System.out.println(user);
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i) == user) {
+                ArrayList<Ticket> userTickets = users.get(i).getMyTickets();
                 if (myTicket.isEmpty()) {
                     System.out.println("No tickets booked yet.");
                 } else {
@@ -154,13 +157,14 @@ public class User implements Serializable {
                         System.out.println(ticket);
                     }
                 }
-            }
+            } else
+                System.out.println("not found the user");
         }
     }
 
     public boolean findTicket(Movie movie) {
         InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
         for (User u : users) {
             if (u == this) {
                 ArrayList<Ticket> userTickets = u.getMyTickets();
@@ -181,7 +185,7 @@ public class User implements Serializable {
 
     public void addFavoriteMovie(Movie movie) {
         InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
         for (User user : users) {
             if (user == this) {
                 user.getFavoriteMovies().add(movie);
@@ -193,7 +197,7 @@ public class User implements Serializable {
 
     public void removeFavoriteMovie(Movie movie) {
         InfoFiles f = new InfoFiles();
-        ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+
         for (User user : users) {
             if (user == this) {
                 user.getFavoriteMovies().remove(movie);
@@ -248,6 +252,15 @@ public class User implements Serializable {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
         return (Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()));
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

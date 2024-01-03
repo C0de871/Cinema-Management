@@ -20,7 +20,7 @@ public class ShowTimesPosterPanel extends JLayeredPane {
         this.setLayout(new MigLayout("insets 0,gap 0"));
         this.rate = new Oval(rate);
         this.setBackground(light_Gray);
-
+        System.out.println(movie);
         this.add(this.rate, "w 50,h 50,pos 155 170");
         this.add(label, "span 2,wrap, endgroupx grp1");
         this.add(name, "left");

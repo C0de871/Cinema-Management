@@ -5,6 +5,9 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import static CustomComponent.StaticClass.MyLabels.profileIcon;
 import static CustomComponent.Text.MyText.*;
 import static CustomComponent.StaticClass.Properties.*;
@@ -35,5 +38,33 @@ public class DiscoverBody extends JPanel {
         ComingSoonContentPane comingSoonContentPane= new ComingSoonContentPane();
         JScrollPane scrollPane2 = new ScrollPaneWin11(comingSoonContentPane);
         this.add(scrollPane2, "wmax 90%, wrap, gp 1");
+        MouseListener listener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                System.out.println(user.getName());
+                Cardpanel cardpanel = new Cardpanel("profile");
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        };
+        profileIcon.addMouseListener(listener);
     }
 }

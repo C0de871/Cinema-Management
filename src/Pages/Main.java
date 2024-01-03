@@ -1,16 +1,21 @@
 package Pages;
 
+import BackEnd.Cinema;
 import BackEnd.InfoFiles;
+import BackEnd.User;
 import Login.LogInUp;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class Main {
+    static InfoFiles f = new InfoFiles();
+    public static ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
+    public static ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
     public static void main(String[] args) {
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                /*InfoFiles f=new InfoFiles();
-                f.clearAllFiles();*/
                 new LogInUp().setVisible(true);
             }
         });

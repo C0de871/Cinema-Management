@@ -94,7 +94,7 @@ public class InfoFiles implements Serializable {
         }
     }
 
-    ArrayList<Cinema> arrayOfObjectHallsLoad() {
+    public ArrayList<Cinema> arrayOfObjectHallsLoad() {
         ArrayList<Cinema> reader = new ArrayList<>();
 
         try {

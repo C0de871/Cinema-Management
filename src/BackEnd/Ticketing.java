@@ -5,13 +5,18 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static Login.PanelLoginAndRegister.user;
+import static Pages.Main.halls;
+import static Pages.Main.users;
+
 
 public class Ticketing {
-   // private final ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    // private final ExecutorService threadPool = Executors.newFixedThreadPool(10);
     public void bookTicketAsync(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
 
         Thread bookThread = new Thread(() -> {
             try {
+                System.out.println(pos);
                 bookTicket(user, pos, movie, showtimes);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -33,124 +38,93 @@ public class Ticketing {
 
         cancelThread.start();
     }
-   /* public void shutdownThreadPool() {
-        threadPool.shutdown();
-    }*/
-    public synchronized void bookTicket(User user,ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
+
+    /* public void shutdownThreadPool() {
+         threadPool.shutdown();
+     }*/
+    public void bookTicket(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
         InfoFiles f = new InfoFiles();
         try {
-         //   Map<String, Movie> movieTitle = f.loadFileMovie();
-            Showtimes selectedShowtime = showtimes;
-            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
+            //   Map<String, Movie> movieTitle = f.loadFileMovie();
+
+
             int userIndex = users.indexOf(user);
-            ArrayList<Ticket> tickets = new ArrayList<>();
 
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
-            int index = 0;
-            outer:
-            for (Cinema hall : halls) {
-                ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
-
-                for (Movie m : movies) {
-                    if (m == movie) {
-                        index = m.getShowtimes().indexOf(showtimes);
-                        tickets = m.getShowtimes().get(index).getTickets();
-
-                        for (int position : pos) {
-                            Ticket selectedTicket = tickets.get(position);
-                            Showtimes time = m.getShowtimes().get(index);
-                            selectedTicket.setMovie(m);
-                            selectedTicket.setShowtime(time);
-                            selectedTicket.setActive(true);
-                            selectedTicket.setTicketPrice(movie.getPrice());
-                            users.get(userIndex).getMyTickets().add(selectedTicket);
-
-                        }
-
-                        hall.setMovies(movies);
-                        f.saveToFileAccounts(users, f.fileUser);
-                        break outer;
-                    }
-
-                }
+            ArrayList<Cinema> hall = halls;
+            halls.get(0).printAllMoviesInHalls();
+            ArrayList<Movie> movies = (ArrayList<Movie>) halls.get(movie.getHallNum() - 1).getMovies();
+            for (Movie m : movies) {
+                System.out.println(m);
             }
+            System.out.println(movie);
+            int indexofmovie = halls.get(movie.getHallNum() - 1).getMovies().indexOf(movie);
+            System.out.println(indexofmovie);
+            int indexofshowtime = halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().indexOf(showtimes);
+            System.out.println(indexofshowtime);
+            ArrayList<Ticket> ticketArrayList = halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().get(indexofshowtime).getTickets();
+
+
+            for (int position : pos) {
+                ticketArrayList.get(position).setMovie(movie);
+                ticketArrayList.get(position).setShowtime(showtimes);
+                ticketArrayList.get(position).setActive(true);
+                ticketArrayList.get(position).setTicketPrice(movie.getPrice());
+                System.out.println(ticketArrayList.get(position));
+                users.get(userIndex).getMyTickets().add(ticketArrayList.get(position));
+            }
+
+            halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().get(indexofshowtime).setTickets(ticketArrayList);
+            for (Ticket t : ticketArrayList) {
+                System.out.println(t.getMovie());
+            }
+            System.out.println(pos.size());
             f.arrayOfObjectHallsSave(halls);
-
-          /*  Map<String, Movie> movies = f.loadFileMovie();
-            movies.get(movie.getTitle()).getShowtimes().get(index).setTickets(tickets);
-            f.saveFileMovie(movies);
-
-            Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
-            String genre = movie.getGenre();
-            ArrayList<Movie> genreMovies = moviesGenre.get(genre);
-
-            for (Movie m : genreMovies) {
-                if (m.equals(movie)) {
-                    m.getShowtimes().get(index).setTickets(tickets);
-                    break;
-                }
-            }
-
-            moviesGenre.put(genre, genreMovies);
-            f.saveFileMovieGenre(moviesGenre);*/
+            f.saveToFileAccounts(users, f.fileUser);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
-    public synchronized void cancelTicket(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
+    public void cancelTicket(User user, ArrayList<Integer> pos, Movie movie, Showtimes showtimes) {
         InfoFiles f = new InfoFiles();
-
         try {
+            //   Map<String, Movie> movieTitle = f.loadFileMovie();
 
-            ArrayList<Ticket> tickets = new ArrayList<>();
 
-            ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
             int userIndex = users.indexOf(user);
-            int index = 0;
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
-            outer:
-            for (Cinema hall : halls) {
-                ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
+            int indexofmovie = halls.get(movie.getHallNum() - 1).getMovies().indexOf(movie);
+            System.out.println(indexofmovie);
+            int indexofshowtime = halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().indexOf(showtimes);
+            System.out.println(indexofshowtime);
+            ArrayList<Ticket> ticketArrayList = halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().get(indexofshowtime).getTickets();
 
-                for (Movie m : movies) {
-                    if (m == movie) {
-                        index = m.getShowtimes().indexOf(showtimes);
-                        tickets = m.getShowtimes().get(index).getTickets();
+            System.out.println(pos);
 
-                        for (int position : pos) {
-                            tickets.get(position).setActive(false);
-                            Ticket cancelledTicket = tickets.get(position);
-                            users.get(userIndex).getMyTickets().remove(cancelledTicket);
-                        }
-                        m.getShowtimes().get(index).setTickets(tickets);
-                        hall.setMovies(movies);
-                        f.saveToFileAccounts(users, f.fileUser);
-                        break outer;
+            for (int position : pos) {
+
+                ticketArrayList.get(position).setActive(false);
+                System.out.println(ticketArrayList.get(position));
+                Ticket movieTicket = ticketArrayList.get(position);
+                int ser = movieTicket.getSerialNumber();
+                ArrayList<Ticket> userTicket = users.get(userIndex).getMyTickets();
+                for (Ticket ticket : userTicket) {
+                    if (ticket.equals(movieTicket)) {
+                        System.out.println("df  " + users.get(userIndex).getMyTickets().remove(ticket));
+                        break;
                     }
                 }
+                System.out.println("sucess");
             }
-
+            user.viewMyTickets(user);
+            halls.get(movie.getHallNum() - 1).getMovies().get(indexofmovie).getShowtimes().get(indexofshowtime).setTickets(ticketArrayList);
+            for (Ticket t : ticketArrayList) {
+                System.out.println(t.isActive());
+            }
             f.arrayOfObjectHallsSave(halls);
-/*
-            Map<String, Movie> movies = f.loadFileMovie();
-            movies.get(movie.getTitle()).getShowtimes().get(index).setTickets(tickets);
-            f.saveFileMovie(movies);
+            f.saveToFileAccounts(users, f.fileUser);
 
-            Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
-            String genre = movie.getGenre();
-            ArrayList<Movie> genreMovies = moviesGenre.get(genre);
-
-            for (Movie m : genreMovies) {
-                if (m.equals(movie)) {
-                    m.getShowtimes().get(index).setTickets(tickets);
-                    break;
-                }
-            }
-
-            moviesGenre.put(genre, genreMovies);
-            f.saveFileMovieGenre(moviesGenre);*/
 
         } catch (Exception e) {
             e.printStackTrace();
