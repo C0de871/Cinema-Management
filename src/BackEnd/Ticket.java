@@ -68,7 +68,7 @@ public class Ticket implements Serializable {
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return super.toString() + "Ticket{" +
                 "serialNumber=" + serialNumber +
                 ", seatNumber=" + seatNumber +
                 ", showtime=" + showtime +
@@ -83,7 +83,7 @@ public class Ticket implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
-        return serialNumber == ticket.serialNumber && seatNumber == ticket.seatNumber && active == ticket.active && Double.compare(ticketPrice, ticket.ticketPrice) == 0 && Objects.equals(showtime, ticket.showtime) && Objects.equals(movie, ticket.movie);
+        return serialNumber == ticket.serialNumber;
     }
 
     @Override

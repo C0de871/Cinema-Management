@@ -3,7 +3,7 @@ package Login;
 
 import BackEnd.InfoFiles;
 import BackEnd.User;
-import CustomComponent.StaticClass.Properties;
+import CustomComponent.StaticClass.MyPanels;
 import Pages.UserFrame;
 import net.miginfocom.swing.MigLayout;
 import CustomComponent.Button.Button;
@@ -19,9 +19,11 @@ import java.util.ArrayList;
 import static CustomComponent.StaticClass.Properties.blue_;
 import static CustomComponent.StaticClass.Properties.light_Gray;
 import static Login.LogInUp.animator;
+import static Pages.Main.users;
 
 public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     public static MyTextField txtEmail;
+    public static User user;
     public PanelLoginAndRegister() {
         initComponents();
         initLogin();
@@ -65,10 +67,14 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //String email, String password, String name, char typeOfUser
-                User user = new User(txtEmail.getText(), txtPass.getText(), txtUser.getText(), 'U');
-                int register = user.register();
+                User u = new User(txtEmail.getText(), txtPass.getText(), txtUser.getText(), 'U');
+                int register = u.register();
 
                 if (register == 1) {
+                    u.setEmail(txtEmail.getText());
+                    u.setPassword(txtPass.getText());
+                    int index = users.indexOf(u);
+                    user = users.get(index);
                     if (!animator.isRunning()) {
                         animator.start();
                     }
@@ -149,11 +155,10 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 int login = u.login(txtEmail.getText(), txtPass.getText(), 'U');
                 if (login == 1) {
                     InfoFiles f = new InfoFiles();
-                    ArrayList<User> users = f.readFromFileAccounts(f.fileUser);
                     u.setEmail(txtEmail.getText());
                     u.setPassword(txtPass.getText());
                     int index = users.indexOf(u);
-                    Properties.user = users.get(index);
+                    user = users.get(index);
                     UserFrame frame = new UserFrame();
                 } else if (login == 2) {
                     System.out.println("password");

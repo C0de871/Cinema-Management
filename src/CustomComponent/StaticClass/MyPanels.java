@@ -1,6 +1,8 @@
 package CustomComponent.StaticClass;
 
+import BackEnd.User;
 import CustomComponent.CustomPanel.AnimatedPanel;
+import Login.LogInUp;
 import Pages.*;
 import Pages.Action;
 import net.miginfocom.swing.MigLayout;
@@ -16,6 +18,7 @@ import static CustomComponent.Text.MyText.*;
 import static CustomComponent.StaticClass.Properties.dark_Gray;
 
 public class MyPanels {
+
     static Border matteBorder = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#373737"));
 
     //The 4 Parents panels

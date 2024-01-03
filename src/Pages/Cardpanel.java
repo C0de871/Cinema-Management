@@ -30,6 +30,7 @@ public class Cardpanel extends JPanel {
 
 
     public Cardpanel(String s) {
+        Profile profile = new Profile();
         this.setLayout(cardLayout);
         this.add(bodyPanel, "Discover");
         this.add(trendingBody, "Trending");
@@ -40,6 +41,7 @@ public class Cardpanel extends JPanel {
         this.add(adventure, "Adventure");
         this.add(documentary, "Documentary");
         this.add(addMovie, "movieAdd");
+        this.add(profile, "profile");
 //        this.add(new MovieInfoPanel(),"MovieInfo");
 //        this.add(movieInfo,"movieInfo"); // temp
         cardLayout.show(this, s);
@@ -47,6 +49,7 @@ public class Cardpanel extends JPanel {
 
     public void m(Movie movie) {
         MovieInfoPanel movieInfoPanel1 = new MovieInfoPanel(movie);
+        System.out.println(movie);
         this.add(movieInfoPanel1, "MovieInfo");
         cardLayout.show(this, "MovieInfo");
     }

@@ -16,10 +16,11 @@ public class ShowTimesContentPane extends JPanel {
         this.setBackground(light_Gray);
         this.setLayout(new MigLayout("insets 0,gapx 15", "[][][][]15", ""));
         Cinema c = new Cinema();
-        ArrayList<Movie> moviesGenre=c.getAllMoviesGenre(genreInput);
+        ArrayList<Movie> moviesGenre = c.getAllMovies();
         for(int i=0;i<moviesGenre.size();i++)
         {
             Movie movie = moviesGenre.get(i);
+            System.out.println(movie);
             String title = moviesGenre.get(i).getTitle();
             String genre = moviesGenre.get(i).getGenre();
             String duration = String.valueOf(moviesGenre.get(i).getMinutesOfMovie());

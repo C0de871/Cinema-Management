@@ -3,12 +3,14 @@ package BackEnd;
 import java.io.Serializable;
 import java.util.*;
 
+import static Pages.Main.halls;
+
 public class Movie implements Serializable {
 
     private String title;
     private String genre;
     private ArrayList<Integer> Rating;
-    private Map<User, ArrayList<String>> comments;
+    private Map<User, ArrayList<String>> comments = new HashMap<>();
     private String moviePath;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
@@ -67,7 +69,6 @@ public class Movie implements Serializable {
             InfoFiles f = new InfoFiles();
             //Map<String, Movie> moviesTitle = f.loadFileMovie();
             Movie selectedMovie = null;
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             outer:
             for (Cinema hall : halls) {
                 ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
@@ -130,7 +131,6 @@ public class Movie implements Serializable {
         try {
             InfoFiles f = new InfoFiles();
             Movie selectedMovie = null;
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             outer:
             for (Cinema hall : halls) {
                 ArrayList<Movie> movies = (ArrayList<Movie>) hall.getMovies();
@@ -211,8 +211,6 @@ public class Movie implements Serializable {
             // addRatingToMovie(movie, rating, f);
            /* Map<String, ArrayList<Movie>> moviesGenre = f.loadFileMovieGenre();
             addRatingToGenreMovies(moviesGenre, movie, rating, f);*/
-
-            ArrayList<Cinema> halls = f.arrayOfObjectHallsLoad();
             addRatingToCinemaMovies(halls, movie, rating, f);
         } catch (Exception e) {
             e.printStackTrace();
@@ -238,15 +236,26 @@ public class Movie implements Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Movie{" +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
-                ", Rating=" + Rating +
-                ", Comments=" + comments +
-                ", MinutesOfMovie=" + MinutesOfMovie +
-                ", showtimes=" + showtimes +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return MinutesOfMovie == movie.MinutesOfMovie && hallNum == movie.hallNum && Booked == movie.Booked && Double.compare(price, movie.price) == 0 && Objects.equals(title, movie.title) && Objects.equals(genre, movie.genre) && Objects.equals(comments, movie.comments) && Objects.equals(moviePath, movie.moviePath) && Objects.equals(showtimes, movie.showtimes);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, genre, comments, moviePath, MinutesOfMovie, showtimes, hallNum, Booked, price);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Movie{" +
+                "title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", MinutesOfMovie=" + MinutesOfMovie +
+                ", hallNum=" + hallNum +
+                ", price=" + price +
+                '}';
+    }
 }
