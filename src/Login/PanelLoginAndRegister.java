@@ -4,6 +4,7 @@ package Login;
 import BackEnd.InfoFiles;
 import BackEnd.User;
 import CustomComponent.StaticClass.MyPanels;
+import Pages.Profile;
 import Pages.UserFrame;
 import net.miginfocom.swing.MigLayout;
 import CustomComponent.Button.Button;
@@ -23,7 +24,8 @@ import static Pages.Main.users;
 
 public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
     public static MyTextField txtEmail;
-    public static User user;
+    public static User user = null;
+
     public PanelLoginAndRegister() {
         initComponents();
         initLogin();
@@ -71,10 +73,6 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                 int register = u.register();
 
                 if (register == 1) {
-                    u.setEmail(txtEmail.getText());
-                    u.setPassword(txtPass.getText());
-                    int index = users.indexOf(u);
-                    user = users.get(index);
                     if (!animator.isRunning()) {
                         animator.start();
                     }
@@ -157,8 +155,12 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
                     InfoFiles f = new InfoFiles();
                     u.setEmail(txtEmail.getText());
                     u.setPassword(txtPass.getText());
-                    int index = users.indexOf(u);
-                    user = users.get(index);
+                    for (User u1 : users) {
+                        if (u.equals(u1)) {
+                            System.out.println("Found the user");
+                            user = u1;
+                        }
+                    }
                     UserFrame frame = new UserFrame();
                 } else if (login == 2) {
                     System.out.println("password");

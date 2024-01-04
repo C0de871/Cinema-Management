@@ -76,8 +76,7 @@ public class User implements Serializable {
 
 
     private boolean isExistingEmail(String email, File file, InfoFiles f) {
-        ArrayList<User> usersRead = f.readFromFileAccounts(file);
-        for (User u : usersRead) {
+        for (User u : users) {
             if (Objects.equals(u.email, email))
                 return true;
         }
@@ -97,8 +96,6 @@ public class User implements Serializable {
 
 
     private int isValidCredentials(String email, String password, File file, InfoFiles f) {
-
-        ArrayList<User> users = f.readFromFileAccounts(file);
         for (User user : users) {
             if (Objects.equals(user.email, email)) {
                 if (Objects.equals(user.password, password)) {
@@ -229,7 +226,6 @@ public class User implements Serializable {
             int isValidRegistration = isValidRegistration(this);
             if (!isExistingEmail(this.email, file, f)) {
                 if (isValidRegistration == 1) {
-                    ArrayList<User> users = f.readFromFileAccounts(file);
                     users.add(this);
                     f.saveToFileAccounts(users, file);
                     return 1;
@@ -251,6 +247,9 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
+        System.out.println(((User) o).getEmail() + "  " + ((User) o).getPassword());
+        System.out.println(user.getEmail() + "  " + user.getPassword());
+
         return (Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()));
     }
 

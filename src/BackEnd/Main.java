@@ -12,13 +12,12 @@ public class Main implements Serializable {
     }
 
     public static Date getUserDateTime(String dateString, String timeString) {
-        while (true) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
-            try {
-                return dateFormat.parse(dateString + " " + timeString);
-            } catch (ParseException e) {
-                System.out.println("Invalid date or time format. Please enter the date in dd/MM/yyyy format and time in hh:mm a format.");
-            }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+        try {
+            return dateFormat.parse(dateString + " " + timeString);
+        } catch (ParseException e) {
+            System.out.println("Invalid date or time format. Please enter the date in dd/MM/yyyy format and time in hh:mm a format.");
         }
+        return null;
     }
 }
