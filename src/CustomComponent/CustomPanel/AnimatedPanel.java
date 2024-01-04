@@ -2,6 +2,7 @@ package CustomComponent.CustomPanel;
 
 import CustomComponent.StaticClass.MyIcon;
 import CustomComponent.Text.MyText;
+import Pages.DiscoverBody;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -101,6 +102,10 @@ public class AnimatedPanel extends JPanel {
                 else if (icon.getIcon() == MyIcon.heart) icon.setIcon(MyIcon.clickedheart);
                 else if (icon.getIcon() == MyIcon.dot) icon.setIcon(MyIcon.clickeddot);
                 System.out.println(text.getText());
+//                if(text.getText()==discoverBar.getText()){
+//                    refresh(DiscoverBody);
+//                    DiscoverBody.repaint();
+//                }
                 cardLayout.show(cardPanel, text.getText());
                 if (discoverBar.getText() != currentPage) {
                     discoverBar.setText();

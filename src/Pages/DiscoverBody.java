@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import static CustomComponent.StaticClass.MyLabels.profileIcon;
+import static CustomComponent.StaticClass.MyPanels.cardPanel;
 import static CustomComponent.Text.MyText.*;
 import static CustomComponent.StaticClass.Properties.*;
 
@@ -42,7 +43,7 @@ public class DiscoverBody extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
 //                System.out.println(user.getName());
-                Cardpanel cardpanel = new Cardpanel("profile");
+                cardLayout.show(cardPanel, "profile");
             }
 
             @Override

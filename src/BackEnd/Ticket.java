@@ -1,10 +1,13 @@
 package BackEnd;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
+import static Pages.Main.halls;
+
 public class Ticket implements Serializable {
-    private static int nextSerialNumber = 1;
+    private static int nextSerialNumber;
     private int serialNumber;
     private int seatNumber;
     private Showtimes showtime;

@@ -18,7 +18,9 @@ public class Showtimes implements Serializable {
         setMovieEndTime(movieEndTime);
         tickets = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            tickets.add(new Ticket());
+            Ticket ticket = new Ticket();
+            tickets.add(ticket);
+            System.out.println(ticket.getSerialNumber());
             System.out.println("Ticket " + i + " Added");
         }
     }

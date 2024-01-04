@@ -1,8 +1,14 @@
 package CustomComponent.StaticClass;
 
+import javax.swing.*;
 import java.awt.*;
 
+import static CustomComponent.StaticClass.MyLabels.discoverIcon;
+
 public class Properties {
+    //    public static refresh(JPanel panel){
+//
+//    }
     public static CardLayout cardLayout = new CardLayout();
 
     public static Color dark_Gray = Color.decode("#15151d");
