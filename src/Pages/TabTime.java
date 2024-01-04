@@ -15,7 +15,6 @@ public class TabTime extends MaterialTabbed {
 
     TabTime(Movie movie) {
         this.movie = movie;
-        System.out.println(movie);
         this.showTimes = movie.getShowtimes();
         this.setForeground(blue_);
         for (int i = 0; i < showTimes.size(); i++) {

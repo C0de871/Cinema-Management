@@ -1,19 +1,13 @@
 package Pages;
 
 import CustomComponent.CustomPanel.PanelRound;
-import CustomComponent.StaticClass.MyPanels;
 import CustomComponent.Text.MyText;
-import CustomComponent.Text.MyTextField;
 import CustomComponent.Text.PasswordField;
 import CustomComponent.Text.ShadingTextField;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-
-//import static CustomComponent.StaticClass.MyPanels.user;
-import static CustomComponent.StaticClass.MyLabels.movieIcon;
-import static CustomComponent.StaticClass.MyLabels.profileIcon2;
 import static CustomComponent.StaticClass.Properties.*;
 import static Login.PanelLoginAndRegister.user;
 
@@ -60,7 +54,6 @@ public class Profile extends JPanel {
         panel.add(userPasswordField, "w 40%");
         panel.add(changePassword, "wrap,gap before 5%,pushx");
         panel.add(myRoom, "spanx,spany,center,push");
-//        this.add(profileIcon2,"left, ");
 
         this.add(panel, "w 60%,h 60%,center,push");
 

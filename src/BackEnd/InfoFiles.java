@@ -115,6 +115,7 @@ public class InfoFiles implements Serializable {
                 System.out.println("File already exists.");
             }
         } catch (IOException | ClassNotFoundException e) {
+            this.clearAllFiles();
             // Handle the exceptions, log the error, or display an appropriate message
             e.printStackTrace();
         }

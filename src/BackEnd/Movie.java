@@ -14,6 +14,15 @@ public class Movie implements Serializable {
     private String moviePath;
     private int MinutesOfMovie;
     private List<Showtimes> showtimes;
+
+    public String getMoviePath() {
+        return moviePath;
+    }
+
+    public void setMoviePath(String moviePath) {
+        this.moviePath = moviePath;
+    }
+
     private int hallNum;
     private int Booked;
     private double price;
@@ -122,7 +131,6 @@ public class Movie implements Serializable {
 
     void printShowtimes() {
         for (int i = 0; i < this.showtimes.size(); i++) {
-            System.out.println((i + 1) + ". " + this.showtimes.get(i));
         }
     }
 

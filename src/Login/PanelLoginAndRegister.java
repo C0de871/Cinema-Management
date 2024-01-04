@@ -3,8 +3,6 @@ package Login;
 
 import BackEnd.InfoFiles;
 import BackEnd.User;
-import CustomComponent.StaticClass.MyPanels;
-import Pages.Profile;
 import Pages.UserFrame;
 import net.miginfocom.swing.MigLayout;
 import CustomComponent.Button.Button;
@@ -15,7 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
 import static CustomComponent.StaticClass.Properties.blue_;
 import static CustomComponent.StaticClass.Properties.light_Gray;
@@ -32,7 +29,6 @@ public class PanelLoginAndRegister extends javax.swing.JLayeredPane {
         initRegister();
         login.setVisible(false);
         register.setVisible(true);
-        // hello
     }
 
     public void initRegister() {

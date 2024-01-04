@@ -12,7 +12,6 @@ public class MovieInfoPanel extends JPanel {
 
     MovieInfoPanel(Movie movie) {
         this.movie = movie;
-        System.out.println(movie);
         movie.getComments();
         this.setLayout(new MigLayout(""));
         this.setBackground(light_Gray);

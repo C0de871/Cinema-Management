@@ -21,7 +21,10 @@ import static CustomComponent.Text.MyText.addMovie;
 import CustomComponent.CustomComboBox.Combobox;
 
 public class AddMovie extends JPanel {
-    public AddMovie() {
+    ShowTimesContentPane showTimesContentPane;
+
+    public AddMovie(ShowTimesContentPane showTimesContentPane) {
+        this.showTimesContentPane = showTimesContentPane;
         ShadingTextField nameField = new ShadingTextField();
         ShadingTextField genreField = new ShadingTextField();
         ShadingTextField showTime1StartField = new ShadingTextField();
@@ -85,11 +88,14 @@ public class AddMovie extends JPanel {
                 boolean action = chooser.showOpenDialog(null);
                 if (action) {
                     path = String.valueOf(chooser.getSelectedFile());
+                    Cinema cinema = new Cinema();
+                    if (nameField.getText() != null && genre.getSelectedItem() != null && priceField.getText() != null && hallNumField.getText() != null) {
+                        cinema.addMovie("N", nameField.getText(), (String) genre.getSelectedItem(), Double.parseDouble(priceField.getText()), Integer.parseInt(hallNumField.getText()), showtimes, path);
+                        showTimesContentPane.refreshMovies();
+                    }
+
                 }
-                Cinema cinema = new Cinema();
-                if (nameField.getText() != null && genre.getSelectedItem() != null && priceField.getText() != null && hallNumField.getText() != null) {
-                    cinema.addMovie("N", nameField.getText(), (String) genre.getSelectedItem(), Double.parseDouble(priceField.getText()), Integer.parseInt(hallNumField.getText()), showtimes, path);
-                }
+
 
             }
 
