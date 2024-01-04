@@ -26,29 +26,37 @@ import static Login.PanelLoginAndRegister.user;
 public class Ticketing extends PanelRound {
     int chairNum = 0;
     ArrayList<Integer> addPos = new ArrayList<>();
+    ArrayList<ChairLabel> addUpdater = new ArrayList<>();
     ArrayList<Integer> cancelPos = new ArrayList<>();
+    ArrayList<ChairLabel> cancelUpdater = new ArrayList<>();
 
     ArrayList<Ticket> tickets;
     Showtimes showtimes;
     Movie movie;
 
-    public void addChair(int pos) {
+    public void addChair(int pos, ChairLabel chairLabel) {
         chairNum++;
         this.addPos.add(pos);
+        this.addUpdater.add(chairLabel);
     }
 
-    public void minusChair(int pos) {
+    public void minusChair(int pos, ChairLabel chairLabel) {
         chairNum--;
         this.addPos.remove((Integer) pos);
+        this.addUpdater.add(chairLabel);
+
     }
 
-    public void addCancel(int pos) {
-        this.cancelPos.add((Integer) pos);
+    public void addCancel(int pos, ChairLabel chairLabel) {
+        this.cancelPos.add((Integer) (pos));
+        this.cancelUpdater.add(chairLabel);
+
     }
 
-    public void minusCancel(int pos) {
+    public void minusCancel(int pos, ChairLabel chairLabel) {
         this.cancelPos.remove((Integer) pos);
-        System.out.println(cancelPos);
+        this.cancelUpdater.add(chairLabel);
+
     }
 
 
@@ -59,10 +67,12 @@ public class Ticketing extends PanelRound {
             public void actionPerformed(ActionEvent ae) {
                 System.out.println("Click OK");
                 BackEnd.Ticketing ticket = new BackEnd.Ticketing();
-                System.out.println(addPos);
                 ticket.bookTicket(user, addPos, movie, showtimes);
                 addPos.clear();
                 chairNum = 0;
+                for (ChairLabel chairLabel : addUpdater) {
+                    chairLabel.updateLabel();
+                }
                 GlassPanePopup.closePopupLast();
             }
         });
@@ -77,30 +87,29 @@ public class Ticketing extends PanelRound {
                 System.out.println("Click OK");
                 BackEnd.Ticketing ticket = new BackEnd.Ticketing();
                 ticket.cancelTicket(user, cancelPos, movie, showtimes);
-
+                for (ChairLabel chairLabel : cancelUpdater) {
+                    chairLabel.setBooked(false);
+                    chairLabel.updateLabel();
+                }
                 cancelPos.clear();
                 GlassPanePopup.closePopupLast();
             }
         });
         GlassPanePopup.showPopup(obj);
     }
+
     public Ticketing(Showtimes showtimes, Movie movie) {
         this.showtimes = showtimes;
         this.movie = movie;
-        System.out.println(movie);
         this.tickets = showtimes.getTickets();
-        System.out.println(tickets.size());
         this.setRoundBottomLeft(40);
         this.setRoundBottomRight(40);
         this.setRoundTopLeft(40);
         this.setRoundTopRight(40);
         this.setBackground(dark_Gray);
         this.setLayout(new MigLayout("insets 3% 3% 3% 3%, wrap 6", "[]3%[]5%[]", "[]8%[]"));
+
         int cnt = 0;
-        ArrayList<Ticket> tick = user.getMyTickets();
-        for (Ticket ticket : tick) {
-            System.out.println(ticket.getSerialNumber());
-        }
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 6; j++) {
                 ChairLabel chair = new ChairLabel(cnt, this, tickets.get(cnt));
@@ -122,8 +131,6 @@ public class Ticketing extends PanelRound {
             @Override
             public void mouseClicked(MouseEvent e) {
                 user.viewMyTickets(user);
-
-                System.out.println(chairNum);
                 book(e);
             }
 
@@ -159,7 +166,6 @@ public class Ticketing extends PanelRound {
         MouseListener unBookListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println(chairNum);
                 cancel(e);
             }
 

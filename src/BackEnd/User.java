@@ -141,18 +141,12 @@ public class User implements Serializable {
 
     public void viewMyTickets(User user) {
         InfoFiles f = new InfoFiles();
-
-        System.out.println(user);
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i) == user) {
-                ArrayList<Ticket> userTickets = users.get(i).getMyTickets();
                 if (myTicket.isEmpty()) {
                     System.out.println("No tickets booked yet.");
                 } else {
                     System.out.println("Your Tickets:");
-                    for (Ticket ticket : userTickets) {
-                        System.out.println(ticket);
-                    }
                 }
             } else
                 System.out.println("not found the user");
@@ -247,9 +241,6 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        System.out.println(((User) o).getEmail() + "  " + ((User) o).getPassword());
-        System.out.println(user.getEmail() + "  " + user.getPassword());
-
         return (Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPassword(), user.getPassword()));
     }
 

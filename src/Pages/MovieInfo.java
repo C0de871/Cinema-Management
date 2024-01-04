@@ -32,6 +32,7 @@ public class MovieInfo extends PanelRound {
         String rate = String.valueOf(movie.getAverageRating(this.movie));
         String hallNum = String.valueOf(movie.getHallNum());
         String price = String.valueOf(movie.getPrice());
+        String path = movie.getMoviePath();
 
         this.setLayout(new MigLayout("insets 3% 3% 3% 3%", "[]3%[]5%[]", "[]8%[]"));
         MyText name1 = new MyText(name, 50, Color.white, 1);
@@ -43,8 +44,8 @@ public class MovieInfo extends PanelRound {
         MyText length = new MyText("Length", 10, Color.white, 0);
         MyText hall = new MyText("Hall", 10, Color.white, 0);
         MyText pay = new MyText("Price", 10, Color.white, 0);
-        MyIcon.joker = createRoundedImageIcon(originalImage, 150, 200, 320);
-        JLabel poster = new JLabel(MyIcon.joker);
+        ImageIcon posterImage = createRoundedImageIcon(path, 150, 200, 320);
+        JLabel poster = new JLabel(posterImage);
         JLabel starIcon = new JLabel(MyIcon.star);
         JLabel clockIcon = new JLabel(MyIcon.clock);
         JLabel hallIcon = new JLabel(MyIcon.hall);

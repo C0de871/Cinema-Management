@@ -20,7 +20,6 @@ public class Showtimes implements Serializable {
         for (int i = 0; i < 30; i++) {
             Ticket ticket = new Ticket();
             tickets.add(ticket);
-            System.out.println(ticket.getSerialNumber());
             System.out.println("Ticket " + i + " Added");
         }
     }

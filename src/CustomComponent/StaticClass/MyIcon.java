@@ -43,35 +43,32 @@ public class MyIcon {
     public static ImageIcon logo = new ImageIcon("assest/videocam.png");
     static ImageIcon logo2 = new ImageIcon("assest/videocam (1).png");
     public static ImageIcon profile = new ImageIcon("assest/profile.png");
-    public static BufferedImage originalImage;
 
-    static {
-        try {
-            originalImage = ImageIO.read(new File("assest/joker.jpg"));
-        } catch (IOException e) {
-            System.out.println("im");
-        }
-    }
+//    public static ImageIcon joker;
 
-    public static ImageIcon joker = createRoundedImageIcon(originalImage, 150, 180, 250);
-
-    public static ImageIcon createRoundedImageIcon(BufferedImage originalImage, int cornerRadius, int width, int height) {
+    public static ImageIcon createRoundedImageIcon(String path, int cornerRadius, int width, int height) {
         // Create a rounded BufferedImage
-        BufferedImage roundedImage = createRoundedImage(originalImage, cornerRadius);
+        BufferedImage roundedImage = null;
+        try {
+            roundedImage = createRoundedImage(path, cornerRadius);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Convert the BufferedImage to ImageIcon
         Image scaledImage = roundedImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }
 
-    private static BufferedImage createRoundedImage(BufferedImage originalImage, int cornerRadius) {
-        if (originalImage == null) {
+    private static BufferedImage createRoundedImage(String path, int cornerRadius) throws IOException {
+        BufferedImage posterImage = ImageIO.read(new File(path));
+        if (posterImage == null) {
             // Handle the case where originalImage is null
             // You might want to throw an exception or return a default image
             throw new IllegalArgumentException("Original image cannot be null");
         }
-        int width = originalImage.getWidth();
-        int height = originalImage.getHeight();
+        int width = posterImage.getWidth();
+        int height = posterImage.getHeight();
 
         // Create a new BufferedImage for the rounded image
         BufferedImage roundedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -84,7 +81,7 @@ public class MyIcon {
         g2.setClip(roundedRect);
 
         // Draw the image onto the rounded shape
-        g2.drawImage(originalImage, 0, 0, width, height, null);
+        g2.drawImage(posterImage, 0, 0, width, height, null);
 
         g2.dispose();
         return roundedImage;

@@ -4,22 +4,26 @@ import BackEnd.Ticket;
 import Pages.Ticketing;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import static Login.PanelLoginAndRegister.user;
 
-//import static CustomComponent.StaticClass.MyPanels.user;
-
 public class ChairLabel extends JLabel {
-    boolean booked = false;
-    boolean editable = true;
-    //    boolean myChair=false;
-    int cnt;
-    Ticketing ticketing;
-    Ticket ticket;
-    boolean isActive;
-    int serialNum;
+    private boolean booked = false;
+    private boolean editable = true;
+    private int cnt;
+
+    public void setBooked(boolean booked) {
+        this.booked = booked;
+    }
+
+    private Ticketing ticketing;
+    private Ticket ticket;
+    private boolean isActive;
+    private int serialNum;
 
     public ChairLabel(int cnt, Ticketing ticketing, Ticket ticket) {
         this.ticket = ticket;
@@ -27,64 +31,73 @@ public class ChairLabel extends JLabel {
         this.serialNum = ticket.getSerialNumber();
         this.cnt = cnt;
         this.ticketing = ticketing;
-        System.out.println(user.has(serialNum));
-        if (user.has(serialNum)) {
-            this.booked = true;
-            this.setIcon(MyIcon.myChair);// red  for the current user if he click on the book
-        } else if (!this.isActive)
-            this.setIcon(MyIcon.chairIcon);// light blue non booked
-        else {
-            this.editable = false;
-            this.setIcon(MyIcon.bookedChair);// Blue
-        }
+        updateLabel();
+
         MouseListener listener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (editable) {
-                    if (user.has(serialNum)) {
-                        if (booked) {
-                            ChairLabel.this.setIcon(MyIcon.chairIcon);
-                            booked = true;
-                            ticketing.addCancel(cnt);
-                        } else {
-                            ChairLabel.this.setIcon(MyIcon.myChair);
-                            booked = false;
-                            ticketing.minusCancel(cnt);
-                        }
-                    } else if (!booked) {
-                        ChairLabel.this.setIcon(MyIcon.bookedChair);
-                        booked = true;
-                        ticketing.addChair(cnt);
-                    } else {
-                        ChairLabel.this.setIcon(MyIcon.chairIcon);
-                        booked = false;
-                        ticketing.minusChair(cnt);
-                    }
-                }
-
+                // Handle mouse click based on the updated label state
+                handleClick();
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-//                ChairLabel.this.setIcon(MyIcon.bookedChair);
+                // Handle mouse enter event
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-//                ChairLabel.this.setIcon(MyIcon.chairIcon);
-
+                // Handle mouse exit event
             }
         };
+
         this.addMouseListener(listener);
+    }
+
+    public void updateLabel() {
+        if (user.has(serialNum)) {
+            this.booked = true;
+            this.setIcon(MyIcon.myChair); // Red for the current user if they click on the book
+        } else if (this.isActive) {
+            this.setIcon(MyIcon.bookedChair);
+            this.editable = false;
+        } // Light blue non-booked
+        else if (booked) {
+            this.setIcon(MyIcon.bookedChair);
+        } else if (!booked) {
+            this.setIcon(MyIcon.chairIcon);
+        }
+    }
+
+    private void handleClick() {
+        if (editable) {
+            if (user.has(serialNum)) {
+                if (booked) {
+                    this.setIcon(MyIcon.chairIcon);
+                    booked = true;
+                    ticketing.addCancel(cnt, this);
+                } else {
+                    this.setIcon(MyIcon.myChair);
+                    booked = false;
+                    ticketing.minusCancel(cnt, this);
+                }
+            } else if (!booked) {
+                this.setIcon(MyIcon.bookedChair);
+                booked = true;
+                ticketing.addChair(cnt, this);
+            } else {
+                this.setIcon(MyIcon.chairIcon);
+                booked = false;
+                ticketing.minusChair(cnt, this);
+            }
+        }
     }
 }

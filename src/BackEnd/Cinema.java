@@ -259,7 +259,6 @@ public class Cinema implements Serializable {
                 if (!movies.isEmpty()) {
                     System.out.println("Movies in the " + (i + 1) + " hall:");
                     for (Movie movie : movies) {
-                        System.out.println(movie);
                     }
                 } else {
                     System.out.println("No movies found in the " + (i + 1) + " Hall");
